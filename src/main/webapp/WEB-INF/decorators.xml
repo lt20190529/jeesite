@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/views">
+	<!-- SiteMesh 是一个网页布局和修饰的框架，利用它可以将网页的内容和页面结构分离，以达到页面结构共享的目的 -->
+	
+    <!-- 	defaultdir：指定了装饰页面的存放路径 -->
+    <!-- 在这里可以使用<decorator>标签配置多个装饰器 -->
+	<!-- 默认装饰页面, 在需要装饰的页面增加<meta name="decorator" content="default"/> -->
+	<decorator name="blank" page="layouts/blank.jsp" />
+	<decorator name="default" page="layouts/default.jsp" />
+	
+	<!-- CMS基础主题装饰页面 -->
+	<decorator name="cms_default_basic" page="modules/cms/front/themes/basic/layouts/default.jsp" />
+	<decorator name="cms_default_weixin" page="modules/cms/front/themes/weixin/layouts/default.jsp" />
+	
+</decorators>

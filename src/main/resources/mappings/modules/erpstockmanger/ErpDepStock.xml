@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.erpStock.dao.StockMangerDao">
+    
+	<!-- 库存查询项目总数 -->
+	<select id="findDepStockByfilterCount"  parameterType="map" resultType="Integer">
+		 select count(*)
+		from  erp_dep_stock st,
+			  erp_department dep,
+			  erp_item item,
+			  erp_uom uom 
+	     <where>
+		       st.dep_dr=dep.id
+			   and st.item_dr=item.id
+			   and st.uom_dr=uom.id 
+	           <if test="itemno != null and itemNo!=''">
+	                 and item.item_no like concat('%',#{itemno,jdbcType=VARCHAR},'%')
+	            </if>
+	            <if test="itemdesc != null and itemdesc!=''">
+	                 and item.item_desc like concat('%',#{itemdesc,jdbcType=VARCHAR},'%') 
+	            </if>
+	            <if test="itemBrevitycode != null and itemBrevitycode!=''">
+	                 and item.item_brevitycode like concat('%',#{itemBrevitycode,jdbcType=VARCHAR},'%') 
+	            </if>
+	            <if test="depid != null and depid!=''">
+	                 and st.dep_dr=#{depid,jdbcType=VARCHAR}
+	            </if> 
+	      </where>   
+	</select>  
+	
+	
+	
+	
+	<!--assocication可以指定联合的JavaBean对象    实体类Entity中使用对象作为
+                property="role"指定哪个属性是联合的对象(实体类中的属性)
+                javaType:指定这个属性对象的类型(实体名称)
+                id：SQL语句中查询到的audit唯一  
+                column对应sql中的字段  property对应实体类中的属性
+	-->              
+	<resultMap type="com.thinkgem.jeesite.modules.erpStock.entity.ErpStock" id="ErpStock" >
+		<id property="id" column="id" />
+		<result property="qty" column="qty" />
+		<result property="spamt" column="spamt" />
+		<association property="erpDepartments" javaType="com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments">
+            <id property="id" column="depid"/>
+            <id property="departmentDesc" column="depdesc"/>
+        </association>
+        <association property="erpItem" javaType="com.thinkgem.jeesite.modules.item.entity.ErpItem">
+            <id property="id" column="itemid"/>
+            <id property="itemNo" column="itemno"/>
+            <id property="itemDesc" column="itemdesc"/>
+            <id property="itemSp" column="itemsp"/>
+            <id property="itemSpec" column="itemspec"/>
+            <id property="itemBrevitycode" column="itembrevitycode"/>
+        </association>
+        <association property="erpuom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
+            <id property="id" column="uomid"/>
+            <id property="erpUomdesc" column="uomdesc"/>
+        </association>
+
+		
+	</resultMap> 
+	<select id="findDepStockByfilter" parameterType="map" resultMap="ErpStock">
+		 select st.id as id,
+		       dep.id as depid, 
+		       dep.department_desc as depdesc,
+		       item.id as itemid,
+		       item.item_no as itemno,
+		       item.item_desc as itemdesc,
+		       st.qty as qty,
+		       uom.id as uomid,
+		       uom.erp_uomDesc as uomdesc, 
+		       item.item_sp as itemsp,
+		       item.item_spec as itemspec,
+		       qty * item.item_sp as spamt,
+		       item.item_brevitycode as itembrevitycode
+		 from  erp_dep_stock st,
+			   erp_department dep,
+			   erp_item item,
+			   erp_uom uom
+		<where>
+		       st.dep_dr=dep.id
+			   and st.item_dr=item.id
+			   and st.uom_dr=uom.id 
+	           <if test="itemno != null and itemNo!=''">
+	                 and item.item_no like concat('%',#{itemno,jdbcType=VARCHAR},'%')
+	            </if>
+	            <if test="itemdesc != null and itemdesc!=''">
+	                 and item.item_desc like concat('%',#{itemdesc,jdbcType=VARCHAR},'%') 
+	            </if>
+	            <if test="itemBrevitycode != null and itemBrevitycode!=''">
+	                 and item.item_brevitycode like concat('%',#{itemBrevitycode,jdbcType=VARCHAR},'%') 
+	            </if>
+	            <if test="depid != null and depid!=''">
+	                 and st.dep_dr=#{depid,jdbcType=VARCHAR}
+	            </if> 
+	      </where> 
+	      limit #{start},#{pagesize}
+
+	</select>
+	
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.erpmanf.dao.ErpManfDao">
+    
+	<sql id="erpManfColumns">
+		a.id AS "id",
+		a.manf_code AS "manfCode",
+		a.manf_desc AS "manfDesc",
+		a.manf_tel AS "manfTel",
+		a.manf_man AS "manfMan",
+		a.manf_address AS "manfAddress",
+		a.manf_note1 AS "manfNote1",
+		a.manf_note2 AS "manfNote2",
+		a.manf_note3 AS "manfNote3",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="erpManfJoins">
+	</sql>
+    
+	<select id="get" resultType="ErpManf">
+		SELECT 
+			<include refid="erpManfColumns"/>
+		FROM erp_manf a
+		<include refid="erpManfJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ErpManf">
+		SELECT 
+			<include refid="erpManfColumns"/>
+		FROM erp_manf a
+		<include refid="erpManfJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="manfCode != null and manfCode != ''">
+				AND a.manf_code = #{manfCode}
+			</if>
+			<if test="manfDesc != null and manfDesc != ''">
+				AND a.manf_desc = #{manfDesc}
+			</if>
+			<if test="manfTel != null and manfTel != ''">
+				AND a.manf_tel = #{manfTel}
+			</if>
+			<if test="manfMan != null and manfMan != ''">
+				AND a.manf_man = #{manfMan}
+			</if>
+			<if test="manfAddress != null and manfAddress != ''">
+				AND a.manf_address = #{manfAddress}
+			</if>
+			<if test="manfNote1 != null and manfNote1 != ''">
+				AND a.manf_note1 = #{manfNote1}
+			</if>
+			<if test="manfNote2 != null and manfNote2 != ''">
+				AND a.manf_note2 = #{manfNote2}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ErpManf">
+		SELECT 
+			<include refid="erpManfColumns"/>
+		FROM erp_manf a
+		<include refid="erpManfJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO erp_manf(
+			id,
+			manf_code,
+			manf_desc,
+			manf_tel,
+			manf_man,
+			manf_address,
+			manf_note1,
+			manf_note2,
+			manf_note3,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{manfCode},
+			#{manfDesc},
+			#{manfTel},
+			#{manfMan},
+			#{manfAddress},
+			#{manfNote1},
+			#{manfNote2},
+			#{manfNote3},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE erp_manf SET 	
+			manf_code = #{manfCode},
+			manf_desc = #{manfDesc},
+			manf_tel = #{manfTel},
+			manf_man = #{manfMan},
+			manf_address = #{manfAddress},
+			manf_note1 = #{manfNote1},
+			manf_note2 = #{manfNote2},
+			manf_note3 = #{manfNote3},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE erp_manf SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

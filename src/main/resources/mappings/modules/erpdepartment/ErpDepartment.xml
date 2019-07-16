@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.erpdepartments.dao.ErpDepartmentDao">
+
+   <sql id="erpDepartmentColumns">
+		a.id AS "id",
+		a.department_code AS "departmentCode",
+		a.department_desc AS "departmentDesc",
+		a.department_tel AS "departmentTel",
+		a.department_man AS "departmentMan",
+		a.department_note1 AS "departmentNote1",
+		a.department_note2 AS "departmentNote2",
+		a.department_note3 AS "departmentNote3",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="erpDepartmentJoins">
+	</sql>
+	
+   <select id="get" resultType="ErpDepartments">
+		SELECT 
+			<include refid="erpDepartmentColumns"/>
+		FROM erp_department a
+		<include refid="erpDepartmentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	<select id="findList" resultType="ErpDepartments">
+		SELECT 
+			<include refid="erpDepartmentColumns"/>
+		FROM erp_department a
+		<include refid="erpDepartmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="departmentCode != null and departmentCode != ''">
+				AND a.department_code = #{departmentCode}
+			</if>
+			<if test="departmentDesc != null and departmentDesc != ''">
+				AND a.department_desc = #{departmentDesc}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="createDate != null and createDate != ''">
+				AND a.create_date = #{createDate}
+			</if>
+			
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+   <insert id="insert">
+		INSERT INTO erp_department(
+		    id,
+			department_code,
+			department_desc,
+			department_tel,
+			department_man,
+			department_note1,
+			department_note2,
+			department_note3,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		    #{id},
+			#{departmentCode},
+			#{departmentDesc},
+			#{departmentTel},
+			#{departmentMan},
+			#{departmentNote1},
+			#{departmentNote2},
+			#{departmentNote3},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE erp_department SET 	
+			department_code = #{departmentCode},
+			department_desc = #{departmentDesc},
+			department_tel = #{departmentTel},
+			department_man = #{departmentMan},
+			department_note1 = #{departmentNote1},
+			department_note2 = #{departmentNote2},
+			department_note3 = #{departmentNote3},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE erp_department SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+</mapper>

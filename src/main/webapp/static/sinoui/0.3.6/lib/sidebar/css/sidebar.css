@@ -1,0 +1,199 @@
+.sidebar,
+.sidebar-wrap {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  height: 100%;
+  background-color: #fff;
+  -webkit-transition: width linear .4s;
+       -o-transition: width linear .4s;
+          transition: width linear .4s;
+}
+.sidebar-box-wraper.sidebar-box-dockright {
+  right: 4px;
+  left: auto;
+  margin-left: 0;
+}
+.sidebar-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 40px;
+  height: 100%;
+  background: #444851;
+}
+.sidebar-panel a {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 40px;
+  height: 38px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  line-height: 200px;
+  color: #d8d8d8;
+  text-decoration: none;
+  background-color: #444851;
+}
+.sidebar-panel .bar-tips {
+  position: absolute;
+  top: 0;
+  left: -121px;
+  z-index: 2;
+  display: block;
+  width: 92px;
+  height: 38px;
+  line-height: 38px;
+  color: #d8d8d8;
+  text-align: center;
+  visibility: hidden;
+  background: #444851;
+}
+.sidebar-box {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 2;
+  width: 40px;
+  margin-top: -190px;
+  background: #444851;
+}
+.sidebar-box li {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+}
+.sidebar-box li a {
+  text-align: center;
+}
+.sidebar-box li a:hover,
+.sidebar-box li a.current {
+  text-decoration: none;
+  background: #da0000;
+}
+.sidebar-box li a i {
+  position: absolute;
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  font-size: 1.4em;
+  vertical-align: top;
+  cursor: pointer;
+}
+.sidebar-box li .bar-tips i {
+  position: absolute;
+  top: 8px;
+  right: -7px;
+  width: 10px;
+  height: 10px;
+  margin-top: 0;
+  color: #444851;
+}
+.sidebar-box li .return-top {
+  display: none;
+}
+.sidebar-box li.li-gotop .return-top {
+  display: block;
+}
+.sidebar-box li.li-shopcart a {
+  height: 140px;
+  padding-top: 8px;
+  margin-bottom: 1px;
+  line-height: 16px;
+  color: #fff;
+}
+.sidebar-box li.li-shopcart .bar-name {
+  display: block;
+  width: 16px;
+  height: 48px;
+  margin: 15px 0 0 14px;
+  cursor: pointer;
+}
+.sidebar-box li.li-shopcart .bar-num {
+  display: block;
+  width: 21px;
+  height: 21px;
+  margin: 9px 0 0 10px;
+  line-height: 21px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  background: #da0000;
+  border-radius: 50%;
+}
+.sidebar-box-min .sidebar-panel {
+  right: 280px;
+}
+.sidebar-box-pop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  width: 280px;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-right: 0;
+  border-radius: 5px 0 0 5px;
+  -webkit-box-shadow: 0 0 5px #999;
+          box-shadow: 0 0 5px #999;
+}
+.sidebar-box-pop .bar-panel {
+  position: relative;
+  width: 100%;
+}
+.sidebar-box-pop .no-data {
+  padding: 35px 10px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+.sidebar-box-pop .no-data i {
+  display: inline-block;
+  width: 60px;
+  height: 36px;
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+}
+.bar-title {
+  margin-left: 10px;
+  color: #333;
+}
+.bar-title h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 40px;
+}
+.bar-close {
+  position: absolute;
+  top: 12px;
+  right: 4px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  vertical-align: top;
+  cursor: pointer;
+}
+.bar-close i {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #444851;
+}
+.fly-img {
+  position: fixed;
+  z-index: 9999;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+/*# sourceMappingURL=sidebar.css.map */

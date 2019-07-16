@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.crm.system.flex.dao.FlexDao">
+
+   <resultMap id="flexSetResultMap" type="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet">
+        <id property="id" column="ID"/>
+        <!--待删-->
+        <result property="code" column="CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="uuid" column="UUID"/>
+        <result property="istree" column="TREE_FLAG"/>
+        <result property="tenantId" column="TENANT_ID"/>
+        <result property="userId" column="USERID"/>
+        <result property="reserved" column="RESERVED"/>
+        <result property="enableFlag" column="ENABLE_FLAG"/>
+    </resultMap>
+    
+    <resultMap id="flexValueResultMap" type="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue">
+        <id property="id" column="ID"/>
+        <result property="setId" column="SET_ID"/>
+        <result property="uuid" column="UUID"/>
+        <result property="setUuid" column="SET_UUID"/>
+        <result property="code" column="CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="fullCode" column="FULLCODE"/>
+        <result property="fullName" column="FULLNAME"/>
+        <result property="parentUuid" column="PARENT_UUID"/>
+        <result property="flag" column="FLAG"/>
+        <result property="level" column="LEVEL"/>
+        <result property="setId" column="SETID"/>
+        <result property="enable" column="ENABLE_FLAG"/>
+    </resultMap>
+    
+    <!-- 字典主表查询 -->
+    <select id="getFlexSetList" parameterType="java.util.Map" resultMap="flexSetResultMap">
+        SELECT F.*
+        FROM CRM_SYS_FLEX_SET F 
+        WHERE 1=1
+        <if test="code!=null and code!=''">
+            AND F.CODE = #{code}
+        </if>
+        <if test="name!=null and name!=''">
+            AND F.NAME LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="istree!=null and istree!=''">
+            AND F.TREE_FLAG = #{istree}
+        </if>
+        <if test="reserved!=null and reserved!=''">
+            AND F.RESERVED = #{reserved}
+        </if>
+    </select>
+    
+    <!-- 新增字典分类 -->
+    <insert id="insertFlexSet" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet" useGeneratedKeys="true"
+     keyProperty="id">
+        INSERT INTO crm_sys_flex_set
+        (CODE,NAME,DESCRIPTION,TREE_FLAG,UUID,TENANT_ID,RESERVED)
+        values
+        (#{code}, #{name},#{description},#{istree},#{uuid},#{tenantId,jdbcType=VARCHAR},#{reserved})
+    </insert>
+    
+    <select id="getFlexSetById" parameterType="int" resultMap="flexSetResultMap">
+        SELECT
+        F.*
+        FROM crm_sys_flex_set F  
+        WHERE F.ID =  #{flexSetId}
+    </select>
+    
+     <!--修改字典分类-->
+    <update id="updateFlexSet" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet">
+        UPDATE crm_sys_flex_set SET
+        NAME = #{name},
+        DESCRIPTION = #{description}
+        WHERE ID=#{id}
+    </update>
+    
+    <!-- 查询字典明细值 -->
+    <select id="getFlexValueByFlexSetId" parameterType="int" resultMap="flexValueResultMap">
+        SELECT V.ID,
+        V.SET_ID,
+        V.CODE,
+        V.NAME,
+        V.DESCRIPTION,
+        V.ENABLE_FLAG,
+        S.TENANT_ID,
+        CONCAT(S.CODE,'.',V.CODE) AS FULLCODE,
+        CONCAT(S.NAME,':',V.NAME) AS FULLNAME
+        FROM CRM_SYS_FLEX_VALUES V
+        JOIN CRM_SYS_FLEX_SET S ON V.SET_ID=S.ID
+        WHERE V.SET_ID = #{flexSetId}
+    </select>
+    
+     <!-- 字典明细插入flexSetDetailInsert -->
+     <!--  在xml映射器中配置useGeneratedKeys参数 -->
+     <!-- 插入数据:返回记录的id值 -->
+     <insert id="flexSetDetailInsert" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO CRM_SYS_FLEX_VALUES
+        (CODE,NAME,DESCRIPTION,SET_ID,PARENT_ID,UUID,ATTR1,ATTR2,ATTR3,ATTR4,ATTR5,ATTR6)
+        VALUES
+        (#{code}, #{name}, #{description}, #{setId,jdbcType=INTEGER},#{parentId,jdbcType=INTEGER},#{uuid},#{attr1,jdbcType=VARCHAR},#{attr2,jdbcType=VARCHAR},#{attr3,jdbcType=VARCHAR},#{attr4,jdbcType=VARCHAR},#{attr5,jdbcType=VARCHAR},#{attr6,jdbcType=VARCHAR})
+    </insert>
+    
+    
+    <!--查询字典明细信息(用于修改)-->
+    <select id="findFlexDetailById" parameterType="int" resultMap="flexValueResultMap">
+        SELECT * FROM CRM_SYS_FLEX_VALUES WHERE ID=#{id}
+    </select>
+    <!-- 更新字典明细 -->
+    <update id="flexSetDetailUpdate" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue">
+        UPDATE CRM_SYS_FLEX_VALUES SET
+        NAME = #{name},
+        DESCRIPTION = #{description},
+        ATTR1=#{attr1},
+        ATTR2=#{attr2},
+        ATTR3=#{attr3},
+        ATTR4=#{attr4},
+        ATTR5=#{attr5},
+        ATTR6=#{attr6}
+        WHERE ID=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.Drug.dao.DrugDao">
+	
+	<!-- sql片段 -->
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_drug_where">
+		<if test="drug!=null">
+			<if test="drug.Drug_Code!=null and drug.Drug_Code!=''">
+				and drug.Drug_Code = #{drug.Drug_Code}
+			</if>
+			<if test="drug.Drug_Desc!=null and drug.Drug_Desc!=''">
+				and drug.Drug_Desc = #{drug.Drug_Desc}
+			</if>
+			<if test="drug.Drug_Alias!=null and drug.Drug_Alias!=''">
+				and drug.Drug_Alias = #{drug.Drug_Alias}
+			</if>
+			<if test="drug.Drug_Class_Dr!=null and drug.Drug_Class_Dr!=''">
+				and drug.Drug_Class_Dr = #{drug.Drug_Class_Dr}
+			</if>
+			<if test="drug.Drug_Cat_Dr!=null and drug.Drug_Cat_Dr!=''">
+				and drug.Drug_Cat_Dr = #{drug.Drug_Cat_Dr}
+			</if>
+			<!-- mybatis中用tinyint保存Boolean类型的时候，直接使用false和true就可以，mybatis会自动映射。-->
+            <!-- 但是要注意的是，一般的mapper.xml中写where的时候会判断(drug.Drug_Cat_Dr!='') -->
+			<if test="drug.Drug_ActiveFlag!=null">
+				and drug.Drug_ActiveFlag = #{drug.Drug_ActiveFlag}
+			</if>
+		</if>
+	</sql>
+	
+	
+    <resultMap id="drugResultMap" type="com.thinkgem.jeesite.modules.Drug.entity.Drug" extends="com.thinkgem.jeesite.modules.item.dao.ErpItemDao.DataEntityResultMap">
+        <id property="Drug_id" column="drug_ID"/>
+        <result property="Drug_Code" column="drug_Code"/>
+        <result property="Drug_Desc" column="drug_Desc"/>
+        <result property="Drug_Spec" column="drug_Spec"/>
+        <result property="Drug_BarCode" column="drug_BarCode"/>
+        <result property="Drug_Alias" column="drug_Alias"/>
+        <result property="Drug_Cat_Dr" column="drug_Cat_Dr"/>
+        <result property="Drug_Class_Dr" column="drug_Class_Dr"/>
+        <result property="Drug_Sp" column="drug_Sp"/>
+        <result property="Drug_Rp" column="drug_Rp"/>
+        <association property="Drug_Uom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
+		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		           可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+			<id property="id" column="drug_Uom_Dr" />
+			<result property="erpUomcode" column="uomCode" />
+			<result property="erpUomdesc" column="uomDesc" />
+		</association>
+
+    </resultMap>
+
+    <!-- 代码校验 -->
+	<select id="checkDrugByCode" parameterType="String" resultType="int">
+		select count(*) from erp_drug where drug_Code=#{drug_Code}
+	</select>
+	
+	<!-- 名称校验 -->
+	<select id="checkDrugByDesc" parameterType="String" resultType="int">
+		select count(*) from erp_drug where drug_Desc=#{drug_Desc}
+	</select>
+
+	<select id="findDrugList" parameterType="com.thinkgem.jeesite.modules.Drug.entity.DrugVo"
+	    resultMap="drugResultMap">
+		select drug_id,
+		drug_Code,
+		drug_Desc,
+		drug_Spec,
+		drug_Uom_Dr,
+		drug_Sp,
+		drug_Rp,
+		drug_BaseDrugFlag,
+		drug_Cat_Dr,
+		drug_Class_Dr,
+		drug_ActiveFlag,
+		drug_Alias,
+		drug_BarCode,
+		drug_Uom_Dr,
+		uom.erp_uomCode as "uomCode",
+		uom.erp_uomDesc as "uomDesc",
+		createruser.login_name as "createBy.id",     
+		drug.createDate as "createDate"
+		from erp_drug drug,
+		erp_uom uom,
+		sys_user createruser
+		where drug.drug_Uom_Dr=uom.erp_uomCode
+		and drug.createBy=createruser.id
+        <include refid="query_drug_where" />
+	</select>
+	
+	
+	<insert id="insert">
+		INSERT INTO erp_Drug(
+		drug_ID,
+		drug_Code,
+		drug_Desc,
+		drug_Spec,
+		drug_Uom_Dr,
+		drug_Class_Dr,
+		drug_BarCode,
+		drug_Alias,
+		drug_Cat_Dr,
+		drug_Rp,
+		drug_Sp,
+		drug_BaseDrugFlag,
+		drug_ActiveFlag,
+		remarks,
+		createBy,
+		createDate,
+		updateBy,
+		updateDate,
+		delFlag
+		) VALUES (
+		#{Drug_id},
+		#{drug_Code},
+		#{drug_Desc},
+		#{drug_Spec},
+		#{Drug_Uom.id},
+		#{drug_Class_Dr},
+		#{drug_BarCode},
+		#{drug_Alias},
+		#{drug_Cat_Dr},
+		#{drug_Rp},
+		#{drug_Sp},
+		#{drug_BaseDrugFlag},
+		#{drug_ActiveFlag},
+		#{remarks},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+	<update id="update">
+	    update  erp_Drug set
+			    drug_Code=#{Drug_Code},
+				drug_Desc=#{Drug_Desc},
+				drug_Spec=#{Drug_Spec},
+				drug_Uom_Dr=#{Drug_Uom.id},
+				drug_Class_Dr=#{Drug_Class_Dr},
+				drug_BarCode=#{Drug_BarCode},
+				drug_Alias=#{Drug_Alias},
+				drug_Cat_Dr=#{Drug_Cat_Dr},
+				drug_Rp=#{Drug_Rp},
+				drug_Sp=#{Drug_Sp},
+				drug_BaseDrugFlag=#{Drug_BaseDrugFlag},
+				drug_ActiveFlag=#{Drug_ActiveFlag},
+				remarks=#{remarks},
+				createBy=#{createBy.id},
+				createDate=#{createDate},
+				updateBy=#{updateBy.id},
+				updateDate=#{updateDate},
+				delFlag=#{delFlag}
+		where   drug_ID=#{Drug_id}
+	
+	</update>
+	
+
+</mapper>

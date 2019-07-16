@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.erpvendor.dao.ErpVendorDao">
+    
+	<sql id="erpVendorColumns">
+		a.id AS "id",
+		a.vendor_code AS "vendorCode",
+		a.vendor_desc AS "vendorDesc",
+		a.vendor_tel AS "vendorTel",
+		a.vendor_man AS "vendorMan",
+		a.vendor_address AS "vendorAddress",
+		a.vendor_note1 AS "vendorNote1",
+		a.vendor_note2 AS "vendorNote2",
+		a.vendor_note3 AS "vendorNote3",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="erpVendorJoins">
+	</sql>
+    
+	<select id="get" resultType="ErpVendor">
+		SELECT 
+			<include refid="erpVendorColumns"/>
+		FROM erp_vendor a
+		<include refid="erpVendorJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ErpVendor">
+		SELECT 
+			<include refid="erpVendorColumns"/>
+		FROM erp_vendor a
+		<include refid="erpVendorJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			
+			<if test="vendorCode != null and vendorCode != ''">
+				AND a.vendor_code = #{vendorCode}
+			</if>
+			<if test="vendorDesc != null and vendorDesc != ''">
+				AND a.vendor_desc = #{vendorDesc}
+			</if>
+			<if test="vendorTel != null and vendorTel != ''">
+				AND a.vendor_tel = #{vendorTel}
+			</if>
+			<if test="vendorMan != null and vendorMan != ''">
+				AND a.vendor_man = #{vendorMan}
+			</if>
+			<if test="vendorAddress != null and vendorAddress != ''">
+				AND a.vendor_address = #{vendorAddress}
+			</if>
+			
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="createDate != null and createDate != ''">
+				AND a.create_date = #{createDate}
+			</if>
+			
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ErpVendor">
+		SELECT 
+			<include refid="erpVendorColumns"/>
+		FROM erp_vendor a
+		<include refid="erpVendorJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO erp_vendor(
+		    id,
+			vendor_code,
+			vendor_desc,
+			vendor_tel,
+			vendor_man,
+			vendor_address,
+			vendor_note1,
+			vendor_note2,
+			vendor_note3,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		    #{id},
+			#{vendorCode},
+			#{vendorDesc},
+			#{vendorTel},
+			#{vendorMan},
+			#{vendorAddress},
+			#{vendorNote1},
+			#{vendorNote2},
+			#{vendorNote3},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE erp_vendor SET 	
+			vendor_code = #{vendorCode},
+			vendor_desc = #{vendorDesc},
+			vendor_tel = #{vendorTel},
+			vendor_man = #{vendorMan},
+			vendor_address = #{vendorAddress},
+			vendor_note1 = #{vendorNote1},
+			vendor_note2 = #{vendorNote2},
+			vendor_note3 = #{vendorNote3},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE erp_vendor SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sales.dao.ErpSalesDao">
+
+
+
+
+    <!-- 获取最大的入库编号 -->
+	<select id="GetMaxNoSales"  parameterType="java.util.Map" statementType="CALLABLE">
+		{call GetMaxNoSales(
+		      #{prefix,mode=IN,jdbcType=VARCHAR},
+		      #{num,mode=IN,jdbcType=VARCHAR},
+		      #{SalesNo,mode=OUT,jdbcType=VARCHAR}
+		    )
+		 }
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO erp_sales(
+			id,
+			no,
+			dep,
+			buyername,
+			amtrp,
+			amtsp,
+			create_by,
+			create_date,
+			audit_by,
+			audit_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			audit_flag
+		) VALUES (
+			#{id},
+			#{no},
+			#{depid},
+			#{buyername},
+			#{amtrp},
+			#{amtsp},
+			#{createBy.id},
+			#{createDate},
+			#{auditBy.id},
+			#{auditDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{auditFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE erp_sales SET 	
+			no = #{no},
+			dep = #{depid},
+			buyername = #{buyername},  
+			amtrp=#{amtrp},
+			amtsp=#{amtsp},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE erp_sales SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 查询部分使用 -->
+	<resultMap type="com.thinkgem.jeesite.modules.sales.entity.ErpSales" id="ErpSalesResultMap">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="no" column="no" />
+		<result property="amtrp" column="amtrp" />
+		<result property="amtsp" column="amtsp" />
+		<result property="createDate" column="createDate" />
+		<result property="updateDate" column="updateDate" />
+		<result property="remarks" column="remarks" />
+		<result property="delFlag" column="delFlag" />
+		<result property="auditFlag" column="auditFlag" />
+	    <result property="depid" column="depid" />
+		<result property="depdesc" column="depdesc" />
+		<result property="buyerid" column="buyerid" />
+		<result property="buyername" column="buyername" />
+		<!-- 入库科室 -->
+		<!-- property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类 -->
+		<!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		                                      可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+		<!-- 制单人 -->
+		<association property="createBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+			<id property="id" column="createBy.id" />
+			<result property="name" column="createByName" />
+		</association>
+		<!-- 审核人 -->
+		<association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+			<id property="id" column="auditBy.id" />
+			<result property="name" column="auditBy.name" />
+		</association>
+		<!-- 更新人 -->
+		<association property="updateBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+			<id property="id" column="updateBy.id" />
+			<result property="name" column="updateBy.id" />
+		</association> 
+	</resultMap>
+	
+	
+	<select id="findErpSalesById" parameterType="String" resultMap="ErpSalesResultMap">
+		select  sales.id as id,
+		        sales.no as no,
+				bdep.id as depid,
+				bdep.department_desc as depdesc,
+				sales.buyerid as buyerid,
+				sales.buyername as buyername,
+				createruser.login_name as "createBy.id",     <!-- //暂时使用id作为姓名，应该在基类DataEntity添加名称属性 -->
+				sales.create_date as "createDate",
+				updateuser.login_name as "updateBy.id",
+				sales.update_date as "updateDate",
+				sales.remarks AS "remarks",
+				sales.del_flag AS "delFlag"
+				        
+		  from  erp_sales sales,               
+				erp_department bdep,              
+				sys_user createruser,
+	            sys_user updateuser        
+		 where  sales.dep=bdep.id          
+				and sales.create_by=createruser.id 
+	            and sales.update_by=updateuser.id
+	            <if test="id != null and id != ''">
+				   and sales.id=#{id}
+			    </if> 
+	</select>
+	<select id="findList" resultMap="ErpSalesResultMap">
+	<![CDATA[	
+       select   t.id,
+                t.no,
+                t.did,
+				t.departmentId as depid,
+				t.departmentDesc as depdesc,
+				t.buyerid as buyerid,
+				t.buyername as buyername,
+				t.amtrp,
+				t.amtsp,
+				t.createBy as "createBy.id",    
+				t.createDate,
+				t.updateBy as "updateBy.id",
+				t.updateDate,
+				t.auditBy as "auditBy.id",
+				t.auditDate,
+				t.remarks,
+				t.delFlag,
+				t.auditFlag 
+  
+          from (    
+			        select  sales.id as id,
+			                sales.no as no,
+			                bdep.id as did,
+			                bdep.id as departmentId,
+							bdep.department_code as departmentCode,
+							bdep.department_desc as departmentDesc,
+							sales.buyerid as buyerid,
+							sales.buyername as buyername,
+							sales.amtrp as amtrp,
+							sales.amtsp as amtsp,
+							createruser.login_name as "createBy",    
+							sales.create_date as "createDate",
+							updateuser.login_name as "updateBy",
+							sales.update_date as "updateDate",
+							"" as "auditBy",
+							sales.audit_date as "auditDate",
+							sales.remarks AS "remarks",
+							sales.del_flag AS "delFlag",
+							sales.audit_flag as "auditFlag"        
+					  from  erp_sales sales,               
+							erp_department bdep,
+							sys_user createruser,
+				            sys_user updateuser    
+					 where  sales.dep=bdep.id
+							and sales.create_by=createruser.id 
+				            and sales.update_by=updateuser.id 
+			                and sales.audit_flag='N'
+			
+			UNION ALL
+			        select  sales.id as id,
+			                sales.no as no,
+			                bdep.id as did,
+			                bdep.id as departmentId,
+							bdep.department_code as departmentCode,
+							bdep.department_desc as departmentDesc,
+							sales.buyerid as buyerid,
+							sales.buyername as buyername,
+							sales.amtrp as amtrp,
+							sales.amtsp as amtsp,
+							createruser.login_name as "createBy",    
+							sales.create_date as "createDate",
+							updateuser.login_name as "updateBy",
+							sales.update_date as "updateDate",
+							audituser.login_name as "auditBy",
+							sales.audit_date as "auditDate",
+							sales.remarks AS "remarks",
+							sales.del_flag AS "delFlag",
+							sales.audit_flag as "auditFlag"        
+					  from  erp_sales sales,               
+							erp_department bdep,
+							sys_user createruser,
+				            sys_user updateuser,
+			                sys_user audituser      
+					 where  sales.dep=bdep.id
+							and sales.create_by=createruser.id 
+				            and sales.update_by=updateuser.id 
+			                and sales.audit_by=audituser.id
+
+     )as t
+  ]]>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY t.updatedate DESC
+			</otherwise>
+		</choose>
+	</select>
+
+
+    <!-- 销售审核存储过程执行 -->
+
+	<select id="AuditSalesById"  parameterType="java.util.Map" statementType="CALLABLE">
+		{call erp_audit_sales(
+		      #{rid,mode=IN,jdbcType=VARCHAR},
+		      #{audituser,mode=IN,jdbcType=VARCHAR},
+		      #{msg,mode=OUT,jdbcType=VARCHAR}
+		    )
+		 }
+	</select>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.rec.dao.ErpRecQueryDao">
+
+    
+	<select id="findErpRec" resultType="ErpRecNew">
+		select * from erp_rec
+	</select>
+
+	
+	<!-- 利用命名空间+resultMapID就可以直接引用其他Mapper文件的resultMap -->
+	<!-- 命名空间：com.thinkgem.jeesite.modules.rec.dao.ErpRecDao -->
+	<!-- resultMap id:ErpRecResultMap -->
+	<resultMap type="com.thinkgem.jeesite.modules.rec.entity.ErpRecNew" id="ErpRecNewResultMap" extends="BaseResult">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="no" column="no" />
+		<result property="amtrp" column="amtrp" />
+		<result property="amtsp" column="amtsp" />
+		<result property="createDate" column="createDate" />
+		<result property="updateDate" column="updateDate" />
+		<result property="remarks" column="remarks" />
+		<result property="delFlag" column="delFlag" />
+		<result property="auditFlag" column="auditFlag" />
+	    <result property="depid" column="depid" />
+		<result property="depdesc" column="depdesc" />
+		<result property="vendorid" column="vendorid" />
+		<result property="vendordesc" column="vendordesc" />
+	
+		<!--assocication可以指定联合的JavaBean对象    实体类Entity中使用对象作为
+                property="role"指定哪个属性是联合的对象(实体类中的属性)
+                javaType:指定这个属性对象的类型(实体名称)
+                id：SQL语句中查询到的audit唯一  
+                column对应sql中的字段  property对应实体类中的属性
+		-->
+		<association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="auditBy.id"/>
+            <id property="loginName" column="auditBy.name"/>
+        </association>
+
+		
+	</resultMap> 
+	 
+	 <resultMap id="BaseResult" type="com.thinkgem.jeesite.common.persistence.DataEntity">
+		<result property="remarks" column="remarks" />
+		<result property="delFlag" column="delFlag" />
+		<result property="createDate" column="createDate" />
+		<result property="updateDate" column="updateDate" />
+		<association property="createBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="createBy.id"/>
+            <id property="loginName" column="createBy.name"/>
+        </association>
+        <association property="updateBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="updateBy.id"/>
+            <id property="loginName" column="updateBy.name"/>
+        </association>
+       
+	</resultMap>
+           
+	<!-- 项目选择框检索总条数 -->
+	<select id="findErpMainByfilterCount"  parameterType="map" resultType="Integer">
+		 select  count(*) from  erp_rec rec               
+	     <where>
+	            <if test="no != null">
+	                 rec.no like concat('%',#{no,jdbcType=VARCHAR},'%')
+	            </if>
+	            <if test="depid != null and depid!=''">
+	                 and rec.dep=#{depid,jdbcType=VARCHAR}
+	            </if>
+	            <if test="vendorid != null and vendorid!=''">
+	                 and rec.vendor=#{vendorid,jdbcType=VARCHAR}
+	            </if>
+	      </where>   
+	</select>       
+	<select id="findErpMainByfilter" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecNew" resultMap="ErpRecNewResultMap">
+		select  rec.id as id,
+		        rec.no as no,
+				bdep.id as depid,
+				bdep.department_desc as depdesc,
+				bvendor.id as vendorid,
+				bvendor.vendor_desc as vendordesc,
+				rec.amtrp as amtrp,
+				rec.amtsp as amtsp,
+				rec.create_by as "createBy",
+				createruser.id as "createBy.id",   <!-- //暂时使用id作为姓名，应该在基类DataEntity添加名称属性 -->
+				createruser.login_name as "createBy.name",
+				rec.create_date as "createDate",
+				rec.update_by as "updateBy",
+				updateuser.id as "updateBy.id",
+				updateuser.login_name as "updateBy.name",
+				rec.update_date as "updateDate",
+				rec.audit_flag as "auditFlag",
+				rec.audit_by as "auditBy",
+				audituser.id as "auditBy.id",
+				audituser.login_name as "auditBy.name",
+				rec.remarks AS "remarks",
+				rec.del_flag AS "delFlag"    
+		  from  erp_rec rec               
+				left join erp_department bdep on rec.dep=bdep.id            
+				left join erp_vendor bvendor on rec.vendor=bvendor.id
+				left join sys_user createruser on rec.create_by=createruser.id
+	            left join sys_user updateuser on rec.update_by=updateuser.id
+	            left join sys_user audituser on rec.audit_by=audituser.id
+	     <where>
+	            <if test="no != null">
+	                 rec.no like concat('%',#{no,jdbcType=VARCHAR},'%')
+	            </if>
+	            <if test="depid != null and depid!=''">
+	                 and rec.dep=#{depid,jdbcType=VARCHAR}
+	            </if>
+	            <if test="vendorid != null and vendorid!=''">
+	                 and rec.vendor=#{vendorid,jdbcType=VARCHAR}
+	            </if>
+	      </where>
+	      limit #{start},#{pagesize}
+
+	</select>
+
+
+	
+	
+	
+
+    <resultMap type="com.thinkgem.jeesite.modules.item.entity.ErpItem" id="ErpItemResultMap">
+		<id property="id" column="pid" />
+		<result property="itemNo" column="itemNo" />
+		<result property="itemDesc" column="itemDesc" />
+		<result property="itemSpec" column="itemSpec" />
+		<result property="itemSp" column="itemSp" />
+		
+		<!-- property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类 -->
+		<association property="erpUom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
+		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		       可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+			<id property="id" column="uid" />
+			<result property="erpUomcode" column="erpUomcode" />
+			<result property="erpUomdesc" column="erpUomdesc" />
+		</association>
+	</resultMap>
+	
+	
+	<!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+	<select id="QueryErpRecdetailListByRecId"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew">
+	        select  recdetail.id as detailid,
+		            recdetail.recid as recid,
+		            recdetail.subid as subid,
+		            recdetail.item_dr as item_dr,
+		            recdetail.uom_dr as uom_dr,
+		            recdetail.qty as qty,
+		            recdetail.sp_amt as spamt,
+		            recdetail.sp as sp,
+		            recdetail.rp_amt as rpamt,
+		            recdetail.recdep_dr as depid,
+		            dep.department_desc as depdesc,
+		            recdetail.manf_dr as manfid,
+		            manf.manf_desc as manfdesc,
+		            recdetail.batno as batno,
+		            recdetail.expdate as expdate,
+		            recdetail.inv_date as invdate,
+		            recdetail.invno_amt as invnoamt,
+		            recdetail.invno as invno,
+		            recdetail.margin as margin,
+		            item.id as itemid,
+		            item.item_no as itemno,
+		            item.item_desc as itemdesc,
+		            item.item_sp as itemsp,
+		            item.item_spec as itemspec,
+		            uom.id as uid,
+		            uom.erp_uomCode as uomcode,
+		            uom.erp_uomDesc as uomdesc
+		      from  erp_recdetail recdetail
+		            left join erp_item item on recdetail.item_dr=item.id
+			        left join erp_uom uom on recdetail.uom_dr=uom.id
+			        left join erp_department dep on recdetail.recdep_dr=dep.id
+			        left join erp_manf manf on recdetail.manf_dr=manf.id         
+		      where recdetail.recid=#{ids}
+		            and recdetail.del_flag='0'
+	</select>
+	
+	
+	<!-- 存储过程执行 -->
+
+	<select id="getRecCount"  parameterType="java.util.Map" statementType="CALLABLE" resultType="java.lang.String">
+		{call get_Count_Recmain(#{s,mode=OUT,jdbcType=VARCHAR})}
+	</select>
+</mapper>

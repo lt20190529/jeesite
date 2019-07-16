@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.item.dao.ErpItemDao">
+    
+	<sql id="erpItemColumns">
+		a.id AS "id",
+		a.item_no AS "itemNo",
+		a.item_desc AS "itemDesc",
+		a.item_spec AS "itemSpec",
+		a.item_sp AS "itemSp",
+		a.item_uom AS "erpUom",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="erpItemJoins">
+	</sql>
+    
+	<select id="get" resultType="ErpItem">
+		SELECT 
+			<include refid="erpItemColumns"/>
+		FROM erp_item a
+		<include refid="erpItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ErpItem">
+		SELECT 
+			<include refid="erpItemColumns"/>
+		FROM erp_item a
+		<include refid="erpItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="itemNo != null and itemNo != ''">
+				AND a.item_no = #{itemNo}
+			</if>
+			<if test="itemDesc != null and itemDesc != ''">
+				AND a.item_desc = #{itemDesc}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ErpItem">
+		SELECT 
+			<include refid="erpItemColumns"/>
+		FROM erp_item a
+		<include refid="erpItemJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<resultMap type="com.thinkgem.jeesite.common.persistence.DataEntity" id="DataEntityResultMap">
+	    
+		<result property="createDate" column="createDate" />
+		<!-- <result property="updateBy" column="updateBy.id" /> -->
+		<result property="updateDate" column="updateDate" />
+		<result property="remarks" column="remarks" />
+		<association property="createBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		       可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+			<id property="id" column="createBy.id" />
+			<result property="name" column="createBy.id" />
+		</association>
+		<association property="updateBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		       可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+			<id property="id" column="updateBy.id" />
+			<result property="name" column="updateBy.id" />
+		</association>
+	</resultMap>
+	
+	<resultMap type="com.thinkgem.jeesite.modules.item.entity.ErpItem" id="ErpItemResultMap" extends="DataEntityResultMap">
+		<id property="id" column="id" />
+		<result property="itemNo" column="itemNo" />
+		<result property="itemDesc" column="itemDesc" />
+		<result property="itemSpec" column="itemSpec" />
+		<result property="itemSp" column="itemSp" />
+		<result property="itemBrevitycode" column="itemBrevitycode" />
+		<!-- property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类 -->
+		<association property="erpUom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
+		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+		       可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+			<id property="id" column="pid" />
+			<result property="erpUomcode" column="uomCode" />
+			<result property="erpUomdesc" column="uomDesc" />
+		</association>
+	</resultMap>
+	<select id="findErpItemList"  resultMap="ErpItemResultMap">
+	select  item.id,
+			item.item_no as "itemNo",
+			item.item_desc as "itemDesc",
+			item.item_spec as "itemSpec",
+			item.item_sp as "itemSp",
+			item.item_brevitycode as "itemBrevitycode",
+			uom.erp_uomDesc as "erpUom",
+		    <!--item.create_by as "createBy.id", -->
+			createruser.login_name as "createBy.id",     <!-- //暂时使用id作为姓名，应该在基类DataEntity添加名称属性 -->
+			item.create_date as "createDate",
+			<!-- item.update_by as "updateBy.id", -->
+			updateuser.login_name as "updateBy.id",
+			item.update_date as "updateDate",
+			item.remarks AS "remarks",
+			item.del_flag AS "delFlag",
+			uom.id as "pid",
+			uom.erp_uomCode as "uomCode",
+			uom.erp_uomDesc as "uomDesc"
+	  from  erp_item item,
+	        erp_uom uom,
+	        sys_user createruser,
+	        sys_user updateuser
+	  where item.item_uom=uom.erp_uomCode
+	    and item.create_by=createruser.id 
+	    and item.update_by=updateuser.id  
+	</select>
+	
+	
+	<!-- 项目选择框检索总条数 -->
+	<select id="getErpItemBybrevitycodeCount"  parameterType="map" resultType="Integer">
+		select  count(*)
+		  from  erp_item item
+		  where item.item_brevitycode like #{input} 
+		  <!-- where item.item_brevitycode like concat(concat('%',#{input}),'%') -->
+		 
+		   
+		</select>
+	<select id="getErpItemBybrevitycode"  parameterType="map" resultMap="ErpItemResultMap">
+		select  item.id,
+				item.item_no as "itemNo",
+				item.item_desc as "itemDesc",
+				item.item_spec as "itemSpec",
+				item.item_sp as "itemSp",
+				uom.erp_uomDesc as "erpUom",
+				item.remarks AS "remarks",
+				item.del_flag AS "delFlag",
+				uom.id as "pid",
+				uom.erp_uomCode as "uomCode",
+				uom.erp_uomDesc as "uomDesc"
+		  from  erp_item item,
+		        erp_uom uom
+		  <!-- where item.item_brevitycode like concat(concat('%',#{input}),'%')  -->
+		  where item.item_brevitycode like #{input} 
+		    and item.item_uom=uom.erp_uomCode
+	   Order by item.item_no
+		  limit #{start},#{pagesize}
+		</select>
+	
+	
+	
+	
+	<select id="getErpItemByid"  resultMap="ErpItemResultMap">
+	select  item.id,
+			item.item_no as "itemNo",
+			item.item_desc as "itemDesc",
+			item.item_spec as "itemSpec",
+			item.item_sp as "itemSp",
+			uom.erp_uomDesc as "erpUom",
+			item.remarks AS "remarks",
+			item.del_flag AS "delFlag",
+			uom.id as "pid",
+			uom.erp_uomCode as "uomCode",
+			uom.erp_uomDesc as "uomDesc"
+	  from  erp_item item,
+	        erp_uom uom
+	  where item.id=#{id}
+	    and item.item_uom=uom.erp_uomCode
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO erp_item(
+			id,
+			item_no,
+			item_desc,
+			item_spec,
+			item_sp,
+			item_uom,
+			item_brevitycode,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{itemNo},
+			#{itemDesc},
+			#{itemSpec},
+			#{itemSp},
+			#{erpUom.id},
+			#{itemBrevitycode},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE erp_item SET 	
+			item_no = #{itemNo},
+			item_desc = #{itemDesc},
+			item_spec = #{itemSpec},
+			item_sp = #{itemSp},
+			item_uom = #{erpUom.id},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE erp_item SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 校验(代码) -->
+	<select id="getErpItemByItemNo"  resultMap="ErpItemResultMap">
+			select  item.id,
+					item.item_no as "itemNo",
+					item.item_desc as "itemDesc",
+					item.item_spec as "itemSpec",
+					item.item_sp as "itemSp",
+					item.remarks AS "remarks",
+					item.del_flag AS "delFlag"
+			  from  erp_item item
+			  where item.item_no=#{itemCode}
+	</select>
+	
+	<!-- 校验(描述) -->
+	<select id="getErpItemByItemDesc"  resultMap="ErpItemResultMap">
+			select  item.id,
+					item.item_no as "itemNo",
+					item.item_desc as "itemDesc",
+					item.item_spec as "itemSpec",
+					item.item_sp as "itemSp",
+					item.remarks AS "remarks",
+					item.del_flag AS "delFlag"
+			  from  erp_item item
+			  where item.item_desc=#{itemDesc}
+	</select>
+</mapper>
