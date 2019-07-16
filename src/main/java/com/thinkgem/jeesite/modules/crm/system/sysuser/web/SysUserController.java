@@ -38,7 +38,6 @@ public class SysUserController extends BaseController {
 	public String list(Model model) throws Exception{
 		List<SysUser> userList = userService.getUserList();
 		model.addAttribute("userList", userList);
-      
 		return "modules/user/list";
 	}
 	
