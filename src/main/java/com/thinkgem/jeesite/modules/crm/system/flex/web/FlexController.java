@@ -162,7 +162,7 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 字典状态修改(Git嘻嘻嘻嘻嘻)
+	 * 字典状态修改(Git嘻嘻嘻)
 	 */
 	@RequestMapping(value="toggleStatus/{setId}")
 	public ModelAndView flextoggleStatus(@PathVariable("setId")int flexSetId){
