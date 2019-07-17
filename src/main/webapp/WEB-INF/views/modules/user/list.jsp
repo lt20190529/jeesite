@@ -188,6 +188,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<sys:pagination paginator="${userListPaginator}" formId="userlist" />
 				</div>
 			</div>
 		</div>

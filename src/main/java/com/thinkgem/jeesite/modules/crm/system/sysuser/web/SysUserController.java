@@ -14,8 +14,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.miemiedev.mybatis.paginator.domain.Order;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
@@ -35,15 +38,19 @@ public class SysUserController extends BaseController {
     }
 
 	@RequestMapping(value="list",method=RequestMethod.GET)     //get常用于取回数据，post用于提交数据
-	public String list(Model model) throws Exception{
-		List<SysUser> userList = userService.getUserList();
+	public String list(Model model,
+			@RequestParam(value = "page", defaultValue = "1") int page){
+		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
+		List<SysUser> userList = userService.getUserList(pageBounds);
 		model.addAttribute("userList", userList);
 		return "modules/user/list";
 	}
 	
 	@RequestMapping(value="query",method=RequestMethod.POST)   //get常用于取回数据，post用于提交数据
-	public ModelAndView query(){
-		 return new ModelAndView("redirect:" + adminPath + "/sysmgr/user/list");
+	public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model){
+		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
+		model.addAttribute("userList", userService.getUserList(pageBounds));
+		return "modules/user/list";
 	}
 	
 	@RequestMapping(value="insert",method = RequestMethod.GET)

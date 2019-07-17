@@ -121,4 +121,17 @@
         ATTR6=#{attr6}
         WHERE ID=#{id}
     </update>
+    
+    <!-- 修改字典分类状态 -->
+    <update id="flextoggleStatus" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet">
+       Update crm_sys_flex_set set
+       ENABLE_FLAG=#{enableFlag}
+       where id=#{flexSetId}
+    </update>
+    
+    <!-- 删除字典分类 -->
+    <delete id="deleteFlexSet" parameterType="int">
+      delete from crm_sys_flex_set where id=#{flexSetId}
+    </delete>
+    
 </mapper>

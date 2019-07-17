@@ -40,5 +40,11 @@ public interface FlexDao {
 	void flexSetDetailUpdate(FlexValue flexValue);
 
 	FlexValue findFlexDetailById(int id);
+
+	//修改字典分类状态
+	void flextoggleStatus(@Param(value = "flexSetId") int flexSetId,@Param(value = "enableFlag")String enableFlag);
+	
+	//删除字典分类
+	void deleteFlexSet(@Param(value="flexSetId") int flexSetId);
     
 }

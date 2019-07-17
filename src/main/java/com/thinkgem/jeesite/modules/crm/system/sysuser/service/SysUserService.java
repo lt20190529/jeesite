@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.dao.SysUserDao;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 
@@ -19,7 +20,7 @@ public class SysUserService  {
 	@Autowired
 	private SysUserDao userDao;
 	
-	public List<SysUser> getUserList() throws Exception {
-		return userDao.findUserList();
+	public List<SysUser> getUserList(PageBounds pageBounds) {
+		return userDao.findUserList(pageBounds);
 	}
 }

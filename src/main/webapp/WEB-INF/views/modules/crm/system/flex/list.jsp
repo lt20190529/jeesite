@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="sino" tagdir="/WEB-INF/tags/sys"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}${fns:getAdminPath()}" />
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static" />
 
@@ -157,8 +156,8 @@
 														<a href="${ctx}/sysmgr/flex/delete/${flexSet.id}">
 															<i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
 														</a>
-														<a href="${ctx}/sysmgr/flex/toggleStatus/${flexSet.code}"
-															flexCode="${flexSet.code}"> <c:choose>
+														<a href="${ctx}/sysmgr/flex/toggleStatus/${flexSet.id}"> 
+														<c:choose>
 																<c:when test="${flexSet.enableFlag =='Y'}">
 																	<i class="fa fa-ban" aria-hidden="true"></i>&nbsp;禁用
                                                         </c:when>
@@ -179,16 +178,8 @@
 															<a href="${ctx}/sysmgr/flex/flexSetDelete/${flexSet.id}">
 																<i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
 															</a>
-															<a href="${ctx}/sysmgr/flex/toggleStatus/${flexSet.code}"
-																flexCode="${flexSet.code}"> <c:choose>
-																	<c:when test="${flexSet.enableFlag =='Y'}">
-																		<i class="fa fa-ban" aria-hidden="true"></i>&nbsp;禁用
-                                                            </c:when>
-																	<c:otherwise>
-																		<i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;启用
-                                                            </c:otherwise>
-																</c:choose>
-															</a>
+															
+															
 														</c:if>
 													</sec:authorize>
 												</c:when>
@@ -199,7 +190,7 @@
 						</table>
 
 
-						<sino:pagination paginator="${flexSetListPaginator}" />
+						<sys:pagination paginator="${flexSetListPaginator}" />
 					</div>
 
 				</div>
@@ -207,6 +198,8 @@
 		</div>
 
 	</form:form>
+<script type="text/javascript">
 
+</script>
 </body>
 </html>

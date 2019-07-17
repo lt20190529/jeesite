@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.crm.system.flex.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.thinkgem.jeesite.common.mapper.BeanMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet;
 import com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue;
@@ -28,7 +31,7 @@ public class FlexController extends BaseController {
 	@Autowired
 	private FlexService flexService;
      
-	//构建项目1111222
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(@ModelAttribute("flexSet") FlexSet flexSet,
 			@RequestParam(value = "page", defaultValue = "1") int page,
@@ -43,6 +46,7 @@ public class FlexController extends BaseController {
             @ModelAttribute("flexSet") FlexSet flexSet,
             Model model){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
+		System.out.println("xxx");
 		model.addAttribute("flexSetList", flexService.getFlexSetList(flexSet,pageBounds));
 		return "modules/crm/system/flex/list";
 	}
@@ -158,11 +162,24 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 删除字典分类
+	 * 字典状态修改
 	 */
-	@RequestMapping(value="delete")
-	public String flexSetDelete(@PathVariable("setId") int flexSetId) {
-		//flexService.deleteFlexSex(flexSetId);
-		return null;
+	@RequestMapping(value="toggleStatus/{setId}")
+	public ModelAndView flextoggleStatus(@PathVariable("setId")int flexSetId){
+		flexService.flextoggleStatus(flexSetId);
+		FlexSet flexSet = new FlexSet();
+		PageBounds page = new PageBounds(1, 10);
+        Map<String, Object> map = BeanMapper.map(flexSet, Map.class);
+        map.put("page", page);
+		return new ModelAndView("redirect:" + adminPath + "/sysmgr/flex").addAllObjects(map);
 	}
+	
+	/*
+	 * 删除字典分类 
+	 */
+	@RequestMapping(value="delete/{setId}")
+	public String flexSetDelete(@PathVariable("setId") int flexSetId) {
+		flexService.deleteFlexSet(flexSetId);
+		return "redirect:" + adminPath + "/sysmgr/flex";
+    }
 }

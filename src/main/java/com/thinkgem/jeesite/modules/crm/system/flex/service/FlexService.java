@@ -75,6 +75,23 @@ public class FlexService {
 	public FlexValue findFlexDetailById(int id) {
 	        return flexDao.findFlexDetailById(id);
 	}
+
+	//修改字典明细状态
+	public void flextoggleStatus(int flexSetId) {
+		FlexSet flexSet=flexDao.getFlexSetById(flexSetId);
+		String enableFlag="";
+		if("Y".equals(flexSet.getEnableFlag())){
+			enableFlag="N";
+		}else{
+			enableFlag="Y";
+		}
+		flexDao.flextoggleStatus(flexSetId,enableFlag);
+	}
+	
+	//删除字典分类
+	public void deleteFlexSet(int flexSetId){
+		flexDao.deleteFlexSet(flexSetId);
+	}
     
     
 	
