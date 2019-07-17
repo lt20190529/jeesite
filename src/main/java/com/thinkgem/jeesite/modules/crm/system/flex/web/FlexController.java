@@ -28,7 +28,7 @@ public class FlexController extends BaseController {
 	@Autowired
 	private FlexService flexService;
 
-	//测试sssssss
+	//测试sssssssyyyy
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(@ModelAttribute("flexSet") FlexSet flexSet,
 			@RequestParam(value = "page", defaultValue = "1") int page,
