@@ -105,7 +105,7 @@
     
     
     <!--查询字典明细信息(用于修改)-->
-    <select id="findFlexDetailById" parameterType="int" resultMap="flexValueResultMap">
+    <select id="findFlexValueById" parameterType="int" resultMap="flexValueResultMap">
         SELECT * FROM CRM_SYS_FLEX_VALUES WHERE ID=#{id}
     </select>
     <!-- 更新字典明细 -->
@@ -133,5 +133,21 @@
     <delete id="deleteFlexSet" parameterType="int">
       delete from crm_sys_flex_set where id=#{flexSetId}
     </delete>
+    <!-- 删除字典分类时删除字典明细 -->
+    <delete id="deleteFlexValue" parameterType="int">
+      delete from crm_sys_flex_values where set_id=#{flexSetId}
+    </delete>
+    
+    <!-- 修改字典明细状态 -->
+    <update id="flexValueToggleStatus" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue">
+        update crm_sys_flex_values set
+        ENABLE_FLAG=#{enableFlag}
+        where id=#{flexValueId}
+    </update>
+    
+   <!--  删除字典明细 -->
+   <delete id="deleteFlexValueById" parameterType="int">
+      delete from crm_sys_flex_values where id=#{flexValueId}
+   </delete>
     
 </mapper>

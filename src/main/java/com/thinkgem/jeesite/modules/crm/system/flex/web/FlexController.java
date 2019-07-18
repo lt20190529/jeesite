@@ -183,4 +183,27 @@ public class FlexController extends BaseController {
 		flexService.deleteFlexValue(flexSetId);
 		return "redirect:" + adminPath + "/sysmgr/flex";
     }
+	
+	/*
+	 * 修改字典明细状态
+	 */
+	@RequestMapping(value="toggleValueStatus/{flexValueId}/{flexSetId}/{reserved}")
+	public ModelAndView toggleFlexValueStatus(@PathVariable("flexValueId") int flexValueId,
+			@PathVariable("flexSetId") int flexSetId,
+			@PathVariable("reserved") String reserved){
+		flexService.flexValueToggleStatus(flexValueId);
+		return new ModelAndView("redirect:" + adminPath + "/sysmgr/flex/flexDetail/" +flexSetId+ "/reserved="+reserved);
+	}
+	
+	/*
+	 * 删除字典明细
+	 */
+	@RequestMapping(value="flexValueDelete/{flexValueId}/{flexSetId}/{reserved}")
+	public String flexValueDelete(@PathVariable("flexValueId") int flexValueId,
+			@PathVariable("flexSetId") int flexSetId,
+			@PathVariable("reserved") String reserved,
+			Model model){
+		flexService.deleteFlexValueBySetId(flexValueId);
+		return "redirect:" + adminPath + "/sysmgr/flex/flexDetail/" +flexSetId+ "/reserved="+reserved;
+	}
 }

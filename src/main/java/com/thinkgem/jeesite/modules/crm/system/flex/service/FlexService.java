@@ -73,7 +73,7 @@ public class FlexService {
 	
 	//根据字典明细ID查询字典明细
 	public FlexValue findFlexDetailById(int id) {
-	        return flexDao.findFlexDetailById(id);
+	        return flexDao.findFlexValueById(id);
 	}
 
 	//修改字典明细状态
@@ -93,10 +93,29 @@ public class FlexService {
 		flexDao.deleteFlexSet(flexSetId);
 	}
 	
+	
+	
     //删除字典分类同时删除字典分类对应的明细信息
 	public void deleteFlexValue(int flexSetId) {
-		flexDao.deleteFlexValue(flexSetId);
+		flexDao.deleteFlexValueBySetId(flexSetId);
 		
+	}
+	
+	//修改字典明细状态
+	public void flexValueToggleStatus(int flexValueId){
+		FlexValue flexValue=flexDao.findFlexValueById(flexValueId);
+		String enableFlag="";
+		if("Y".equals(flexValue.getEnable())){
+			enableFlag="N";
+		}else{
+			enableFlag="Y";
+		}
+		flexDao.flexValueToggleStatus(flexValueId, enableFlag);
+	}
+	
+	//删除字典明细
+	public void deleteFlexValueBySetId(int flexValueId){
+		flexDao.deleteFlexValueById(flexValueId);
 	}
     
     

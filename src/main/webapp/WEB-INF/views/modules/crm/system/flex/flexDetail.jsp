@@ -105,9 +105,9 @@
                                 <%--只能操作自己创建的--%>
                                 <a href="${ctx}/sysmgr/flex/flexDetailModify/${flexValue.id}/${setId}?reserved=${reserved}">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;修改</a>
-                                <a href="${ctx}/sysmgr/flex/flexValueDelete/${flexValue.id}/${setId}">
+                                <a href="${ctx}/sysmgr/flex/flexValueDelete/${flexValue.id}/${setId}/${reserved}">
                                     <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除</a>
-                                <a href="${ctx}/sysmgr/flex/toggleValueStatus/${flexValue.code}/${flexValue.setId}">
+                                <a href="${ctx}/sysmgr/flex/toggleValueStatus/${flexValue.id}/${flexValue.setId}/${reserved}">
                                     <c:choose>
                                         <c:when test="${flexValue.enable =='Y'}">
                                             <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;禁用

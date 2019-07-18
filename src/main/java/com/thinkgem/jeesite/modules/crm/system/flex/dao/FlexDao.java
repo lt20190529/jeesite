@@ -39,7 +39,7 @@ public interface FlexDao {
 	//修改字典明细
 	void flexSetDetailUpdate(FlexValue flexValue);
 
-	FlexValue findFlexDetailById(int id);
+	FlexValue findFlexValueById(int id);
 
 	//修改字典分类状态
 	void flextoggleStatus(@Param(value = "flexSetId") int flexSetId,@Param(value = "enableFlag")String enableFlag);
@@ -48,6 +48,12 @@ public interface FlexDao {
 	void deleteFlexSet(@Param(value="flexSetId") int flexSetId);
 
 	//删除字典分类时同时删除字典分类对应的明细信息
-	void deleteFlexValue(@Param(value="flexSetId") int flexSetId);
+	void deleteFlexValueBySetId(@Param(value="flexSetId") int flexSetId);
+	
+	//修改字典分类明细状态
+	void flexValueToggleStatus(@Param(value="flexValueId")int flexValueId,@Param(value="enableFlag")String enableFlag);
+	
+	//删除字典分类对应明细
+	void deleteFlexValueById(@Param(value="flexValueId") int flexValueId);
     
 }
