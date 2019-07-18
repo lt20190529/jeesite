@@ -204,6 +204,8 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.6</version>
 		</dependency>
+		
+		
 		<dependency>
 		    <groupId>org.codehaus.jackson</groupId>
 		    <artifactId>jackson-core-asl</artifactId>
@@ -937,13 +939,12 @@
 			</plugin>
 			
 			<!-- resource插件 -->
-			<pluginManagement>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
-			</pluginManagement>
+			
 			<!-- install插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
