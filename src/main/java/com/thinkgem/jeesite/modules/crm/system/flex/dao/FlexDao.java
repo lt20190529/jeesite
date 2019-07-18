@@ -46,5 +46,8 @@ public interface FlexDao {
 	
 	//删除字典分类
 	void deleteFlexSet(@Param(value="flexSetId") int flexSetId);
+
+	//删除字典分类时同时删除字典分类对应的明细信息
+	void deleteFlexValue(@Param(value="flexSetId") int flexSetId);
     
 }

@@ -92,6 +92,11 @@ public class FlexService {
 	public void deleteFlexSet(int flexSetId){
 		flexDao.deleteFlexSet(flexSetId);
 	}
+    //删除字典分类同时删除字典分类对应的明细信息
+	public void deleteFlexValue(int flexSetId) {
+		flexDao.deleteFlexValue(flexSetId);
+		
+	}
     
     
 	

@@ -162,7 +162,7 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 字典状态修改
+	 * 字典状态修改111
 	 */
 	@RequestMapping(value="toggleStatus/{setId}")
 	public ModelAndView flextoggleStatus(@PathVariable("setId")int flexSetId){
@@ -180,6 +180,7 @@ public class FlexController extends BaseController {
 	@RequestMapping(value="delete/{setId}")
 	public String flexSetDelete(@PathVariable("setId") int flexSetId) {
 		flexService.deleteFlexSet(flexSetId);
+		flexService.deleteFlexValue(flexSetId);
 		return "redirect:" + adminPath + "/sysmgr/flex";
     }
 }
