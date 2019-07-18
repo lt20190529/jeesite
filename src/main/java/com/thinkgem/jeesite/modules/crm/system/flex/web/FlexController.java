@@ -162,7 +162,7 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 字典状态修改(Git嘻嘻嘻)
+	 * 字典状态修改
 	 */
 	@RequestMapping(value="toggleStatus/{setId}")
 	public ModelAndView flextoggleStatus(@PathVariable("setId")int flexSetId){
@@ -175,7 +175,7 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 删除字典分类(Git) 
+	 * 删除字典分类
 	 */
 	@RequestMapping(value="delete/{setId}")
 	public String flexSetDelete(@PathVariable("setId") int flexSetId) {
