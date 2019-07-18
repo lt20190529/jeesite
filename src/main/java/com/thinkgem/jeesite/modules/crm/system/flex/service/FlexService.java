@@ -23,7 +23,12 @@ public class FlexService {
 	
 	public List<FlexSet> getFlexSetList(FlexSet flexSet,PageBounds pageBounds) {
 		pageBounds.setAsyncTotalCount(true);
-		return flexDao.getFlexSetList(flexSet,pageBounds);
+		Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", flexSet.getCode());
+        map.put("name", flexSet.getName());
+        map.put("istree", flexSet.getIstree());
+        map.put("reserved", flexSet.getReserved());
+		return flexDao.getFlexSetList(map,pageBounds);
 	}
 	
 	public List<FlexSet> insertFlexSet(FlexSet flexSet) {

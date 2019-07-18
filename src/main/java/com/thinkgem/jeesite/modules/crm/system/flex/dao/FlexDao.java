@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue;
 public interface FlexDao {
 	
 	//获取字典分类
-	List<FlexSet> getFlexSetList(FlexSet flexSet,PageBounds pageBounds);
+	List<FlexSet> getFlexSetList(Map<String, Object> map,PageBounds pageBounds);
 	
 	//查询字典分类
     List<FlexSet> getFlexSetList(Map<String, Object> map);

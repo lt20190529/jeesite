@@ -69,10 +69,10 @@
 				<br>
 				<div class="row">
 					<div class="col-md-3 col-md-offset-1 form-inline">
-						字典编码：<input class="input-large" type="text" name="drug.Drug_Code" />
+						字典编码：<input class="input-large" type="text" name="code" />
 					</div>
 					<div class="col-md-3 form-inline">
-						字典名称：<input class="input-large" type="text" name="drug.Drug_Desc" />
+						字典名称：<input class="input-large" type="text" name="name" />
 					</div>
 					<div class="col-md-3 col-md-offset-2 form-inline">
 						

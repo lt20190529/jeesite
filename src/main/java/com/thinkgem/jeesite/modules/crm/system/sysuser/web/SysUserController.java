@@ -55,6 +55,8 @@ public class SysUserController extends BaseController {
 	
 	@RequestMapping(value="insert",method = RequestMethod.GET)
 	public String insert(Model model){
+		SysUser sysUser=new SysUser();
+		model.addAttribute("sysUser",sysUser);
 		return "modules/user/insert";
 	}
 	

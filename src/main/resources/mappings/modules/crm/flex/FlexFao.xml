@@ -34,7 +34,7 @@
     </resultMap>
     
     <!-- 字典主表查询 -->
-    <select id="getFlexSetList" parameterType="java.util.Map" resultMap="flexSetResultMap">
+    <select id="getFlexSetList" parameterType="com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexSet" resultMap="flexSetResultMap">
         SELECT F.*
         FROM CRM_SYS_FLEX_SET F 
         WHERE 1=1
@@ -134,7 +134,7 @@
       delete from crm_sys_flex_set where id=#{flexSetId}
     </delete>
     <!-- 删除字典分类时删除字典明细 -->
-    <delete id="deleteFlexValue" parameterType="int">
+    <delete id="deleteFlexValueBySetId" parameterType="int">
       delete from crm_sys_flex_values where set_id=#{flexSetId}
     </delete>
     

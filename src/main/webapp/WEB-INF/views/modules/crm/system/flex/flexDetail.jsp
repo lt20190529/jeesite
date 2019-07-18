@@ -84,14 +84,15 @@
                     <tr>
                         <td style="text-align:center">${status.index + 1}</td>
                         <td style="text-align:center">${flexValue.code}</td>
-                        <td style="text-align:center">
-
+                        <td style="text-align:center">${flexValue.name}
+                            <%-- 
                             <c:if test="${flexValue.istree=='Y'}">
                                 <a href="${ctx}/sysmgr/flex/list?setId=${flexValue.id}&parentId=${flexValue.setId}">${flexValue.name}</a>
-                            </c:if>
+                            </c:if> 
                             <c:if test="${flexValue.istree=='N'}">
                                 ${flexValue.name}
                             </c:if>
+                            --%>
                         </td>
                         <td style="text-align:center">${flexValue.description}</td>
                         <td class="text-center">
