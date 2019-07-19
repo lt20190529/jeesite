@@ -149,5 +149,18 @@
    <delete id="deleteFlexValueById" parameterType="int">
       delete from crm_sys_flex_values where id=#{flexValueId}
    </delete>
+   
+   <!-- 根据字典分类编码获取字典明细列表 -->
+   <select id="getFlexValueListByCode" parameterType="String" resultMap="flexValueResultMap">
+     select v.id,v.code,v.name 
+     from crm_sys_flex_values v
+          left join crm_sys_flex_set s
+          on v.set_id=s.id
+          where s.code=#{flexSetCode}
+          AND S.ENABLE_FLAG='Y'
+          AND V.ENABLE_FLAG='Y'
+          ORDER BY V.ID
+   </select>
+   
     
 </mapper>

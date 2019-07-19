@@ -122,6 +122,17 @@ public class FlexService {
 	public void deleteFlexValueBySetId(int flexValueId){
 		flexDao.deleteFlexValueById(flexValueId);
 	}
+	
+	//对其他模块调用
+	public List<FlexValue> getOptionsBySetCode(String flexSetCode, boolean hasBlank) {
+        List<FlexValue> resultList = flexDao.getFlexValueListByCode(flexSetCode);
+        if (hasBlank) {
+            FlexValue blankOption = new FlexValue();
+            blankOption.setName("请选择");
+            resultList.add(0, blankOption);
+        }
+        return resultList;
+    }
     
     
 	

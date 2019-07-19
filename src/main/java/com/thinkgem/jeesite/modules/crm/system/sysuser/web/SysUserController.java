@@ -2,8 +2,11 @@ package com.thinkgem.jeesite.modules.crm.system.sysuser.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
@@ -21,6 +24,8 @@ import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
+import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.service.SysUserService;
 
@@ -30,6 +35,15 @@ public class SysUserController extends BaseController {
 
 	@Autowired
 	private SysUserService userService;
+	
+	@Autowired
+	private FlexService flexService;
+	
+	private Map<String, String> userStatus = new LinkedHashMap<String, String>() {{
+        put("Y", "是");
+        put("N", "否");
+    }};
+	
 	@InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Boolean.class, "enabled", new CustomBooleanEditor("Y", "N", true));
@@ -56,6 +70,26 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="insert",method = RequestMethod.GET)
 	public String insert(Model model){
 		SysUser sysUser=new SysUser();
+		model.addAttribute("userStatus",userStatus);
+		model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
+		Role role=new Role();
+		role.setId(1);
+		role.setCode("01");
+		role.setCode("系统管理员");
+		Role role1=new Role();
+		role1.setId(2);
+		role1.setCode("02");
+		role1.setName("工商管理员");
+		Role role2=new Role();
+		role2.setId(3);
+		role2.setCode("03");
+		role2.setName("普通用户");
+		
+		List<Role> list=new ArrayList();
+		list.add(role);
+		list.add(role1);
+		list.add(role2);
+		model.addAttribute("roleList",list);
 		model.addAttribute("sysUser",sysUser);
 		return "modules/user/insert";
 	}

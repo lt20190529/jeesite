@@ -55,5 +55,8 @@ public interface FlexDao {
 	
 	//删除字典分类对应明细
 	void deleteFlexValueById(@Param(value="flexValueId") int flexValueId);
+
+	//其他模块调用
+	List<FlexValue> getFlexValueListByCode(String flexSetCode);
     
 }
