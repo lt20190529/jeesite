@@ -196,7 +196,7 @@ public class FlexController extends BaseController {
 	}
 	
 	/*
-	 * 删除字典明细1iii
+	 * 删除字典明细
 	 */
 	@RequestMapping(value="flexValueDelete/{flexValueId}/{flexSetId}/{reserved}")
 	public String flexValueDelete(@PathVariable("flexValueId") int flexValueId,
