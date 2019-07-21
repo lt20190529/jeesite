@@ -179,7 +179,7 @@
             }
 
             states.push('<div id="jbox-state-' + stateName + '" class="jbox-state" style="display:none;">');
-            states.push('<div style="min-width:50px;width:' + (typeof options.width == 'number' ? options.width + 'px' : 'auto') + '; height:' + contentHeight + ';">' + loadingHtml + '<div id="jbox-content" class="jbox-content" style="height:' + contentHeight + ';overflow:hidden;overflow-y:auto;">' + stateOptions.content + '</div></div>');
+            states.push('<div style="min-width:50px;width:' + (typeof options.width == 'number' ? options.width + 'px' : 'auto') + '; height:' + contentHeight + ';">' + loadingHtml + '<div id="jbox-content" class="jbox-content" style="height:' + contentHeight + ';">' + stateOptions.content + '</div></div>');
             states.push('<div class="jbox-button-panel" style="height:25px;padding:5px 0 5px 0;text-align: right;' + (withButtons ? '' : 'display:none;') + '">');
             if (!options.isTip) {
                 states.push('<span class="jbox-bottom-text" style="float:left;display:block;line-height:25px;"></span>');
