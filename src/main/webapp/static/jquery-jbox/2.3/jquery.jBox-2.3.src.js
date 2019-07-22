@@ -45,6 +45,7 @@
         var isRequest = data.type == 'GET' || data.type == 'POST' || data.type == 'IFRAME';
         var titleWidth = typeof options.width == 'number' ? (options.width - 50) + 'px' : "90%";
 
+
         var boxHtml = [];
         boxHtml.push('<div id="' + options.id + '" class="jbox-' + (options.isTip ? 'tip' : (options.isMessager ? 'messager' : 'body')) + '">');
         if (options.showFade) {
@@ -65,7 +66,7 @@
         boxHtml.push('<div id="jbox" class="jbox" style="position:absolute;width:auto;height:auto;">');
 
         boxHtml.push('<div class="jbox-help-title jbox-title-panel" style="height:25px;display:none;"></div>');
-        boxHtml.push('<div class="jbox-help-button jbox-button-panel" style="height:25px;padding:5px 0 5px 0;display:none;"></div>');
+        boxHtml.push('<div class="jbox-help-button jbox-button-panel" style="height:35px;padding:5px 0 5px 0;display:none;"></div>');
 
         boxHtml.push('<table border="0" cellpadding="0" cellspacing="0" style="margin:0px;padding:0px;border:none;">');
         if (options.border > 0) {
@@ -180,7 +181,7 @@
 
             states.push('<div id="jbox-state-' + stateName + '" class="jbox-state" style="display:none;">');
             states.push('<div style="min-width:50px;width:' + (typeof options.width == 'number' ? options.width + 'px' : 'auto') + '; height:' + contentHeight + ';">' + loadingHtml + '<div id="jbox-content" class="jbox-content" style="height:' + contentHeight + ';">' + stateOptions.content + '</div></div>');
-            states.push('<div class="jbox-button-panel" style="height:25px;padding:5px 0 5px 0;text-align: right;' + (withButtons ? '' : 'display:none;') + '">');
+            states.push('<div class="jbox-button-panel" style="height:35px;padding:5px 0 5px 0;text-align: right;' + (withButtons ? '' : 'display:none;') + '">');
             if (!options.isTip) {
                 states.push('<span class="jbox-bottom-text" style="float:left;display:block;line-height:25px;"></span>');
             }

@@ -34,7 +34,7 @@
 			return true;
 		}
 		// 正常打开	
-		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}", "选择${title}", 300, 420, {
+		top.$.jBox.open("iframe:${ctx}/tag/treeselect?url="+encodeURIComponent("${url}")+"&module=${module}&checked=${checked}&extId=${extId}&isAll=${isAll}", "选择${title}", 300, 460, {
 			ajaxData:{selectIds: $("#${id}Id").val()},buttons:{"确定":"ok", ${allowClear?"\"清除\":\"clear\", ":""}"关闭":true}, submit:function(v, h, f){
 				if (v=="ok"){
 					var tree = h.find("iframe")[0].contentWindow.tree;//h.find("iframe").contents();
@@ -78,7 +78,7 @@
 					${id}TreeselectCallBack(v, h, f);
 				}
 			}, loaded:function(h){
-				$(".jbox-content", top.document).css("overflow-y","hidden");
+				//$(".jbox-content", top.document).css("overflow-y","hidden");
 			}
 		});
 	});
