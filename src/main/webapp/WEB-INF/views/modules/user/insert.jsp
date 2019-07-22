@@ -194,7 +194,7 @@ $(function () {
 				 
 				<hr>
 				<div class="col-md-12 form-inline">
-					<label class="col-sm-1">角色：</label>
+					<label class="col-sm-1">角色1：</label>
 					<div class="col-sm-10 col-md-offset-0 text-left " style="">
 						<c:forEach items="${roleList}" var="roleList" varStatus="status">
 									<label> <input id=${roleList.id } name="roleList"
