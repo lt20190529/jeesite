@@ -148,7 +148,11 @@ $(function () {
                 <div class="col-md-4 form-inline">
 					<label class="col-sm-4">用户类型：</label>
 					<div class="col-sm-8">
-						<form:input path="" class="" required="true" />
+						<select  id="userType" name="userType" style="width:210px;height:26.96px" >
+                                        <c:forEach items="${USER_TYPE}" var="ut">
+                                            <option value="${ut.code}">${ut.name}</option>
+                                        </c:forEach>
+                        </select>
 					</div>
 				</div>
 
@@ -159,7 +163,7 @@ $(function () {
 					<label class="col-sm-4">生效日期：</label>
 					<div class="col-sm-8">
 						   <div class='input-group date' id='datetimeStart'>
-				                <input type='text' class="form-control" />
+				                <input type='text' class="form-control" style="width:170px;height:26.96px"/>
 				                <span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>
@@ -173,7 +177,7 @@ $(function () {
 					<label class="col-sm-4">失效日期：</label>
 					<div class="col-sm-8">
 						<div class='input-group date' id='datetimeEnd'>
-				                <input type='text' class="form-control" />
+				                <input type='text' class="form-control" style="width:170px;height:26.96px"/>
 				                <span class="input-group-addon">
 				                    <span class="glyphicon glyphicon-calendar"></span>
 				                </span>
@@ -191,10 +195,50 @@ $(function () {
 				
 				<br> 
 				<br>
-				 
+			
+                <hr>
+               
+				
+				<div class="col-md-4 form-inline">
+					<label class="col-sm-4">所属公司：</label>
+					<div class="col-sm-8">
+						<div class='input-group date' id='datetimeEnd'>
+							</label>
+							<sys:treeselect id="company" name="company.id"
+								value="${user.office.id}" labelName="company.name"
+								labelValue="${user.office.name}" title="组别"
+								url="/sys/office/treeData?type=1" cssClass="input-large"
+								hideBtn="true" smallBtn="true" allowClear="true"
+								notAllowSelectParent="true" />
+
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="col-md-4 form-inline">
+					<label class="col-sm-4">所属组别：</label>
+					<div class="col-sm-8">
+						<div class='input-group date' id='datetimeEnd'>
+							</label>
+							<sys:treeselect id="office" name="office.id"
+								value="${user.office.id}" labelName="office.name"
+								labelValue="${user.office.name}" title="组别"
+								url="/sys/office/treeData?type=2" cssClass="input-large"
+								hideBtn="true" smallBtn="true" allowClear="true"
+								notAllowSelectParent="true" />
+
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<br>
+				
 				<hr>
 				<div class="col-md-12 form-inline">
-					<label class="col-sm-1">角色1：</label>
+					<label class="col-sm-1">角色：</label>
 					<div class="col-sm-10 col-md-offset-0 text-left " style="">
 						<c:forEach items="${roleList}" var="roleList" varStatus="status">
 									<label> <input id=${roleList.id } name="roleList"
@@ -203,6 +247,8 @@ $(function () {
 						</c:forEach>
 					</div>
 				</div>
+				
+				
 				
 			</div>
 
