@@ -75,7 +75,7 @@ public class SysUserController extends BaseController {
 		Role role=new Role();
 		role.setId(1);
 		role.setCode("01");
-		role.setName("系统管理员");
+		role.setCode("系统管理员");
 		Role role1=new Role();
 		role1.setId(2);
 		role1.setCode("02");
