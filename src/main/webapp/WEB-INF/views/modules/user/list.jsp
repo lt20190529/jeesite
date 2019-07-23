@@ -12,6 +12,7 @@
 <link
 	href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css"
 	type="text/css" rel="stylesheet" />
+
 <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
 	type="text/css" />
@@ -101,7 +102,7 @@
 								<th style="text-align:center;">手机</th>
 								<th style="text-align:center;">FAX</th>
 								<th style="text-align:center;">QQ</th>
-								<th style="text-align:center;">租户</th>
+								<th style="text-align:center;" hidden="hidden">>租户</th>
 								<th style="text-align:center;">公司</th>
 								<th style="text-align:center;">组别</th>
 								<th style="text-align:center;">操作</th>
@@ -134,7 +135,7 @@
 									<td>${user.mobile}</td>
 									<td>${user.fax}</td>
 									<td>${user.qq}</td>
-									<td>${user.tenantName}</td>
+									<td hidden="hidden">${user.tenantName}</td>
 									<td>${user.companyName}</td>
 									<td>${user.groupName}</td>
 

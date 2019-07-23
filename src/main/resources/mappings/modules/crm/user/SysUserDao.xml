@@ -25,10 +25,25 @@
     
 	<select id="findUserList" resultMap="userResultMap">
 	    SELECT DISTINCT FU.*
-	        FROM SYS_USER FU
+	        FROM CRM_SYS_USER FU
 	</select>
 	
 	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">
-	     select * from sys_user where login_name=#{loginName}
+	     select * from CRM_SYS_USER where login_name=#{loginName}
 	</select>
+	
+	<!--新增用户-->
+    <insert id="insert" parameterType="com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO CRM_SYS_USER
+        (LOGIN_NAME,DISPLAY_NAME,USER_TYPE,USER_GRADE,PASSWORD,EMPLOYEE_NUMBER,
+        MOBILE,EMAIL,FAX,QQ,OFFICE_TEL,
+        START_DATE,END_DATE,ENABLE_FLAG,UUID,TENANT_ID
+        )
+        VALUES
+        ( #{loginName}, #{displayName},#{userType,jdbcType=VARCHAR},#{userGrade,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{employeeNumber,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},#{qq,jdbcType=VARCHAR},#{officeTel,jdbcType=VARCHAR},
+        #{startDate},#{endDate},#{enabled} ,#{uuid},#{tenantId,jdbcType=VARCHAR}
+        )
+    </insert>
+    
 </mapper>

@@ -1,7 +1,9 @@
 package com.thinkgem.jeesite.common.utils;
 
+import java.io.Serializable;
 
-public class AlertInfo {
+
+public class AlertInfo implements Serializable{
     protected Type type;        //提示类型 success,info,warning,danger
     protected String title;     //提示标题
     protected String message;   //提示内容

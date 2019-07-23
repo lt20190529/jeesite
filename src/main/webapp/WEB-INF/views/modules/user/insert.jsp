@@ -15,13 +15,25 @@
 <link
 	href="${pageContext.request.contextPath}/static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css"
 	type="text/css" rel="stylesheet" />
+<link
+	href="${pageContext.request.contextPath}/static/bootstrapvalidator-master/dist/css/bootstrapValidator.min.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/bootstrap3-dialog-master/css/bootstrap-dialog.min.css" rel="stylesheet">
+
 <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
 	type="text/css" />
+	
+	
+	
 
-
+<script src="${pageContext.request.contextPath}/static/bootstrap3-dialog-master//js/bootstrap-dialog.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/bootstrapvalidator-master/dist/js/bootstrapValidator.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/bootstrapvalidator-master/dist/js/language/zh_CN.js"></script>
 <script
 	src="${pageContext.request.contextPath}/static/sinoui/0.5.0/lib/validation/jquery.validate.min.js"></script>
 
@@ -30,98 +42,88 @@
 
 	$(function() {
 		
-		$('#startDate').datepicker({
+		$('#startDate').datetimepicker({
 			format : 'yyyy-mm-dd',
 			minView : 'month',
 			language : 'zh-CN',
 			autoclose : true,
 			pickerPosition : 'bottom-left', //位置：相对图标而言
-			todayHighlight : true, //当天高亮显示
-			startDate : new Date()
+			initialDate:new Date(),
+			todayHighlight : true //当天高亮显
 		}).on("click", function() {
 			
 		});
-		$('#endDate').datepicker({
+		$('#endDate').datetimepicker({
 			format : 'yyyy-mm-dd',
 			minView : 'month',
 			language : 'zh-CN',
 			autoclose : true,
 			pickerPosition : 'bottom-left', //位置：相对图标而言
-			todayHighlight : true, //当天高亮显示
-			endDate : new Date()
+			initialDate:new Date(),
+			todayHighlight : true //当天高亮显示
 		}).on("click", function() {
-		});
-
-		//聚焦第一个input
-		$('#loginName').focus();
-
-		//失效日期必须晚于生效日期
-		var startDate = $("#startDate").val();
-		var endDate = $("#endDate").val();
-		if (startDate>=endDate){
-			layer.alert("失效日期要晚于生效日期!");
-			return;
-		}
-		
-
-		//
-		//为新增用户表单注册validate函数
-		$.extend($.validator.defaults, {
-			ignore : ""
-		});
-		$('#userInsert').validate({
-			rules : {
-				loginName : {
-					remote : {
-					url: "${ctx}/sysmgr/user/checkLoginName",
-					type: "post"
-					}
-				},
-				displayName : {
-					required : true
-				},
-				startDate : {
-					required : true
-				},
-				roleList: {
-                    required: true
-                }
-
-			},
-			//提示信息位置
-			 errorPlacement: function (error, element) {
-                    if (element.is("*[name^=roleList]")) {
-                        error.appendTo($("#roleErrorDiv"));
-                    } else if (element.is("*[name^=primaryGroupID]")) {
-                        error.appendTo($("#groupErrorDiv"));
-                    } else if (element.is("*[name^=companyID]")) {
-                        error.appendTo($("#companyErrorDiv"));
-                    } else {
-                        error.appendTo(element.parent());
-                    }
-
-              },
-		
-		    
-
-			messages : {
-				loginName : {
-					required : "请输入您的登陆名！",
-					remote : "用户登录名已存在."
-				}
-			},
-			
-
 			
 		});
 
+		
+		$('#loginName').focus();   //聚焦第一个input
+
+		
+		
+		//BootStrap表单校验
+		$('#userInsert').bootstrapValidator({
+	        message: 'This value is not valid',        //验证错误时的信息
+	        feedbackIcons: {        //验证时显示的图标
+	            //valid: 'glyphicon glyphicon-ok',      //正确图标
+	            //invalid: 'glyphicon glyphicon-remove',        //错误图标
+	            //validating: 'glyphicon glyphicon-refresh'        //正在更新图标
+	        },
+	        fields: {       //要验证哪些字段
+		            loginName: {        //与表单里input的name属性对应
+		                message: 'username is not valid',       //验证错误时的信息，当然这里是可以使用中文的
+		                validators: {
+		                    notEmpty: {       //非空判断
+		                        message: 'The cannot be empty'        //验证错误时的信息，
+		                    },
+		                    remote: {//ajax验证。server result:{"valid",true or false} 
+		                        url: "${ctx}/sysmgr/user/checkLoginName",
+		                        message: '用户名已存在,请重新输入',
+		                        delay: 2000,//ajax刷新的时间是1秒一次
+		                        type: 'POST',
+	                        		//自定义提交数据，默认值提交当前input value
+		                        data: function() {
+		                        		return {
+		                        			loginName : $("input[name=loginName]").val(),
+		                                   // method : "checkUserName"//UserServlet判断调用方法关键字。
+		                             };
+		                         }
+		                    }
+		                }
+		            },
+		            email: {
+		                validators: {
+		                    notEmpty: {
+		                        message: 'email cannot be empty'
+		                    },
+		                    emailAddress: {           //是不是正确的email格式
+		                        message: 'not a valid email address'             
+		                    }
+		                }
+		            }
+	        }
+	    });
+		
+		
+		
+		//提交
 		$('#userInsert').submit(function() {
-			var roleList = '${roleList}';
-			if (roleList.length == 2) {
-				layer.alert("该用户下无角色，请维护角色！");
-				return;
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			if (startDate>=endDate){
+				layer.alert("失效日期要晚于生效日期!");
+				return false;
 			}
-
+		     
 		});
 
 	});
@@ -146,7 +148,7 @@
 
 <body>
     <sys:alertbar data="${alertInfo}"/>
-	<form:form id="userInsert" method="post" modelAttribute="sysUser" data-toggle="validate"
+	<form:form id="userInsert" method="post" modelAttribute="sysUser"
 		class="form-horizontal" role="form" action="${ctx}/sysmgr/user/insert">
 		<div class="container-fluid">
 			<div class="row-fluid ">
@@ -183,6 +185,7 @@
 				</div>
 
 				<br> <br>
+				<br>
 
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">Email：</label>
@@ -208,6 +211,8 @@
 				</div>
 
 				<br> <br>
+				<br>
+	
 
 
 				<div class="col-md-4 form-inline">
@@ -239,6 +244,7 @@
 
 
 				<br> <br>
+				<br>
 
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">生效日期：</label>
@@ -277,7 +283,7 @@
 					</div>
 				</div>
 
-				<br>
+				<br> <br>
 				<br>
                
 				<hr>

@@ -11,10 +11,13 @@ import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 
 
 @MyBatisDao
-public interface SysUserDao extends CrudDao<SysUser>  {
+public interface SysUserDao  {
 	
 	public List<SysUser> findUserList(PageBounds pageBounds);
 
 	public SysUser findUserByLoginName(String loginName);
+
+	//新增用户
+	void insert(SysUser sysUser);
 
 }

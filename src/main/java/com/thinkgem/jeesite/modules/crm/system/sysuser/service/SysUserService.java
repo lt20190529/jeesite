@@ -14,17 +14,23 @@ import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class SysUserService  {
 
 	@Autowired
-	private SysUserDao userDao;
+	private SysUserDao sysUserDao;
 	
 	public List<SysUser> getUserList(PageBounds pageBounds) {
-		return userDao.findUserList(pageBounds);
+		return sysUserDao.findUserList(pageBounds);
 	}
 
 	public SysUser findUserByLoginName(String loginName) {
-		return userDao.findUserByLoginName(loginName);
+		return sysUserDao.findUserByLoginName(loginName);
+	}
+
+	//新增用户
+	public void insert(SysUser sysUser) {
+	   sysUserDao.insert(sysUser);
+		
 	}
 }

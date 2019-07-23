@@ -1,13 +1,17 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.web;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -36,7 +40,7 @@ import com.thinkgem.jeesite.modules.crm.system.sysuser.service.SysUserService;
 public class SysUserController extends BaseController {
 
 	@Autowired
-	private SysUserService userService;
+	private SysUserService sysUserService;
 	
 	@Autowired
 	private FlexService flexService;
@@ -58,7 +62,7 @@ public class SysUserController extends BaseController {
 	public String list(Model model,
 			@RequestParam(value = "page", defaultValue = "1") int page){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
-		List<SysUser> userList = userService.getUserList(pageBounds);
+		List<SysUser> userList = sysUserService.getUserList(pageBounds);
 		model.addAttribute("userList", userList);
 		return "modules/user/list";
 	}
@@ -66,7 +70,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="query",method=RequestMethod.POST)   //get常用于取回数据，post用于提交数据
 	public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
-		model.addAttribute("userList", userService.getUserList(pageBounds));
+		model.addAttribute("userList", sysUserService.getUserList(pageBounds));
 		return "modules/user/list";
 	}
 	
@@ -101,6 +105,7 @@ public class SysUserController extends BaseController {
 	public String insert(@ModelAttribute("sysUser") SysUser sysUser,
             RedirectAttributes redirectAttributes){
 		 System.out.println(sysUser.toString());
+		 sysUserService.insert(sysUser);
 		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功!!!..");
 		 redirectAttributes.addFlashAttribute("alertInfo", alertInfo);
 		 return "redirect:" + adminPath + "/sysmgr/user/insert";
@@ -108,12 +113,24 @@ public class SysUserController extends BaseController {
 	
 	
 	@RequestMapping(value="checkLoginName",produces = "application/json")
-	@ResponseBody
-	public boolean checkLoginName(@RequestParam("loginName") String loginName){
-		if(userService.findUserByLoginName(loginName)==null){
-		    return true;
+	 public @ResponseBody  String checkLoginName(@RequestParam("loginName") String loginName){
+		boolean result = true;
+		if(sysUserService.findUserByLoginName(loginName)==null){
+			result = true;
 		}else{
-			return false;
+			result = false;
 		}
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("valid", result);
+        ObjectMapper mapper = new ObjectMapper();
+        String resultString = "";
+        try {
+            resultString = mapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+        return resultString;
 	}
 }
