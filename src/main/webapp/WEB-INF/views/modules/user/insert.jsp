@@ -88,7 +88,7 @@
 		                    remote: {//ajax验证。server result:{"valid",true or false} 
 		                        url: "${ctx}/sysmgr/user/checkLoginName",
 		                        message: '用户名已存在,请重新输入',
-		                        delay: 2000,//ajax刷新的时间是1秒一次
+		                        //delay: 2000,//ajax刷新的时间是1秒一次
 		                        type: 'POST',
 	                        		//自定义提交数据，默认值提交当前input value
 		                        data: function() {
