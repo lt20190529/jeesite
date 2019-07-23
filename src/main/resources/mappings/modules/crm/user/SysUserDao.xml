@@ -27,4 +27,8 @@
 	    SELECT DISTINCT FU.*
 	        FROM SYS_USER FU
 	</select>
+	
+	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">
+	     select * from sys_user where login_name=#{loginName}
+	</select>
 </mapper>

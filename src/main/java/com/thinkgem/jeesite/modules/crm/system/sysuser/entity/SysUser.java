@@ -223,9 +223,22 @@ public class SysUser {
     }
 
     @Override
-    public String toString(){
-        return this.displayName;
-    }
+	public String toString() {
+		return "SysUser [id=" + id + ", loginName=" + loginName
+				+ ", displayName=" + displayName + ", employeeNumber="
+				+ employeeNumber + ", password=" + password
+				+ ", passwordModifyDate=" + passwordModifyDate
+				+ ", loginErrorCount=" + loginErrorCount + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", enabled=" + enabled
+				+ ", mobile=" + mobile + ", email=" + email + ", fax=" + fax
+				+ ", qq=" + qq + ", officeTel=" + officeTel + ", roleList="
+				+ roleList + ", groupList=" + groupList + ", primaryGroupID="
+				+ primaryGroupID + ", companyID=" + companyID + ", uuid="
+				+ uuid + ", tenantName=" + tenantName + ", groupName="
+				+ groupName + ", companyName=" + companyName + ", roleId="
+				+ roleId + ", tenantId=" + tenantId + ", userType=" + userType
+				+ ", userGrade=" + userGrade + "]";
+	}
 
     public String getTenantName() {
         return tenantName;
@@ -282,4 +295,5 @@ public class SysUser {
     public void setUserGrade(String userGrade) {
         this.userGrade = userGrade;
     }
+    
 }

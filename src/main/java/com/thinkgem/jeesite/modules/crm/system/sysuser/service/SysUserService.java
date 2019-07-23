@@ -23,4 +23,8 @@ public class SysUserService  {
 	public List<SysUser> getUserList(PageBounds pageBounds) {
 		return userDao.findUserList(pageBounds);
 	}
+
+	public SysUser findUserByLoginName(String loginName) {
+		return userDao.findUserByLoginName(loginName);
+	}
 }

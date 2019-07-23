@@ -15,4 +15,6 @@ public interface SysUserDao extends CrudDao<SysUser>  {
 	
 	public List<SysUser> findUserList(PageBounds pageBounds);
 
+	public SysUser findUserByLoginName(String loginName);
+
 }

@@ -48,7 +48,7 @@
 			autoclose : true,
 			pickerPosition : 'bottom-left', //位置：相对图标而言
 			todayHighlight : true, //当天高亮显示
-			endDate : new Date(new Date(new Date().getTime() - 365*24*60*60*1000))
+			endDate : new Date()
 		}).on("click", function() {
 		});
 
@@ -71,10 +71,10 @@
 		});
 		$('#userInsert').validate({
 			rules : {
-				oginName : {
+				loginName : {
 					remote : {
-					//url: "${ctx}/sysmgr/user/checkLoginName",
-					//type: "post"
+					url: "${ctx}/sysmgr/user/checkLoginName",
+					type: "post"
 					}
 				},
 				displayName : {
@@ -83,94 +83,31 @@
 				startDate : {
 					required : true
 				},
-				endDate : {
-					required : true
-				},
-				employeeNumber : {
-					required : true
-				},
-				mobile : {
-					required : true
-				},
-				email : {
-					required : true
-				},
-				fax : {
-					required : true
-				},
-				qq : {
-					required : true
-				},
-				officeTel:{
-					required : true
-				},
-				userType:{
-					required : true
-				},
-				company : {
-					required : true
-				},
-				office:{
-					required : true
-				},
 				roleList: {
                     required: true
                 }
 
 			},
 			//提示信息位置
-			errorPlacement: function(error, element) {
-				// Append error within linked label
-				//替换错误显示位置，error表示错误信息
-				$( element )
-					.closest( "form" )
-						.find( "label[for='" + element.attr( "id" ) + "']" )
-							.append( error );
-			},
-			errorElement: "span",
+			 errorPlacement: function (error, element) {
+                    if (element.is("*[name^=roleList]")) {
+                        error.appendTo($("#roleErrorDiv"));
+                    } else if (element.is("*[name^=primaryGroupID]")) {
+                        error.appendTo($("#groupErrorDiv"));
+                    } else if (element.is("*[name^=companyID]")) {
+                        error.appendTo($("#companyErrorDiv"));
+                    } else {
+                        error.appendTo(element.parent());
+                    }
+
+              },
+		
+		    
+
 			messages : {
 				loginName : {
 					required : "请输入您的登陆名！",
 					remote : "用户登录名已存在."
-				},
-				displayName : {
-					required : "请输入您的用户名！"
-				},
-				startDate : {
-					required : "请选择生效日期"
-				},
-				endDate : {
-					required : "请选择失效日期"
-				},
-				employeeNumber : {
-					required : "请填写员工编码"
-				},
-				mobile : {
-					required : "请填写手机号"
-				},
-				email : {
-					required : "请填写Email"
-				},
-				fax : {
-					required : "请填写Fax"
-				},
-				qq : {
-					required : "请填写QQ"
-				},
-				officeTel:{
-					required : "请填写办公电话"
-				},
-				userType : {
-					required : "请选择用户类型"
-				},
-				company : {
-					required : "请选择公司"
-				},
-				office : {
-					required : "请选择组别"
-				},
-				roleList : {
-					required : "必须选择一个或多个角色."
 				}
 			},
 			
@@ -178,10 +115,9 @@
 			
 		});
 
-		$('#insertForm').submit(function() {
-
-			var allRoles = '${allRoles}';
-			if (allRoles.length == 2) {
+		$('#userInsert').submit(function() {
+			var roleList = '${roleList}';
+			if (roleList.length == 2) {
 				layer.alert("该用户下无角色，请维护角色！");
 				return;
 			}
@@ -209,8 +145,8 @@
 </head>
 
 <body>
-
-	<form:form id="userInsert" method="post" modelAttribute="sysUser"
+    <sys:alertbar data="${alertInfo}"/>
+	<form:form id="userInsert" method="post" modelAttribute="sysUser" data-toggle="validate"
 		class="form-horizontal" role="form" action="${ctx}/sysmgr/user/insert">
 		<div class="container-fluid">
 			<div class="row-fluid ">
@@ -260,14 +196,14 @@
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">办公电话：</label>
 					<div class="col-sm-8">
-						<form:input path="officeTel" class="" required="true" />
+						<form:input path="officeTel" class="" />
 					</div>
 				</div>
 
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">手机：</label>
 					<div class="col-sm-8">
-						<form:input path="mobile" class="" required="true" />
+						<form:input path="mobile" class=""/>
 					</div>
 				</div>
 
@@ -277,14 +213,14 @@
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">QQ：</label>
 					<div class="col-sm-8">
-						<form:input path="qq" class="" required="true" />
+						<form:input path="qq" class=""/>
 					</div>
 				</div>
 
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">传真：</label>
 					<div class="col-sm-8">
-						<form:input path="fax" class="" required="true" />
+						<form:input path="fax" class="" />
 					</div>
 				</div>
 
@@ -308,7 +244,7 @@
 					<label class="col-sm-4">生效日期：</label>
 					<div class="col-sm-8">
 						<div class='input-group date'>
-							<form:input path="startDate"  class="form-control"
+							<form:input path="startDate"  class="form-control" required="true"
 								style="width:170px;height:26.96px" /> <span
 								class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
@@ -323,7 +259,7 @@
 					<label class="col-sm-4">失效日期：</label>
 					<div class="col-sm-8">
 						<div class='input-group date'>
-							<form:input path="endDate" class="form-control"
+							<form:input path="endDate" class="form-control" required="true"
 								style="width:170px;height:26.96px" /> <span
 								class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>

@@ -15,14 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
-import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.thinkgem.jeesite.common.utils.AlertInfo;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
@@ -39,6 +41,7 @@ public class SysUserController extends BaseController {
 	@Autowired
 	private FlexService flexService;
 	
+	@SuppressWarnings("serial")
 	private Map<String, String> userStatus = new LinkedHashMap<String, String>() {{
         put("Y", "是");
         put("N", "否");
@@ -85,7 +88,7 @@ public class SysUserController extends BaseController {
 		role2.setCode("03");
 		role2.setName("普通用户");
 		
-		List<Role> list=new ArrayList();
+		List<Role> list=new ArrayList<Role>();
 		list.add(role);
 		list.add(role1);
 		list.add(role2);
@@ -95,7 +98,22 @@ public class SysUserController extends BaseController {
 	}
 	
 	@RequestMapping(value="insert",method = RequestMethod.POST)
-	public String insert(){
-		 return "redirect:/sysmgr/user/insert";
+	public String insert(@ModelAttribute("sysUser") SysUser sysUser,
+            RedirectAttributes redirectAttributes){
+		 System.out.println(sysUser.toString());
+		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功!!!..");
+		 redirectAttributes.addFlashAttribute("alertInfo", alertInfo);
+		 return "redirect:" + adminPath + "/sysmgr/user/insert";
+	}
+	
+	
+	@RequestMapping(value="checkLoginName",produces = "application/json")
+	@ResponseBody
+	public boolean checkLoginName(@RequestParam("loginName") String loginName){
+		if(userService.findUserByLoginName(loginName)==null){
+		    return true;
+		}else{
+			return false;
+		}
 	}
 }
