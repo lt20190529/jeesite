@@ -1,17 +1,13 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.web;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -23,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.miemiedev.mybatis.paginator.domain.Order;
@@ -112,8 +107,9 @@ public class SysUserController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value="checkLoginName",produces = "application/json")
-	 public @ResponseBody  String checkLoginName(@RequestParam("loginName") String loginName){
+	/*@RequestMapping(value="checkLoginName",produces = "application/json")
+	@ResponseBody
+	 public String checkLoginName(@RequestParam("loginName") String loginName){
 		boolean result = true;
 		if(sysUserService.findUserByLoginName(loginName)==null){
 			result = true;
@@ -132,5 +128,5 @@ public class SysUserController extends BaseController {
 			e.printStackTrace();
 		}
         return resultString;
-	}
+	}*/
 }
