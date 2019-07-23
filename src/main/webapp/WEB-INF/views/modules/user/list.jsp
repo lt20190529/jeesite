@@ -26,10 +26,7 @@
 
 <body>
 
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="">用户列表</a></li>
-	</ul>
-
+	
 	<form:form id="userlist" method="post" modelAttribute="userQueryParams"
 		class="form-horizontal" role="form" action="${ctx}/sysmgr/user/query">
 
@@ -38,7 +35,7 @@
 				<div class="row">
 					<div class="col-md-5">
 						<h4>
-							<span class="glyphicon glyphicon-zoom-in">用戶检索</span>
+							<span class="glyphicon glyphicon-zoom-in">用户检索</span>
 						</h4>
 					</div>
 					<br>
