@@ -23,7 +23,7 @@
 		var officeNodes=[
 	            <c:forEach items="${officeList}" var="office">
 	            {id:"${office.id}",
-	             pId:"${not empty office.parent?office.parent.id:0}", 
+	             pId:"${not empty office.parent? office.parent.id : 0}", 
 	             name:"${office.name}"},
 	            </c:forEach>];
 	

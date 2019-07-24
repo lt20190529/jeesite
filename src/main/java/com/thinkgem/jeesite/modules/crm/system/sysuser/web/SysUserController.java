@@ -106,7 +106,7 @@ public class SysUserController extends BaseController {
             RedirectAttributes redirectAttributes){
 		 System.out.println(sysUser.toString());
 		 sysUserService.insert(sysUser);
-		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功!!!..");
+		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功..");
 		 redirectAttributes.addFlashAttribute("alertInfo", alertInfo);
 		 return "redirect:" + adminPath + "/sysmgr/user/insert";
 	}

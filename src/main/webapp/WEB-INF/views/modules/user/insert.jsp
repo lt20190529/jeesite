@@ -78,7 +78,7 @@
 		
 		//BootStrap表单校验
 		$('#userInsert').bootstrapValidator({
-			excluded:[":disabled"],                              //关键配置，表示只对于禁用域不进行验证，其他的表单元素都要验证“隐藏域（:hidden）、禁用域（:disabled）、那啥域（:not(visible)）”是不进行验证的。
+			//excluded:[":disabled"],                              //关键配置，表示只对于禁用域不进行验证，其他的表单元素都要验证“隐藏域（:hidden）、禁用域（:disabled）、那啥域（:not(visible)）”是不进行验证的。
 	        message: 'This value is not valid',                    // 为每个字段指定通用错误提示语
 	        feedbackIcons: {                                       //验证时显示的图标
 	            //valid: 'glyphicon glyphicon-ok',                 //正确图标
@@ -219,18 +219,11 @@
                     message: 'The company is required'
                 }
 			}
-	    }); */
+	    }); 
+		*/
 		
 		//非隐藏元素可以直接验证 $("#companyName")为元素对象
-		 $('#userInsert').bootstrapValidator('addField',$("#companyName"),{ 
-			validators: { 
-				notEmpty: {
-                    message: '请选择公司'
-                }
-			}
-	    }); 
-	
-		 $('#userInsert').bootstrapValidator('addField',$("#officeName"),{ 
+	     $('#userInsert').bootstrapValidator('addField',$("#primaryGroupID"),{ 
 			validators: { 
 				notEmpty: {
                     message: '请选择组别'
@@ -238,6 +231,15 @@
 			}
 	    }); 
 		
+	
+		
+		 $('#userInsert').bootstrapValidator('addField',$("#companyID"),{ 
+				validators: { 
+					notEmpty: {
+	                    message: '请选择公司'
+	                }
+				}
+		    });
 		
 		//提交
 		$('#userInsert').submit(function() {
@@ -435,16 +437,16 @@
 				<hr>
 
 
-				<div class="col-md-4 form-inline">
+				<div class="col-md-12 form-inline">
 					<label class="col-sm-4">所属公司：</label>
-					<div class="col-sm-8">
+					<div class="col-sm-8" style="width:670px;height:26.96px">
 						<div class='input-group date' id='companyD'>
 							</label>
-							<sys:treeselect id="company" name="company.id"
-								value="${user.office.id}" labelName="company.name"
+							<sys:treeselect id="companyID" name="companyID"
+								value="companyID" labelName="company.name"
 								labelValue="${user.office.name}" title="公司"
 								url="/sys/office/treeData?type=1" cssClass="input-large"
-								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true" checked="true"
 								notAllowSelectParent="true" />
 
 						</div>
@@ -453,15 +455,15 @@
 
 
 
-				<div class="col-md-4 form-inline">
+				<div class="col-md-12 form-inline">
 					<label class="col-sm-4">所属组别：</label>
 					<div class="col-sm-8">
 						<div class='input-group date' id='officeD'>
 							</label>
-							<sys:treeselect id="office" name="office.id"
-								value="${user.office.id}" labelName="office.name"
+							<sys:treeselect id="office" name="primaryGroupID"
+								value="primaryGroupID" labelName="office.name"
 								labelValue="${user.office.name}" title="组别"
-								url="/sys/office/treeData?type=2" cssClass="input-large"
+								url="/sys/office/treeData?type=2" cssClass="input-large" 
 								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
 								notAllowSelectParent="true" />
 
