@@ -112,7 +112,7 @@ public class SysUserController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value="checkLoginName",produces = "application/json")
+	 @RequestMapping(value="checkLoginName",produces = "application/json")
 	 public @ResponseBody  String checkLoginName(@RequestParam("loginName") String loginName){
 		boolean result = true;
 		if(sysUserService.findUserByLoginName(loginName)==null){
@@ -121,7 +121,7 @@ public class SysUserController extends BaseController {
 			result = false;
 		}
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
-        map.put("valid", result);
+        map.put("valid", result);  //BootStrap检验只接受{'valid'.true/false}格式
         ObjectMapper mapper = new ObjectMapper();
         String resultString = "";
         try {

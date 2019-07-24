@@ -34,22 +34,26 @@
 
   
   <body>
-  <div class="container">
-  <div class="row">
- 
 
   <form:form id="flexDetailModify" class="form-horizontal" role="form"
 		action="${ctx}/sysmgr/flex/flexDetailModify?reserved=${reserved}" method="post" modelAttribute="flexValue">
-		   <ul class="nav nav-tabs-title">
-				  <li class="active"><span><i class="fa fa-file-text"></i> 修改字典分类明细</span></li>
-				  <li class="text-danger"><span>【值集≡${flexSet.name}】</span></li>
-		   </ul> 
-          <input type="hidden" name="id" value="${flexValue.id}"/>
-		  <input type="hidden" name="treeFlag" value="${treeFlag}"/>
+ 
+          
           <br>
 		  <div class="container-fluid">
 				<div class="row-fluid ">
-				  <div class="col-xs-12 col-sm-11 col-md-11">
+				<div class="row">
+					<div class="col-md-11">
+						<ul class="nav nav-tabs-title">
+			                <li class="active"><span><i class="fa fa-gear"></i>  修改字典分类明细</span></li>值集:${flexSet.name}
+			            </ul>
+					</div>
+                </div>
+                
+                <br>
+				<div class="col-xs-12 col-sm-11 col-md-11">
+				         <input type="hidden" name="id" value="${flexValue.id}"/>
+		                 <input type="hidden" name="treeFlag" value="${treeFlag}"/>
 	                     <div class="row">
 		                      <div class="col-md-6 form-inline">
 								   明细编码：<input class="input-large" type="text" id="code" name="code" 
@@ -71,8 +75,7 @@
 								   value="${flexValue.setId}" />
 		                      </div>
 	                     </div>
-	                     <br>
-	                     <br>
+	                     <hr>
 	                     <div class="row"> 
 	                      <div class="col-md-3 col-md-offset-8 form-inline">
 	                          <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保 存</button>
@@ -86,8 +89,7 @@
 				</div>
 		  </div>	            
 	</form:form>
-   </div>
-   </div>
+
   </body>
 </html>
 

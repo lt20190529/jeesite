@@ -34,11 +34,8 @@
 
   
   <body>
-  <div class="container">
-  <div class="row">
-  <ul class="nav nav-tabs-title">
-	  <li class="active"><span><i class="fa fa-file-text"></i> 新增字典分类</span></li>
-  </ul> 
+ 
+
 
   <form:form id="queryParamsForm" class="form-horizontal" role="form"
 		action="${ctx}/sysmgr/flex/insert" method="post" modelAttribute="flexSet">
@@ -46,6 +43,17 @@
         <br>
 		<div class="container-fluid">
 			<div class="row-fluid ">
+		        <div class="row">
+				<div class="col-md-12">
+					<ul class="nav nav-tabs-title">
+		                <li class="active"><span><i class="fa fa-gear"></i>  新增字典分类</span></li>
+		            </ul>
+				</div>
+                </div>
+                
+				<br>
+				<br>
+			    
 		        <%-- <input type="hidden" id="userId" name="userId" value="<%=UserUtils.getUser()%>"/> --%>
                 <input type="hidden" name="treeFlag" value="${treeFlag}"/>
                 <div class="col-xs-12 col-sm-11 col-md-11">
@@ -71,9 +79,8 @@
 						</label>
                       </div>
                      </div>
-                     <br>
-                     <br>
-                     <br>
+                  
+                     <hr>
                      <div class="row"> 
                       <div class="col-md-3 col-md-offset-8 form-inline">
                          <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保 存</button>
@@ -94,7 +101,5 @@
 			</div>
 		</div>
 	</form:form>
-   </div>
-   </div>
   </body>
 </html>

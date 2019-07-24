@@ -34,18 +34,21 @@
 		<div class="container-fluid">
 			<div class="row-fluid ">
 				<div class="row">
-					<div class="col-md-5">
-						<h4>
-							<span class="glyphicon glyphicon-zoom-in">用户检索</span>
-						</h4>
-					</div>
-					<br>
-					<div class="col-md-offset-5 col-md-2">
-						<button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-search"></i>查 询</button>
-						<button type="button" class="btn btn-primary btn-sm">清屏</button>
+					<div class="col-md-12">
+						<ul class="nav nav-tabs-title">
+			                <li class="active"><span><i class="fa fa-gear"></i>  用户检索</span></li>
+			                <li class="buttons">
+				                <button type="submit" class="btn btn-warning btn-sm">
+								<i class="fa fa-search"></i>&nbsp;&nbsp;查 询
+								</button>
+								<button type="button" class="btn btn-primary btn-sm">
+									<i class="fa fa-bug"></i>&nbsp;&nbsp;清 屏
+								</button>
+							</li>
+			            </ul>
 					</div>
 				</div>
-				<hr>
+				<br>
 				<div class="row">
 					<div class="col-md-3 form-inline">
 						用户名称：<input class="input-medium" type="text" name="drug.Drug_Code" />
@@ -74,18 +77,16 @@
 		<div class="container-fluid">
 			<div class="row-fluid ">
 				<div class="row">
-					<div class="col-md-5">
-						<h4>
-							<span class="glyphicon glyphicon-th-list">检索结果</span>
-						</h4>
+					
+					<div class="col-md-12">
+						<ul class="nav nav-tabs-title">
+			                <li class="active"><span><i class="fa fa-bars"></i> 检索结果</span></li>
+			                <li class="buttons"><a href="${ctx}/sysmgr/user/insert"
+							class="btn btn-success btn-sm"><i class="fa fa-th-large"></i>&nbsp;&nbsp;添
+								加</a></li>
+			            </ul>
 					</div>
-					<br>
-					<div class="col-md-offset-5 col-md-2">
-						<li class="buttons">
-		                    <a href="${ctx}/sysmgr/user/insert" class="btn btn-success btn-sm"><i
-		                            class="fa fa-plus-circle"></i>添加</a>
-		                </li>
-					</div>
+					
 				</div>
 				<br>
 				<div class="row">

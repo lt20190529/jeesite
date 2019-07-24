@@ -38,6 +38,12 @@
 	src="${pageContext.request.contextPath}/static/sinoui/0.5.0/lib/validation/jquery.validate.min.js"></script>
 
 <meta name="decorator" content="default" />
+<style type="text/css">
+ .form-horizontal .has-feedback .form-control-feedback {
+            top: 0;
+            right: -15px;
+ }
+</style>
 <script type="text/javascript">
 
 	$(function() {
@@ -48,10 +54,10 @@
 			language : 'zh-CN',
 			autoclose : true,
 			pickerPosition : 'bottom-left', //位置：相对图标而言
-			initialDate:new Date(),
+			//initialDate:new Date(),
 			todayHighlight : true //当天高亮显
 		}).on("click", function() {
-			
+
 		});
 		$('#endDate').datetimepicker({
 			format : 'yyyy-mm-dd',
@@ -59,7 +65,7 @@
 			language : 'zh-CN',
 			autoclose : true,
 			pickerPosition : 'bottom-left', //位置：相对图标而言
-			initialDate:new Date(),
+			//initialDate:new Date(),
 			todayHighlight : true //当天高亮显示
 		}).on("click", function() {
 			
@@ -68,63 +74,202 @@
 		
 		$('#loginName').focus();   //聚焦第一个input
 
-		
+		 
 		
 		//BootStrap表单校验
 		$('#userInsert').bootstrapValidator({
-	        message: 'This value is not valid',        //验证错误时的信息
-	        feedbackIcons: {        //验证时显示的图标
-	            //valid: 'glyphicon glyphicon-ok',      //正确图标
-	            //invalid: 'glyphicon glyphicon-remove',        //错误图标
+			excluded:[":disabled"],                              //关键配置，表示只对于禁用域不进行验证，其他的表单元素都要验证“隐藏域（:hidden）、禁用域（:disabled）、那啥域（:not(visible)）”是不进行验证的。
+	        message: 'This value is not valid',                    // 为每个字段指定通用错误提示语
+	        feedbackIcons: {                                       //验证时显示的图标
+	            //valid: 'glyphicon glyphicon-ok',                 //正确图标
+	            //invalid: 'glyphicon glyphicon-remove',           //错误图标
 	            //validating: 'glyphicon glyphicon-refresh'        //正在更新图标
 	        },
-	        fields: {       //要验证哪些字段
-		            loginName: {        //与表单里input的name属性对应
-		                message: 'username is not valid',       //验证错误时的信息，当然这里是可以使用中文的
+  
+	        fields: {                                              //要验证哪些字段
+		            loginName: {                                   //与表单里input的name属性对应
+		                message: '登录名不能为空',                  //验证错误时的信息，当然这里是可以使用中文的
 		                validators: {
-		                    notEmpty: {       //非空判断
-		                        message: 'The cannot be empty'        //验证错误时的信息，
+		                    notEmpty: {                            //非空判断
+		                        message: '登录名不能为空'           //验证错误时的信息，
 		                    },
-		                    remote: {//ajax验证。server result:{"valid",true or false} 
-		                        url: "${ctx}/sysmgr/user/checkLoginName",
+		                    stringLength: {                        //长度校验
+	                            min: 6,
+	                            max: 18,
+	                            message: '用户名长度必须在6到18位之间'
+	                        },
+	                        regexp: {                                      //格式校验(正则表达式)
+	                            regexp: /^[a-zA-Z0-9_]+$/,
+	                            message: '用户名只能包含大写、小写、数字和下划线'   
+	                        },
+		                    remote: { 
+		                        url: "${ctx}/sysmgr/user/checkLoginName",       //ajax验证。server result:{"valid",true or false}
 		                        message: '用户名已存在,请重新输入',
-		                        //delay: 2000,//ajax刷新的时间是1秒一次
+		                        //delay: 2000,                                  //ajax刷新的时间是1秒一次
 		                        type: 'POST',
-	                        		//自定义提交数据，默认值提交当前input value
-		                        data: function() {
+		                        data: function() {                               //自定义提交数据，默认值提交当前input value
 		                        		return {
-		                        			loginName : $("input[name=loginName]").val(),
+		                        			loginName : $("input[name=loginName]").val(), //后台Controller校验入参
 		                                   // method : "checkUserName"//UserServlet判断调用方法关键字。
 		                             };
 		                         }
 		                    }
 		                }
 		            },
+		            displayName:{
+		            	validators:{
+		            		notEmpty:{
+		            			message:'用户名不能为空'
+		            		}
+		            	}
+		            },
+		            employeeNumber:{
+		            	validators:{
+		            		notEmpty:{
+		            			message:'用户名不能为空'
+		            		}
+		            	}
+		            },
 		            email: {
 		                validators: {
 		                    notEmpty: {
-		                        message: 'email cannot be empty'
+		                        message: '邮箱不能为空'
 		                    },
-		                    emailAddress: {           //是不是正确的email格式
-		                        message: 'not a valid email address'             
+		                    emailAddress: {                                             //是不是正确的email格式
+		                        message: '邮箱格式不正确'             
+		                    }
+		                }
+		            },
+		            mobile:{
+		            	validators: {
+		                    notEmpty: {
+		                        message: '手机号码不能为空'
+		                    },
+							stringLength : {
+								min : 11,
+								max : 11,
+								message : '请输入11位手机号码'
+							},
+							regexp : {
+								regexp : /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/,
+								message : '请输入正确的手机号码'
+							}
+		                }
+		            },
+		            qq:{
+		            	validators: {
+		                    notEmpty: {
+		                        message: 'QQ不能为空'
+		                    },
+		                    digits: {
+		                        message: '该值只能包含数字。'     //纯数字校验
+		                    }
+		                }
+		            },
+		            startDate: {
+						trigger:'change',                            // 日期改变时触发验证，不然选择日期后不验证
+						validators: {
+							notEmpty: {
+								message: '生效日期不能为空'
+							}
+						}
+					},
+		            endDate: {
+						trigger:'change',                            // 日期改变时触发验证，不然选择日期后不验证
+						validators: {
+							notEmpty: {
+								message: '失效日期不能为空'
+							}
+						}
+					},
+					userType: {
+		                validators: {
+		                    notEmpty: {
+		                        message: '用户类型不能为空'
 		                    }
 		                }
 		            }
 	        }
+	        
+	       
+	    })
+	   
+		.on('success.form.bv', function(e) {//点击提交之后
+	       /*   // Prevent form submission
+	         e.preventDefault();
+	         var $form = $(e.target);
+	         // Get the BootstrapValidator instance
+	         var bv = $form.data('bootstrapValidator'); */
+		});
+		$('#userInsert').bootstrapValidator('addField', 'roleList', { 
+			validators: { 
+				choice: {
+                    min: 2,
+                    max: 4,
+                    message: '至少选择 %s - %s 个角色'
+                }
+			}
 	    });
 		
+		//hidden 隐藏元素的验证需要excluded:[":disabled"]一起使用
+		
+		/* $('#userInsert').bootstrapValidator('addField',$("#companyId"),{ 
+			validators: { 
+				notEmpty: {
+                    message: 'The company is required'
+                }
+			}
+	    }); */
+		
+		//非隐藏元素可以直接验证 $("#companyName")为元素对象
+		 $('#userInsert').bootstrapValidator('addField',$("#companyName"),{ 
+			validators: { 
+				notEmpty: {
+                    message: '请选择公司'
+                }
+			}
+	    }); 
+	
+		 $('#userInsert').bootstrapValidator('addField',$("#officeName"),{ 
+			validators: { 
+				notEmpty: {
+                    message: '请选择组别'
+                }
+			}
+	    }); 
 		
 		
 		//提交
 		$('#userInsert').submit(function() {
+			
+			
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
 			if (startDate>=endDate){
 				layer.alert("失效日期要晚于生效日期!");
 				return false;
 			}
-		     
+
+			//alert($("#userInsert").data("bootstrapValidator").isValid());    //校验是否通过
+
 		});
+		
+		 //事例
+		 //保存 手动验证表单，当是普通按钮时。
+		 /*
+         function save() {
+        
+	        
+	        $('form').data('bootstrapValidator').validate();
+	        if(!$('form').data('bootstrapValidator').isValid()){
+	            return ;
+	        }
+	        
+	        document.getElementById("dataForm").submit();
+	        $("#zhongxin").hide();
+	        $("#zhongxin2").show();
+        }
+		*/
 
 	});
 </script>
@@ -153,15 +298,16 @@
 		<div class="container-fluid">
 			<div class="row-fluid ">
 				<div class="row">
-					<div class="col-md-5">
-						<h4>
-							<span class="glyphicon glyphicon-plus-sign">&nbsp;新增用户</span>
-						</h4>
+					<div class="col-md-12">
+						<ul class="nav nav-tabs-title">
+			                <li class="active"><span><i class="fa fa-gear"></i>  新增用户</span></li>
+			                
+			            </ul>
 					</div>
 				</div>
 
-				<hr>
-
+				<br>
+				<br>
 
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">登录名：</label>
@@ -206,7 +352,7 @@
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">手机：</label>
 					<div class="col-sm-8">
-						<form:input path="mobile" class=""/>
+						<form:input path="mobile" class="" required="true"/>
 					</div>
 				</div>
 
@@ -218,7 +364,7 @@
 				<div class="col-md-4 form-inline">
 					<label class="col-sm-4">QQ：</label>
 					<div class="col-sm-8">
-						<form:input path="qq" class=""/>
+						<form:input path="qq" class="" required="true"/>
 					</div>
 				</div>
 
@@ -296,9 +442,9 @@
 							</label>
 							<sys:treeselect id="company" name="company.id"
 								value="${user.office.id}" labelName="company.name"
-								labelValue="${user.office.name}" title="组别"
+								labelValue="${user.office.name}" title="公司"
 								url="/sys/office/treeData?type=1" cssClass="input-large"
-								hideBtn="true" smallBtn="true" allowClear="true"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
 								notAllowSelectParent="true" />
 
 						</div>
@@ -316,7 +462,7 @@
 								value="${user.office.id}" labelName="office.name"
 								labelValue="${user.office.name}" title="组别"
 								url="/sys/office/treeData?type=2" cssClass="input-large"
-								hideBtn="true" smallBtn="true" allowClear="true"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
 								notAllowSelectParent="true" />
 
 						</div>

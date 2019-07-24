@@ -33,12 +33,7 @@
 </head>
 
   <body>
-  <div class="container">
-  <div class="row">
-  <ul class="nav nav-tabs-title">
-	  <li class="active"><span><i class="fa fa-file-text"></i> 新增字典分类明细</span></li>
-  </ul> 
-  <br>
+
   <form:form id="queryParamsForm" class="form-horizontal" role="form"
 		action="${ctx}/sysmgr/flex/flexDetailInsert" method="post" modelAttribute="flexValue">
   
@@ -48,6 +43,16 @@
 	  <input type="hidden" id="flexSetCode"  value="${flexSetCode}">
 	  <div class="container-fluid">
 			<div class="row-fluid ">
+			 <div class="row">
+					<div class="col-md-12">
+						<ul class="nav nav-tabs-title">
+			                <li class="active"><span><i class="fa fa-gear"></i>  新增字典明细</span></li>值集≡${flexSet.name}
+			            </ul>
+					</div>
+              </div>
+         
+              <br>
+                
 			  <div class="col-xs-12 col-sm-11 col-md-11">
                      <div class="row">
 	                      <div class="col-md-6 form-inline">
@@ -63,8 +68,8 @@
 							   明细描述：<input class="input-large" type="text" id="description" name="description" />
 	                      </div>
                      </div>
-                     <br>
-                     <br>
+                     <hr>
+                    
                      <div class="row"> 
                       <div class="col-md-3 col-md-offset-8 form-inline">
                           <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保 存</button>
@@ -85,7 +90,5 @@
 	  </div>	            
   
 	</form:form>
-   </div>
-   </div>
   </body>
 </html>
