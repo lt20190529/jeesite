@@ -23,7 +23,7 @@
 	</ul>
 	<sys:message content="${message}"/>
 	<form id="listForm" method="post">
-		<table id="treeTable" class="table table-striped table-bordered table-condensed hide">
+		<table id="treeTable" class="table table-striped table-bordered table-condensed">
 			<thead><tr><th>名称</th><th>链接</th><th style="text-align:center;">排序</th><th>可见</th><th>权限标识</th><shiro:hasPermission name="sys:menu:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 			<tbody><c:forEach items="${list}" var="menu">
 				<tr id="${menu.id}" pId="${menu.parent.id ne '1'?menu.parent.id : '0'}">

@@ -438,35 +438,34 @@
 
 
 				<div class="col-md-12 form-inline">
-					<label class="col-sm-4">所属公司：</label>
-					<div class="col-sm-8" style="width:670px;height:26.96px">
+					<label class="col-sm-2" style="width:140.74px">所属公司：</label>
+					<div class="col-sm-10" style="width:890px;height:26.96px">
 						<div class='input-group date' id='companyD'>
 							</label>
 							<sys:treeselect id="companyID" name="companyID"
 								value="companyID" labelName="company.name"
 								labelValue="${user.office.name}" title="公司"
-								url="/sys/office/treeData?type=1" cssClass="input-large"
-								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true" checked="true"
+								url="/sys/office/treeData?type=1" cssClass="input-large"  cssStyle="width:675px;height:26.96px"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true" 
 								notAllowSelectParent="true" />
 
 						</div>
 					</div>
 				</div>
-
-
-
+                <br>
+                <hr>
+  
 				<div class="col-md-12 form-inline">
-					<label class="col-sm-4">所属组别：</label>
-					<div class="col-sm-8">
+					<label class="col-sm-2" style="width:140.74px">所属公司组别：</label>
+					<div class="col-sm-10" >
 						<div class='input-group date' id='officeD'>
 							</label>
-							<sys:treeselect id="office" name="primaryGroupID"
-								value="primaryGroupID" labelName="office.name"
+							<sys:treeselect id="groupList" name="groupList" 
+								value="groupList" labelName="office.name"
 								labelValue="${user.office.name}" title="组别"
-								url="/sys/office/treeData?type=2" cssClass="input-large" 
-								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
+								url="/sys/office/treeData?type=2" cssClass="input-large" cssStyle="width:675px;height:26.96px"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"  checked="true"
 								notAllowSelectParent="true" />
-
 						</div>
 					</div>
 				</div>

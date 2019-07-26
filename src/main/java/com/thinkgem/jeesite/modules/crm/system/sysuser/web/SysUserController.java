@@ -104,7 +104,6 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="insert",method = RequestMethod.POST)
 	public String insert(@ModelAttribute("sysUser") SysUser sysUser,
             RedirectAttributes redirectAttributes){
-		 System.out.println(sysUser.toString());
 		 sysUserService.insert(sysUser);
 		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功..");
 		 redirectAttributes.addFlashAttribute("alertInfo", alertInfo);

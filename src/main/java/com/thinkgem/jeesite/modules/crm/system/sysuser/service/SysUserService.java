@@ -30,7 +30,11 @@ public class SysUserService  {
 
 	//新增用户
 	public void insert(SysUser sysUser) {
+	   //保存用户
 	   sysUserDao.insert(sysUser);
+	   //保存用户角色
+	   //保存用户组边
+	   
 		
 	}
 }

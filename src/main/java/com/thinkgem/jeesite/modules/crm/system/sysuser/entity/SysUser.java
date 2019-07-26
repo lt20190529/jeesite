@@ -33,7 +33,7 @@ public class SysUser {
     private List<Integer> groupList = Lists.newArrayList();
     private int primaryGroupID;
 
-    private int companyID;
+    private String companyID;
 
     private  String uuid;
 
@@ -62,11 +62,11 @@ public class SysUser {
 
     }
 
-    public int getCompanyID() {
+    public String getCompanyID() {
         return companyID;
     }
 
-    public void setCompanyID(int companyID) {
+    public void setCompanyID(String companyID) {
         this.companyID = companyID;
     }
 
