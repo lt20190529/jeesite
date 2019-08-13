@@ -58,7 +58,7 @@ public class SysUserController extends BaseController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(fmt, true));
     }
 
-	@RequestMapping(value="list",method=RequestMethod.GET)     //get常用于取回数据，post用于提交数据
+	@RequestMapping(value="list",method=RequestMethod.GET)     //get常用于取回数11111据，post用于提交数据
 	public String list(Model model,
 			@RequestParam(value = "page", defaultValue = "1") int page){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
