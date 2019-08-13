@@ -26,7 +26,7 @@ import com.thinkgem.jeesite.modules.rec.service.ErpRecService;
 /**
  * 仓库管理--入库管理--入库查询
  * Controller
- * @author lt 
+ * @author lt 111
  * @version 2018-08-26
  */
 @Controller
