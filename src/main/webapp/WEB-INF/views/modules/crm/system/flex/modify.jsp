@@ -16,7 +16,7 @@
 	
 	.modal.fade.in {
 		left: 500px;
-		overflow：hidden
+		overflow:hidden
 	}
 	
 	</style>

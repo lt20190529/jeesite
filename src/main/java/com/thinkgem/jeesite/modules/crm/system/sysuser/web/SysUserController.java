@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.miemiedev.mybatis.paginator.domain.Order;
@@ -34,6 +30,8 @@ import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.service.SysUserService;
+
+import javax.jws.WebParam;
 
 @Controller
 @RequestMapping(value = "${adminPath}/sysmgr/user")
@@ -110,7 +108,22 @@ public class SysUserController extends BaseController {
 		 return "redirect:" + adminPath + "/sysmgr/user/insert";
 	}
 	
-	
+	@RequestMapping(value="modify/{sysUserId}",method=RequestMethod.GET)
+    public String modify(@PathVariable("sysUserId") String sysUserId,Model model){
+	    SysUser sysUser=new SysUser();
+	    sysUser.setLoginName("admin");
+	    sysUser.setDisplayName("admin");
+	    model.addAttribute("sysUser",sysUser);
+	    return  "modules/user/modify";
+    }
+
+    @RequestMapping(value = "modify",method = RequestMethod.POST)
+    public String modify(Model model,RedirectAttributes redirectAttributes){
+	    AlertInfo alertInfo=new AlertInfo(AlertInfo.Type.success,"保存成功..");
+	    redirectAttributes.addFlashAttribute("alertinfo",alertInfo);
+	    return "redirect:"+adminPath+"/sysmgr/user/list";
+    }
+
 	 @RequestMapping(value="checkLoginName",produces = "application/json")
 	 public @ResponseBody  String checkLoginName(@RequestParam("loginName") String loginName){
 		boolean result = true;
