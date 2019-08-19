@@ -31,6 +31,11 @@
 	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">
 	     select * from CRM_SYS_USER where login_name=#{loginName}
 	</select>
+
+    <!--查找用户-->
+    <select id="findSysUserById" parameterType="String" resultMap="userResultMap">
+        select * from CRM_SYS_USER where uuid=#{sysUserId}
+    </select>
 	
 	<!--新增用户-->
     <insert id="insert" parameterType="com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser" useGeneratedKeys="true" keyProperty="id" >

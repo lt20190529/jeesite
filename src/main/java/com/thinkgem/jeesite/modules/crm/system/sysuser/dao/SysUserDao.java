@@ -16,6 +16,9 @@ public interface SysUserDao  {
 
 	public SysUser findUserByLoginName(String loginName);
 
+	//查询相关
+	SysUser findSysUserById(String sysUserId);
+
 	//新增用户
 	void insert(SysUser sysUser);
 

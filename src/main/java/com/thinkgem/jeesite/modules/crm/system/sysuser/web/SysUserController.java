@@ -110,15 +110,16 @@ public class SysUserController extends BaseController {
 	
 	@RequestMapping(value="modify/{sysUserId}",method=RequestMethod.GET)
     public String modify(@PathVariable("sysUserId") String sysUserId,Model model){
-	    SysUser sysUser=new SysUser();
-	    sysUser.setLoginName("admin");
-	    sysUser.setDisplayName("admin");
+        model.addAttribute("userStatus",userStatus);
+        model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
+	    SysUser sysUser=sysUserService.findSysUserById(sysUserId);
 	    model.addAttribute("sysUser",sysUser);
 	    return  "modules/user/modify";
     }
 
     @RequestMapping(value = "modify",method = RequestMethod.POST)
     public String modify(Model model,RedirectAttributes redirectAttributes){
+
 	    AlertInfo alertInfo=new AlertInfo(AlertInfo.Type.success,"保存成功..");
 	    redirectAttributes.addFlashAttribute("alertinfo",alertInfo);
 	    return "redirect:"+adminPath+"/sysmgr/user/list";

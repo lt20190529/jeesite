@@ -31,10 +31,16 @@ public class SysUserService  {
 	//新增用户
 	public void insert(SysUser sysUser) {
 	   //保存用户
-	   sysUserDao.insert(sysUser);
+	sysUserDao.insert(sysUser);
 	   //保存用户角色
+    sysUserDao.insert(sysUser);
 	   //保存用户组边
-	   
-		
 	}
+
+	//根据用户ID查找用户
+    public SysUser findSysUserById(String sysUserId){
+	    return sysUserDao.findSysUserById(sysUserId);
+    }
+
+
 }

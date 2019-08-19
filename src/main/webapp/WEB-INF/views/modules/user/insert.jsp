@@ -43,6 +43,19 @@
             top: 0;
             right: -15px;
  }
+ .vat {
+     vertical-align: top
+ }
+
+ .container-fluid {
+     padding-right: 10px;
+     padding-left: 10px;
+ }
+
+ .row-fluid {
+     padding-right: 30px;
+     padding-left: 80px;
+ }
 </style>
 <script type="text/javascript">
 
@@ -275,22 +288,7 @@
 
 	});
 </script>
-<style>
 
-.vat {
-	vertical-align: top
-}
-
-.container-fluid {
-	padding-right: 10px;
-	padding-left: 10px;
-}
-
-.row-fluid {
-	padding-right: 30px;
-	padding-left: 80px;
-}
-</style>
 </head>
 
 <body>

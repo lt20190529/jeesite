@@ -116,9 +116,6 @@ public class DrugController {
         PageHelper.startPage(pageNum, pageSize);
 		List<Drug> basedatalist = drugService.findDrugList(drugVo);
 		PageInfo<Drug> pageInfo = new PageInfo<Drug>(basedatalist);
-        System.out.println("总页数："+pageInfo.getTotal());
-        System.out.println("数据明细："+pageInfo.getList());
-
         Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("rows", pageInfo.getList());
 		jsonMap.put("total", pageInfo.getTotal());
