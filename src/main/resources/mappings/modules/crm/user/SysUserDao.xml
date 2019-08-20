@@ -50,5 +50,13 @@
         #{startDate},#{endDate},#{enabled} ,#{uuid},#{tenantId,jdbcType=VARCHAR}
         )
     </insert>
+
+    <insert id="insertUserRole">
+        insert into crm_sys_user_role (user_id,role_id)
+        VALUES
+        <foreach collection="roleIdList" item="roleid" separator=",">
+            (#{userid},#{roleid})
+        </foreach>
+    </insert>
     
 </mapper>

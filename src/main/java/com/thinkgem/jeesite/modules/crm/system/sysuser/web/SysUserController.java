@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,7 +43,9 @@ public class SysUserController extends BaseController {
 	
 	@Autowired
 	private FlexService flexService;
-	
+
+	@Autowired
+    private SystemService systemService;
 	@SuppressWarnings("serial")
 	private Map<String, String> userStatus = new LinkedHashMap<String, String>() {{
         put("Y", "是");
@@ -77,24 +80,7 @@ public class SysUserController extends BaseController {
 		SysUser sysUser=new SysUser();
 		model.addAttribute("userStatus",userStatus);
 		model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
-		Role role=new Role();
-		role.setId(1);
-		role.setCode("01");
-		role.setName("系统管理员");
-		Role role1=new Role();
-		role1.setId(2);
-		role1.setCode("02");
-		role1.setName("工商管理员");
-		Role role2=new Role();
-		role2.setId(3);
-		role2.setCode("03");
-		role2.setName("普通用户");
-		
-		List<Role> list=new ArrayList<Role>();
-		list.add(role);
-		list.add(role1);
-		list.add(role2);
-		model.addAttribute("roleList",list);
+        model.addAttribute("roleList",systemService.findAllRole());
 		model.addAttribute("sysUser",sysUser);
 		return "modules/user/insert";
 	}
@@ -112,8 +98,10 @@ public class SysUserController extends BaseController {
     public String modify(@PathVariable("sysUserId") String sysUserId,Model model){
         model.addAttribute("userStatus",userStatus);
         model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
+        model.addAttribute("roleList",systemService.findAllRole());
 	    SysUser sysUser=sysUserService.findSysUserById(sysUserId);
 	    model.addAttribute("sysUser",sysUser);
+
 	    return  "modules/user/modify";
     }
 

@@ -29,8 +29,8 @@ public class SysUser {
     private String qq;
     private String officeTel;
 
-    private List<Integer> roleList = Lists.newArrayList();
-    private List<Integer> groupList = Lists.newArrayList();
+    private List<String> roleList = Lists.newArrayList();
+    private List<String> groupList = Lists.newArrayList();
     private int primaryGroupID;
 
     private String companyID;
@@ -198,19 +198,19 @@ public class SysUser {
         this.officeTel = officeTel;
     }
 
-    public List<Integer> getRoleList() {
+    public List<String> getRoleList() {
         return roleList;
     }
 
-    public void setRoleList(List<Integer> roleList) {
+    public void setRoleList(List<String> roleList) {
         this.roleList = roleList;
     }
 
-    public List<Integer> getGroupList() {
+    public List<String> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<Integer> groupList) {
+    public void setGroupList(List<String> groupList) {
         this.groupList = groupList;
     }
 

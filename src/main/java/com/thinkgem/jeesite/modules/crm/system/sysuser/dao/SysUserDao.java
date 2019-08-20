@@ -22,4 +22,6 @@ public interface SysUserDao  {
 	//新增用户
 	void insert(SysUser sysUser);
 
+	//新增用户角色
+    void insertUserRole(String userid, List<String> roleList);
 }
