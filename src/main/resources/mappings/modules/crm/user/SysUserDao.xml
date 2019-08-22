@@ -51,12 +51,23 @@
         )
     </insert>
 
+    <!--新增用户保存角色-->
     <insert id="insertUserRole">
         insert into crm_sys_user_role (user_id,role_id)
         VALUES
-        <foreach collection="roleIdList" item="roleid" separator=",">
-            (#{userid},#{roleid})
+        <foreach collection="roleList" item="roleID" separator=",">
+            (#{userID},#{roleID})
         </foreach>
+    </insert>
+
+    <!--新增用户保存组别-->
+    <insert id="insertUserGroup">
+        insert into crm_sys_user_group (user_id,group_id)
+        VALUES
+        <foreach collection="groupList" item="groupID" separator=",">
+            (#{userID},#{groupID})
+        </foreach>
+
     </insert>
     
 </mapper>
