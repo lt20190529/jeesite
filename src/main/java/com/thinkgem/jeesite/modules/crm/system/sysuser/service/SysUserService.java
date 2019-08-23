@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.crm.system.sysuser.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +45,14 @@ public class SysUserService {
         return sysUserDao.findSysUserById(sysUserId);
     }
 
+    /**
+     * 获取租户下所有角色（包括保留角色）
+     * @param userid
+     * @return
+     */
+    public List<Role> getRoleListByUserID(String userid){
 
+       return sysUserDao.getRoleListByAdminId(userid);
+
+    }
 }

@@ -22,6 +22,15 @@
         <result property="tenantId" column="TENANT_ID"/>
         <result property="userType" column="USER_TYPE"/>
     </resultMap>
+
+    <resultMap id="roleResultMap" type="com.thinkgem.jeesite.modules.crm.system.role.entity.Role">
+        <id property="id" column="ID"/>
+        <result property="code" column="CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="descript" column="DESCRIPT"/>
+        <result property="tenantId" column="TENANT_ID"/>
+        <result property="reserved" column="RESERVED"/>
+    </resultMap>
     
 	<select id="findUserList" resultMap="userResultMap">
 	    SELECT DISTINCT FU.*
@@ -69,5 +78,33 @@
         </foreach>
 
     </insert>
-    
+
+    <!--获取管理员下所有的角色（包括保留角色）-->
+    <select id="getRoleListByAdminId" resultMap="roleResultMap" parameterType="Map">
+        SELECT DISTINCT FR.*, 'Y' RESERVED_FLAG, 'N' CHECKED
+        FROM  crm_sys_user_role FUR,
+              crm_sys_role FR,
+              crm_sys_user fu
+        WHERE FUR.ROLE_ID = FR.ID
+        AND fu.uuid=#{uuid}
+        AND FUR.USER_ID =fu.id
+        AND FR.RESERVED = 'N'
+        UNION
+        SELECT T.*,
+        'Y' RESERVED_FLAG,
+        (SELECT CASE
+        WHEN COUNT(1) > 0 THEN
+        'Y'
+        ELSE
+        'N'
+        END
+        FROM crm_sys_user_role FUR,
+             crm_sys_user fu
+        WHERE FUR.ROLE_ID = T.ID
+        AND FUR.USER_ID =fu.id
+        AND fu.uuid = #{uuid}) CHECKED
+        FROM crm_sys_role T
+        WHERE T.RESERVED = 'Y'
+
+    </select>
 </mapper>

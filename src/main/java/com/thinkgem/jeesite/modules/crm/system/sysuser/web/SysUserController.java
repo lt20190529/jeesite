@@ -98,8 +98,14 @@ public class SysUserController extends BaseController {
     public String modify(@PathVariable("sysUserId") String sysUserId,Model model){
         model.addAttribute("userStatus",userStatus);
         model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
-        model.addAttribute("roleList",systemService.findAllRole());
+        model.addAttribute("roleList",sysUserService.getRoleListByUserID(sysUserId));
 	    SysUser sysUser=sysUserService.findSysUserById(sysUserId);
+	    List<String> list = new ArrayList<String>();
+        String str1="xxxx";
+        String str2="yyyy";
+        list.add(str1);
+        list.add(str2);
+	    sysUser.setGroupList(list);
 	    model.addAttribute("sysUser",sysUser);
 
 	    return  "modules/user/modify";
