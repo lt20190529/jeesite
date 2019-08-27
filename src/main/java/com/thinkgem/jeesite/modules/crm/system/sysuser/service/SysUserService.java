@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.modules.crm.system.sysuser.service;
 import java.util.List;
 
 import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,8 @@ public class SysUserService {
         List<String> roleIdList = sysUser.getRoleList();
         sysUserDao.insertUserRole(sysUser.getId(), roleIdList);
         //保存用户组别
-        List<String> groupList=sysUser.getGroupList();
-        sysUserDao.insertUserGroup(sysUser.getId(),groupList);
+        //List<Office> groupList=sysUser.getGroupList();
+        //sysUserDao.insertUserGroup(sysUser.getId(),groupList);
 
     }
 

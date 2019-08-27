@@ -458,7 +458,7 @@
 					<div class="col-sm-10" >
 						<div class='input-group date' id='officeD'>
 							</label>
-							<sys:treeselect id="groupList" name="groupList" value="${sysUser.groupList}" labelName=""
+							<sys:treeselect id="officeID" name="officeID" value="officeID" labelName="office.name"
 								labelValue="" title="组别"
 								url="/sys/office/treeData?type=2" cssClass="input-large" cssStyle="width:675px;height:26.96px"
 								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"  checked="true"

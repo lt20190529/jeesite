@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.codehaus.jackson.JsonProcessingException;
@@ -100,20 +101,15 @@ public class SysUserController extends BaseController {
         model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
         model.addAttribute("roleList",sysUserService.getRoleListByUserID(sysUserId));
 	    SysUser sysUser=sysUserService.findSysUserById(sysUserId);
-	    List<String> list = new ArrayList<String>();
-        String str1="xxxx";
-        String str2="yyyy";
-        list.add(str1);
-        list.add(str2);
-	    sysUser.setGroupList(list);
+	    List<Office> list = new ArrayList<Office>();
 	    model.addAttribute("sysUser",sysUser);
-
+        System.out.println(sysUser.toString());
 	    return  "modules/user/modify";
     }
 
     @RequestMapping(value = "modify",method = RequestMethod.POST)
-    public String modify(Model model,RedirectAttributes redirectAttributes){
-
+    public String modify(@ModelAttribute("sysUser") SysUser sysUser,Model model,RedirectAttributes redirectAttributes){
+        System.out.println(sysUser.toString());
 	    AlertInfo alertInfo=new AlertInfo(AlertInfo.Type.success,"保存成功..");
 	    redirectAttributes.addFlashAttribute("alertinfo",alertInfo);
 	    return "redirect:"+adminPath+"/sysmgr/user/list";

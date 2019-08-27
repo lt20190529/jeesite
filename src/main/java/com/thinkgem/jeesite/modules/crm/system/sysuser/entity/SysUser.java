@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.entity;
 
 import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,10 +32,12 @@ public class SysUser {
     private String officeTel;
 
     private List<String> roleList = Lists.newArrayList();
-    private List<String> groupList = Lists.newArrayList();
+    private List<Office> groupList = Lists.newArrayList();
+
     private int primaryGroupID;
 
     private String companyID;
+    private String officeID;
 
     private  String uuid;
 
@@ -206,11 +210,11 @@ public class SysUser {
         this.roleList = roleList;
     }
 
-    public List<String> getGroupList() {
+    public List<Office> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<String> groupList) {
+    public void setGroupList(List<Office> groupList) {
         this.groupList = groupList;
     }
 
@@ -222,23 +226,15 @@ public class SysUser {
         this.primaryGroupID = primaryGroupID;
     }
 
-    @Override
-	public String toString() {
-		return "SysUser [id=" + id + ", loginName=" + loginName
-				+ ", displayName=" + displayName + ", employeeNumber="
-				+ employeeNumber + ", password=" + password
-				+ ", passwordModifyDate=" + passwordModifyDate
-				+ ", loginErrorCount=" + loginErrorCount + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", enabled=" + enabled
-				+ ", mobile=" + mobile + ", email=" + email + ", fax=" + fax
-				+ ", qq=" + qq + ", officeTel=" + officeTel + ", roleList="
-				+ roleList + ", groupList=" + groupList + ", primaryGroupID="
-				+ primaryGroupID + ", companyID=" + companyID + ", uuid="
-				+ uuid + ", tenantName=" + tenantName + ", groupName="
-				+ groupName + ", companyName=" + companyName + ", roleId="
-				+ roleId + ", tenantId=" + tenantId + ", userType=" + userType
-				+ ", userGrade=" + userGrade + "]";
-	}
+    public String getOfficeID() {
+        return officeID;
+    }
+
+    public void setOfficeID(String officeID) {
+        this.officeID = officeID;
+    }
+
+
 
     public String getTenantName() {
         return tenantName;
@@ -295,5 +291,38 @@ public class SysUser {
     public void setUserGrade(String userGrade) {
         this.userGrade = userGrade;
     }
-    
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "id='" + id + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", employeeNumber='" + employeeNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordModifyDate=" + passwordModifyDate +
+                ", loginErrorCount=" + loginErrorCount +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", enabled=" + enabled +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", fax='" + fax + '\'' +
+                ", qq='" + qq + '\'' +
+                ", officeTel='" + officeTel + '\'' +
+                ", roleList=" + roleList +
+                ", groupList=" + groupList +
+                ", primaryGroupID=" + primaryGroupID +
+                ", companyID='" + companyID + '\'' +
+                ", officeID='" + officeID + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", tenantName='" + tenantName + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", tenantId='" + tenantId + '\'' +
+                ", userType='" + userType + '\'' +
+                ", userGrade='" + userGrade + '\'' +
+                '}';
+    }
 }
