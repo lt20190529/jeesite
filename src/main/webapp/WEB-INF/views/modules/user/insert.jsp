@@ -461,7 +461,7 @@
 							<sys:treeselect id="officeID" name="officeID" value="officeID" labelName="office.name"
 								labelValue="" title="组别"
 								url="/sys/office/treeData?type=2" cssClass="input-large" cssStyle="width:675px;height:26.96px"
-								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"  checked="true"
+								hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
 								notAllowSelectParent="true" />
 						</div>
 					</div>
