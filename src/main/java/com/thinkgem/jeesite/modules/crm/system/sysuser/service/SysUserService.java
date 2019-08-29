@@ -2,8 +2,7 @@ package com.thinkgem.jeesite.modules.crm.system.sysuser.service;
 
 import java.util.List;
 
-import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
-import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +50,7 @@ public class SysUserService {
      * @param userid
      * @return
      */
-    public List<Role> getRoleListByUserID(String userid){
+    public List<SysRole> getRoleListByUserID(String userid){
 
        return sysUserDao.getRoleListByAdminId(userid);
 

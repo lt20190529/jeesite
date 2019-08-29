@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
+import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import org.apache.ibatis.annotations.Param;
@@ -30,5 +30,5 @@ public interface SysUserDao  {
     void insertUserGroup(@Param("userID") String id, @Param("groupList") List<Office> groupList);
 
     //查询用户角色(包含已分配和未分配)
-    List<Role> getRoleListByAdminId(String userid);
+    List<SysRole> getRoleListByAdminId(String userid);
 }

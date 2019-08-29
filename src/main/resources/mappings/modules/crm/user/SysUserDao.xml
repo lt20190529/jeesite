@@ -25,7 +25,7 @@
         <result property="userType" column="USER_TYPE"/>
     </resultMap>
 
-    <resultMap id="roleResultMap" type="com.thinkgem.jeesite.modules.crm.system.role.entity.Role">
+    <resultMap id="roleResultMap" type="com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole">
         <id property="id" column="ID"/>
         <result property="code" column="CODE"/>
         <result property="name" column="NAME"/>

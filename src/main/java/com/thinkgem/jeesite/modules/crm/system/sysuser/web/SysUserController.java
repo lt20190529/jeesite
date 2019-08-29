@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,8 @@ import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.thinkgem.jeesite.common.utils.AlertInfo;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
-import com.thinkgem.jeesite.modules.crm.system.role.entity.Role;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser;
 import com.thinkgem.jeesite.modules.crm.system.sysuser.service.SysUserService;
-
-import javax.jws.WebParam;
 
 @Controller
 @RequestMapping(value = "${adminPath}/sysmgr/user")
