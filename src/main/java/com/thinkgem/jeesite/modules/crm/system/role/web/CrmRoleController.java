@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CrmRoleController extends BaseController {
 
     @Autowired
-    private SysRoleService roleService;
+    private SysRoleService sysroleService;
 
 
     @RequestMapping(value="list",method= RequestMethod.GET)
     public String list(@RequestParam(value = "page", defaultValue = "1") int page,
                        Model model){
         PageBounds pageBounds = new PageBounds(page, 6, Order.formString("id.asc"));
-        model.addAttribute("flexSetList", roleService.getRoleList(pageBounds));
+        model.addAttribute("roleList", sysroleService.getRoleList(pageBounds));
         return "modules/crm/system/role/list";
     }
 

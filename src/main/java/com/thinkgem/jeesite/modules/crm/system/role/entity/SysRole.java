@@ -3,160 +3,101 @@ package com.thinkgem.jeesite.modules.crm.system.role.entity;
 import java.util.UUID;
 
 public class SysRole {
-	  public static final String ROLE_PERFIX = "ROLE_";
-	    private long id;
-	    private String code;
-	    private String name;
-	    private String descript;
-	    private boolean reserved;
-	    private String reserved1;
-	    private String companyId;//add(zbw)
-	    private int companyRoleId;//
-	    private String uuid;
-	    private String companyName;
-	    private String tenantId;
-	    private String tenantName;
-	    private String checked;
+    public static final String ROLE_PERFIX = "ROLE_";
+    private long id;
+    private String uuid;
+    private String code;
+    private String name;
+    private String descript;
+    private boolean reserved;
+    private String roletype;
+    private String sysflag;
+    private String office_dr;
 
-	    private int userId;
+    public long getId() {
+        return id;
+    }
 
-	    private Integer oldRoleId;
+    public void setId(long id) {
+        this.id = id;
+    }
 
+    public String getUuid() {
+        return uuid;
+    }
 
-	    public SysRole() {
-	        String str = UUID.randomUUID().toString();
-	        String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
-	        this.uuid = temp;
-	    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
-	    public long getId() {
-	        return id;
-	    }
+    public String getCode() {
+        return code;
+    }
 
-	    public void setId(long id) {
-	        this.id = id;
-	    }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	    public String getCode() {
-	        return code;
-	    }
+    public String getName() {
+        return name;
+    }
 
-	    public void setCode(String code) {
-	        this.code = code;
-	    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	    /**
-	     * 获取带ROLE_前缀的角色代码
-	     *
-	     * @return 获取带ROLE_前缀的角色代码, 如ROLE_ADMIN
-	     */
-	    public String getPrefixedCode() {
-	        return ROLE_PERFIX + code;
-	    }
+    public String getDescript() {
+        return descript;
+    }
 
-	    public String getName() {
-	        return name;
-	    }
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
 
-	    public void setName(String name) {
-	        this.name = name;
-	    }
+    public boolean isReserved() {
+        return reserved;
+    }
 
-	    public String getDescript() {
-	        return descript;
-	    }
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
 
-	    public void setDescript(String descript) {
-	        this.descript = descript;
-	    }
+    public String getRoletype() {
+        return roletype;
+    }
 
+    public void setRoletype(String roletype) {
+        this.roletype = roletype;
+    }
 
-	    public boolean isReserved() {
-	        return reserved;
-	    }
+    public String getSysflag() {
+        return sysflag;
+    }
 
-	    public void setReserved(boolean reserved) {
-	        this.reserved = reserved;
-	    }
+    public void setSysflag(String sysflag) {
+        this.sysflag = sysflag;
+    }
 
-	    public String getCompanyId() {
-	        return companyId;
-	    }
+    public String getOffice_dr() {
+        return office_dr;
+    }
 
-	    public void setCompanyId(String companyId) {
-	        this.companyId = companyId;
-	    }
+    public void setOffice_dr(String office_dr) {
+        this.office_dr = office_dr;
+    }
 
-	    public int getCompanyRoleId() {
-	        return companyRoleId;
-	    }
-
-	    public void setCompanyRoleId(int companyRoleId) {
-	        this.companyRoleId = companyRoleId;
-	    }
-
-	    public String getUuid() {
-	        return uuid;
-	    }
-
-	    public void setUuid(String uuid) {
-	        this.uuid = uuid;
-	    }
-
-	    public String getCompanyName() {
-	        return companyName;
-	    }
-
-	    public void setCompanyName(String companyName) {
-	        this.companyName = companyName;
-	    }
-
-	    public String getTenantId() {
-	        return tenantId;
-	    }
-
-	    public void setTenantId(String tenantId) {
-	        this.tenantId = tenantId;
-	    }
-
-	    public String getTenantName() {
-	        return tenantName;
-	    }
-
-	    public void setTenantName(String tenantName) {
-	        this.tenantName = tenantName;
-	    }
-
-	    public int getUserId() {
-	        return userId;
-	    }
-
-	    public void setUserId(int userId) {
-	        this.userId = userId;
-	    }
-
-	    public String getReserved1() {
-	        return reserved1;
-	    }
-
-	    public void setReserved1(String reserved1) {
-	        this.reserved1 = reserved1;
-	    }
-
-	    public String getChecked() {
-	        return checked;
-	    }
-
-	    public void setChecked(String checked) {
-	        this.checked = checked;
-	    }
-
-	    public Integer getOldRoleId() {
-	        return oldRoleId;
-	    }
-
-	    public void setOldRoleId(Integer oldRoleId) {
-	        this.oldRoleId = oldRoleId;
-	    }
-
+    @Override
+    public String toString() {
+        return "SysRole{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", descript='" + descript + '\'' +
+                ", reserved=" + reserved +
+                ", roletype='" + roletype + '\'' +
+                ", sysflag='" + sysflag + '\'' +
+                ", office_dr='" + office_dr + '\'' +
+                '}';
+    }
 }

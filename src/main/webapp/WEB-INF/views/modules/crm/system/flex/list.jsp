@@ -147,7 +147,8 @@
 												<c:when test="${flexSet.enableFlag =='Y'}">启用</c:when>
 												<c:otherwise>禁用</c:otherwise>
 											</c:choose></td>
-										<td style="text-align:center"><c:choose>
+										<td style="text-align:center">
+                                            <c:choose>
 												<c:when test="${flexSet.reserved=='Y'}">
 													<sec:authorize access="hasRole('ROLE_ADMIN')">
 														<a href="${ctx}/sysmgr/flex/modify/${flexSet.id}">
@@ -183,7 +184,8 @@
 														</c:if>
 													</sec:authorize>
 												</c:when>
-											</c:choose></td>
+											</c:choose>
+                                        </td>
 									</tr>
 								</c:forEach>
 							</tbody>
