@@ -42,7 +42,7 @@
             <br>
 
             <div class="row">
-                <div class="col-md-3 form-inline">
+                <div class="col-md-3 col-md-offset-3 form-inline">
                     角色名称：<input class="input-medium" type="text" name="drug.Drug_Code" />
                 </div>
                 <div class="col-md-3 form-inline">
@@ -105,15 +105,15 @@
                             </td>
                             <td style="text-align:center">
                                 <c:choose>
-                                    <c:when test="${roleList.reserved=='Y'}">
-                                            <a href="${ctx}/sysmgr/flex/modify/${roleList.id}">
+                                    <c:when test="${roleList.reserved=='true'}">
+                                            <a href="${ctx}/sysmgr/role/modify/${roleList.id}">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;修改
                                             </a>
-                                            <a href="${ctx}/sysmgr/flex/delete/${roleList.id}">
+                                            <a href="${ctx}/sysmgr/role/delete/${roleList.id}">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
                                             </a>
 
-                                            <a href="${ctx}/sysmgr/flex/toggleStatus/${roleList.id}">
+                                            <a href="${ctx}/sysmgr/role/toggleStatus/${roleList.id}">
                                                 <c:choose>
                                                     <c:when test="${roleList.reserved =='Y'}">
                                                         <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;禁用

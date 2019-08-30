@@ -11,7 +11,7 @@ public class SysRole {
     private String descript;
     private boolean reserved;
     private String roletype;
-    private String sysflag;
+    private boolean sysflag;
     private String office_dr;
 
     public long getId() {
@@ -70,11 +70,11 @@ public class SysRole {
         this.roletype = roletype;
     }
 
-    public String getSysflag() {
+    public boolean getSysflag() {
         return sysflag;
     }
 
-    public void setSysflag(String sysflag) {
+    public void setSysflag(boolean sysflag) {
         this.sysflag = sysflag;
     }
 
