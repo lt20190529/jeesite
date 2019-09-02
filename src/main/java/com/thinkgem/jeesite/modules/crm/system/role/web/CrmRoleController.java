@@ -2,18 +2,23 @@ package com.thinkgem.jeesite.modules.crm.system.role.web;
 
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.thinkgem.jeesite.common.utils.AlertInfo;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.crm.system.role.Service.SysRoleService;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomBooleanEditor;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,11 +38,18 @@ public class CrmRoleController extends BaseController {
         put("N", "否");
     }};
     @SuppressWarnings("serial")
-    private Map<String, String> roleFlag = new LinkedHashMap<String, String>() {{
-        put("Y", "是");
-        put("N", "否");
+    private Map<String, String> sysFlag = new LinkedHashMap<String, String>() {{
+        put("Y", "系统角色");
+        put("N", "非系统角色");
     }};
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Boolean.class, "reserved", new CustomBooleanEditor("Y", "N", true));
+        binder.registerCustomEditor(Boolean.class, "sysflag", new CustomBooleanEditor("Y", "N", true));
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(fmt, true));
+    }
     @RequestMapping(value="list",method= RequestMethod.GET)
     public String list(@RequestParam(value = "page", defaultValue = "1") int page,
                        Model model){
@@ -50,10 +62,19 @@ public class CrmRoleController extends BaseController {
     public String insert(Model model){
         SysRole sysRole=new SysRole();
         model.addAttribute("roleStatus",roleStatus);
-        model.addAttribute("roleFlag",roleFlag);
+        model.addAttribute("sysFlag",sysFlag);
         model.addAttribute("ROLE_TYPE",flexService.getOptionsBySetCode("ROLE_TYPE",true));
         model.addAttribute("role",sysRole);
         return "modules/crm/system/role/insert";
+    }
+
+    @RequestMapping(value="insert",method=RequestMethod.POST)
+    public String insert(@ModelAttribute("sysUser") SysRole role,
+                         RedirectAttributes redirectAttributes){
+        sysroleService.insert(role);
+        AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功..");
+        redirectAttributes.addFlashAttribute("alertInfo", alertInfo);
+        return "redirect:" + adminPath + "/sysmgr/role/insert";
     }
 
     @RequestMapping(value="modify/{roleId}",method=RequestMethod.GET)

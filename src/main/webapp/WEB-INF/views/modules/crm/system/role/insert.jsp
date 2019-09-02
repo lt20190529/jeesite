@@ -29,6 +29,7 @@
     </style>
 </head>
 <body>
+<sys:alertbar data="${alertInfo}"/>
 <form:form id="addrole" method="post" modelAttribute="role"
            class="form-horizontal" role="form" action="${ctx}/sysmgr/role/insert">
     <div class="container-fluid">
@@ -44,56 +45,54 @@
 
             <br>
 
+
+
             <div class="row">
-                <label class="col-sm-4 col-md-offset-2 form-inline">角色编码：</label>
-                <div class="col-sm-4">
-                    <form:input path="code" class="" required="true"/>
+                <label class="col-sm-1 col-md-offset-2">角色编码：</label>
+                <div class="col-sm-1">
+                    <form:input path="code" class="" required="true" />
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <label class="col-sm-1 col-md-offset-2">角色名称：</label>
+                <div class="col-sm-1">
+                    <form:input path="name" class="" required="true" />
                 </div>
             </div>
             <br>
             <div class="row">
-                <label class="col-sm-4 col-md-offset-2 form-inline">角色名称：</label>
-                <div class="col-sm-8">
-                    <form:input path="name" class="" required="true"/>
+                <label class="col-sm-1 col-md-offset-2">角色描述：</label>
+                <div class="col-sm-1">
+                    <form:input path="descript" class="" required="true" />
                 </div>
             </div>
             <br>
             <div class="row">
-                <label class="col-sm-4 col-md-offset-2 form-inline">角色描述：</label>
-                <div class="col-sm-8">
-                    <form:input path="descript" class="" required="true"/>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-2 form-inline">
-                    <label class="col-sm-4">系统角色：</label>
-                    <%--<div class="col-sm-8">
-                        <form:radiobuttons path="sysflag" items="${roleFlag}"
+                    <label class="col-sm-1 col-md-offset-2">系统角色：</label>
+                    <div class="col-sm-8">
+                        <form:radiobuttons path="sysflag" items="${sysFlag}"
                                            delimiter="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                                            labelCssClass="radio-inline" />
-                    </div>--%>
-                </div>
+                    </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-6 col-md-offset-2 form-inline">
-                    <label class="col-sm-4">角色类型：</label>
-                    <div class="col-sm-8">
-                        <select id="userType" name="userType"
+                    <label class="col-sm-1 col-md-offset-2">角色类型：</label>
+                    <div class="col-sm-1">
+                        <select id="roletype" name="roletype"
                                 style="width:210px;height:26.96px">
-                            <c:forEach items="${ROLE_TYPE}" var="role">
-                                <option value="${role.code}">${role.name}</option>
+                            <c:forEach items="${ROLE_TYPE}" var="roletype">
+                                <option value="${roletype.code}">${roletype.name}</option>
                             </c:forEach>
                         </select>
                     </div>
-                </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-6 col-md-offset-2 form-inline">
-                    <label class="col-sm-4">是否启用：</label>
-                    <div class="col-sm-8">
+                    <label class="col-sm-1 col-md-offset-2">是否启用：</label>
+                    <div class="col-sm-1">
                         <form:radiobuttons path="reserved" items="${roleStatus}"
                                            delimiter="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                                            labelCssClass="radio-inline" />
@@ -102,13 +101,12 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-12 col-md-offset-2 form-inline">
-                    <label class="col-sm-2 role" style="width:140.74px">所属机构：</label>
+                    <label class="col-sm-1 col-md-offset-2" >所属机构：</label>
                     <div class="col-sm-10" style="width:890px;height:26.96px">
-                        <div class='input-group date' id='companyD'>
+                        <div class='input-group date' id='office_dr'>
                             </label>
-                            <sys:treeselect id="companyID" name="companyID"
-                                            value="companyID" labelName="company.name"
+                            <sys:treeselect id="companyID" name="office_dr"
+                                            value="office_dr" labelName="company.name"
                                             labelValue="" title="公司"
                                             url="/sys/office/treeData?type=1" cssClass="input-large"  cssStyle="width:675px;height:26.96px"
                                             hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
@@ -116,7 +114,6 @@
 
                         </div>
                     </div>
-                </div>
             </div>
 
         </div>

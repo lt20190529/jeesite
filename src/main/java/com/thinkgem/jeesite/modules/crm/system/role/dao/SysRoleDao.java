@@ -10,4 +10,6 @@ import java.util.List;
 public interface SysRoleDao {
 
     public List<SysRole> findRoleList(PageBounds pageBounds);
+
+    void insert(SysRole role);
 }

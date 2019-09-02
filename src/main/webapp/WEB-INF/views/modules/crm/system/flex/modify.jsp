@@ -35,7 +35,7 @@
   
   <body>
 
- 
+  <sys:alertbar data="${alertInfo}"/>
   <form:form id="queryParamsForm" class="form-horizontal" role="form"
 		action="${ctx}/sysmgr/flex/modify" method="post" modelAttribute="flexSet">
 		<br>

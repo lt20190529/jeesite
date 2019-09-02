@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+<sys:alertbar data="${alertInfo}"/>
 <form:form id="addrole" method="post" modelAttribute="role"
            class="form-horizontal" role="form" action="${ctx}/sysmgr/role/modify">
     <div class="container-fluid">
