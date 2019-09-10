@@ -124,7 +124,7 @@
         <div class="row-fluid ">
             <div class="row">
 
-                <
+
                 <div class="col-md-3 col-md-offset-3 form-inline">
                     <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保 存</button>
 
@@ -132,6 +132,7 @@
                             class="fa fa-undo"></i>&nbsp;&nbsp;返 回
                     </button>
                 </div>
+
             </div>
         </div>
     </div>

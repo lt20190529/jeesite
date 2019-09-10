@@ -78,12 +78,22 @@ public class CrmRoleController extends BaseController {
     }
 
     @RequestMapping(value="modify/{roleId}",method=RequestMethod.GET)
-    public String modify(@PathVariable("roleId")String roleId){
+    public String modify(@PathVariable("roleId")String roleId,Model model){
+        model.addAttribute("roleStatus",roleStatus);
+        model.addAttribute("sysFlag",sysFlag);
+        model.addAttribute("ROLE_TYPE",flexService.getOptionsBySetCode("ROLE_TYPE",true));
+        model.addAttribute("Role",sysroleService.getRoleByroleId(roleId));
         return "modules/crm/system/role/modify";
     }
 
+    @RequestMapping(value="modify",method=RequestMethod.POST)
+    public String modify(Model model,SysRole sysRole){
+        sysroleService.update(sysRole);
+        return "redirect:" + adminPath + "/sysmgr/role/modify";
+    }
     @RequestMapping(value="delete/{roleId}",method=RequestMethod.GET)
     public String delete(@PathVariable("roleId")String roleId){
+
         return "modules/crm/system/role/list";
     }
 

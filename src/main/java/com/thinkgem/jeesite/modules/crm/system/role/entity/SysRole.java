@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.crm.system.role.entity;
 
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+
 import java.util.UUID;
 
 public class SysRole {
@@ -12,7 +14,7 @@ public class SysRole {
     private boolean reserved;
     private String roletype;
     private boolean sysflag;
-    private String office_dr;
+    private Office Office;
 
     public long getId() {
         return id;
@@ -78,12 +80,12 @@ public class SysRole {
         this.sysflag = sysflag;
     }
 
-    public String getOffice_dr() {
-        return office_dr;
+    public com.thinkgem.jeesite.modules.sys.entity.Office getOffice() {
+        return Office;
     }
 
-    public void setOffice_dr(String office_dr) {
-        this.office_dr = office_dr;
+    public void setOffice(com.thinkgem.jeesite.modules.sys.entity.Office office) {
+        Office = office;
     }
 
     @Override
@@ -96,8 +98,8 @@ public class SysRole {
                 ", descript='" + descript + '\'' +
                 ", reserved=" + reserved +
                 ", roletype='" + roletype + '\'' +
-                ", sysflag='" + sysflag + '\'' +
-                ", office_dr='" + office_dr + '\'' +
+                ", sysflag=" + sysflag +
+                ", company=" + Office +
                 '}';
     }
 }

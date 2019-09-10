@@ -82,7 +82,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.POST)
 	public String loginFail(HttpServletRequest request, HttpServletResponse response, Model model) {
-		Principal principal = UserUtils.getPrincipal();
+		Principal principal = UserUtils.getPrincipal();  //获取当前登录者对象
 		
 		// 如果已经登录，则跳转到管理首页
 		if(principal != null){

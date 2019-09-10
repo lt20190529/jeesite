@@ -25,4 +25,12 @@ public class SysRoleService {
         role.setUuid(IdGen.uuid());
         sysRoleDao.insert(role);
     }
+
+    public SysRole getRoleByroleId(String roleId) {
+        return sysRoleDao.getRoleByroleId(roleId);
+    }
+
+    public void update(SysRole sysRole) {
+        sysRoleDao.update(sysRole);
+    }
 }

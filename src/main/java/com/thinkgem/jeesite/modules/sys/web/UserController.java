@@ -74,6 +74,7 @@ public class UserController extends BaseController {
 	}
 	
 	@ResponseBody
+
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"listData"})
 	public Page<User> listData(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
