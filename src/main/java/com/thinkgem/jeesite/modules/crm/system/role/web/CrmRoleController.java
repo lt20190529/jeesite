@@ -57,7 +57,12 @@ public class CrmRoleController extends BaseController {
         model.addAttribute("roleList", sysroleService.getRoleList(pageBounds));
         return "modules/crm/system/role/list";
     }
-
+    @RequestMapping(value="query",method=RequestMethod.POST)   //get常用于取回数据，post用于提交数据
+    public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model){
+        PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
+        model.addAttribute("roleList", sysroleService.getRoleList(pageBounds));
+        return "modules/crm/system/role/list";
+    }
     @RequestMapping(value="insert",method=RequestMethod.GET)
     public String insert(Model model){
         SysRole sysRole=new SysRole();
@@ -89,7 +94,7 @@ public class CrmRoleController extends BaseController {
     @RequestMapping(value="modify",method=RequestMethod.POST)
     public String modify(Model model,SysRole sysRole){
         sysroleService.update(sysRole);
-        return "redirect:" + adminPath + "/sysmgr/role/modify";
+        return "redirect:" + adminPath + "/sysmgr/role/list";
     }
     @RequestMapping(value="delete/{roleId}",method=RequestMethod.GET)
     public String delete(@PathVariable("roleId")String roleId){

@@ -4,6 +4,8 @@
 <c:set var="ctx"
        value="${pageContext.request.contextPath}${fns:getAdminPath()}" />
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static" />
+
+
 <html>
 <head>
     <title>角色列表</title>
@@ -78,6 +80,7 @@
                         <th style="text-align:center;">角色描述</th>
                         <th style="text-align:center;">角色类型</th>
                         <th style="text-align:center;">系统角色</th>
+                        <th style="text-align:center;">所属机构</th>
                         <th style="text-align:center;">状态</th>
                         <th style="text-align:center;">操作</th>
                     </tr>
@@ -97,6 +100,7 @@
                                     <c:otherwise>否</c:otherwise>
                                 </c:choose>
                             </td>
+                            <td style="text-align:center">${roleList.office}</td>
                             <td style="text-align:center">
                                 <c:choose>
                                     <c:when test="${roleList.reserved =='Y'}">启用</c:when>
@@ -104,8 +108,8 @@
                                 </c:choose>
                             </td>
                             <td style="text-align:center">
-                                <c:choose>
-                                    <c:when test="${roleList.reserved=='true'}">
+                                <%--<c:choose>--%>
+                                    <%--<c:when test="${roleList.reserved=='true'}">--%>
                                             <a href="${ctx}/sysmgr/role/modify/${roleList.id}">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;修改
                                             </a>
@@ -123,14 +127,15 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </a>
-                                    </c:when>
-                                </c:choose>
+                                    <%--</c:when>--%>
+                                <%--</c:choose>--%>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
                 <sys:pagination paginator="${roleListPaginator}" formId="rolelist" />
+
             </div>
         </div>
     </div>

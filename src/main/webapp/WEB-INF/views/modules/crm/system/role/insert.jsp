@@ -105,12 +105,8 @@
                     <div class="col-sm-10" style="width:890px;height:26.96px">
                         <div class='input-group date' id='office_dr'>
                             </label>
-                            <sys:treeselect id="companyID" name="office_dr"
-                                            value="office_dr" labelName="company.name"
-                                            labelValue="" title="公司"
-                                            url="/sys/office/treeData?type=1" cssClass="input-large"  cssStyle="width:675px;height:26.96px"
-                                            hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
-                                            notAllowSelectParent="true" />
+                            <sys:treeselect id="office" name="office.id" value="${office.id}" labelName="office.name" labelValue="${role.office.name}"
+                                            title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
 
                         </div>
                     </div>

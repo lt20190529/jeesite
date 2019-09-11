@@ -99,7 +99,7 @@ public class SysRole {
                 ", reserved=" + reserved +
                 ", roletype='" + roletype + '\'' +
                 ", sysflag=" + sysflag +
-                ", company=" + Office +
+                ", Office=" + Office +
                 '}';
     }
 }

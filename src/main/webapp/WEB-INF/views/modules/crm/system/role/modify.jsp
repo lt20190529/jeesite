@@ -90,14 +90,8 @@
             <div class="col-sm-10" style="width:890px;height:26.96px">
                 <div class='input-group date'>
                     </label>
-                    <%--<sys:treeselect id="companyID" name="office_dr"
-                                    value="${Role.office_dr}" labelName="company.name"
-                                    labelValue="" title="公司"
-                                    url="/sys/office/treeData?type=1" cssClass="input-large"  cssStyle="width:675px;height:26.96px"
-                                    hideBtn="true" smallBtn="true" allowClear="true"  isAll="true"
-                                    notAllowSelectParent="true" />--%>
-                    <sys:treeselect id="company" name="company.id" value="${Role.office_dr}" labelName="company.name" labelValue="${Role.office.name}"
-                                    title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
+                    <sys:treeselect id="office" name="office.id" value="${Role.office.id}" labelName="office.name" labelValue="${Role.office.name}"
+                         title="公司" url="/sys/office/treeData?type=1" cssClass="required"/>
 
                 </div>
             </div>
@@ -116,6 +110,7 @@
             <br>
             <div class="row">
                 <div class="col-md-3 col-md-offset-3 form-inline">
+                    <input type="hidden" value="${Role.id}" name="id"/>
                     <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;保 存</button>
 
                     <button type="button" class="btn btn-default" onclick="history.back();"><i
