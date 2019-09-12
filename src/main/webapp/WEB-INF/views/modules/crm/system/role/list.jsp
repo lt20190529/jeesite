@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>角色列表</title>
+
     <link
             href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css"
             type="text/css" rel="stylesheet" />
@@ -110,6 +111,9 @@
                             <td style="text-align:center">
                                 <%--<c:choose>--%>
                                     <%--<c:when test="${roleList.reserved=='true'}">--%>
+                                            <a  onclick="show()">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;权限设置
+                                            </a>
                                             <a href="${ctx}/sysmgr/role/modify/${roleList.id}">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;修改
                                             </a>
@@ -141,5 +145,26 @@
     </div>
 
 </form:form>
+<script>
+    function show(){
+        $.jBox.open("iframe:${ctx}/sysmgr/role/maintain", "角色权限维护", 600, 300, {           //如果是修改，传个ID就行了
+            buttons: {"确定": "ok", "关闭": true},submit: function (v, h, f) {
+                if (v == "ok") {
+                    var iframeName = h.children(0).attr("name");
+                    var iframeHtml = window.frames[iframeName];               //获取子窗口的句柄
+                    iframeHtml.saveOrUpdate();
+                    return false;
+                }
+            },
+            loaded: function (h) {
+                $(".jbox-content", document).css("overflow-y", "hidden");
+            }
+        });
+    };
+    function saveOrUpdate(){};
+
+
+</script>
 </body>
+
 </html>

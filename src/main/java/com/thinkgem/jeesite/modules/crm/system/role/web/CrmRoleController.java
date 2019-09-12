@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.crm.system.role.Service.SysRoleService;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -31,6 +32,9 @@ public class CrmRoleController extends BaseController {
 
     @Autowired
     private FlexService flexService;
+
+    @Autowired
+    private SystemService systemService;
 
     @SuppressWarnings("serial")
     private Map<String, String> roleStatus = new LinkedHashMap<String, String>() {{
@@ -71,6 +75,11 @@ public class CrmRoleController extends BaseController {
         model.addAttribute("ROLE_TYPE",flexService.getOptionsBySetCode("ROLE_TYPE",true));
         model.addAttribute("role",sysRole);
         return "modules/crm/system/role/insert";
+    }
+    @RequestMapping(value="maintain",method=RequestMethod.POST)
+    public String power(Model model){
+        model.addAttribute("menuList", systemService.findAllMenu());
+        return "modules/crm/system/role/menupower";
     }
 
     @RequestMapping(value="insert",method=RequestMethod.POST)
