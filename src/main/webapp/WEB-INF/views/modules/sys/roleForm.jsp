@@ -7,6 +7,7 @@
 	<%@include file="/WEB-INF/views/include/treeview.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function(){
+
 			$("#name").focus();
 			$("#inputForm").validate({
 				rules: {

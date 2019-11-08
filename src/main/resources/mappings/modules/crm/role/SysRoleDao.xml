@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.crm.system.role.dao.SysRoleDao">
+
+<resultMap id="roleResultMap" type="com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole">
+
+    <!-- 配置映射的订单信息 -->
+    <!-- id：指定查询列中的唯 一标识，角色信息的中的唯 一标识，如果有多个列组成唯一标识，配置多个id
+        column：角色信息的唯 一标识 列
+        property：角色信息的唯 一标识 列所映射到Role中哪个属性
+      -->
+    <id property="id" column="id"/>
+    <result property="uuid" column="uuid"/>
+    <result property="code" column="code"/>
+    <result property="name" column="name"/>
+    <result property="descript" column="descript"/>
+    <result property="reserved" column="reserved"/>
+    <result property="roletype" column="role_type"/>
+    <result property="sysflag" column="sys_flag"/>
+    <!-- 配置映射的关联的机构信息 -->
+    <!-- association：用于映射关联查询单个对象的信息
+    property：要将关联查询的机构信息映射到角色中哪个属性(office)
+     -->
+    <association property="office" javaType="com.thinkgem.jeesite.modules.sys.entity.Office">
+        <!-- id：关联查询用户的唯 一标识
+            column：指定唯 一标识office信息的列
+            javaType：映射到office的哪个属性
+             -->
+        <id property="id" column="office.id"/>
+        <result property="code" column="office.code"/>
+        <result property="name" column="office.name"/>
+    </association>
+</resultMap>
+
+    <select id="findRoleList" resultMap="roleResultMap">
+        select a.id,a.uuid,a.code,a.name,a.descript,a.reserved,a.role_type,a.sys_flag,o.id as "office.id",o.name as "office.name",o.code as "office.code"
+        from crm_sys_role a
+        JOIN sys_office o ON o.id = a.office_dr
+    </select>
+
+    <insert id="insert" parameterType="com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
+        insert into crm_sys_role
+        (uuid,code,name,descript,reserved,role_type,sys_flag,office_dr)
+        VALUES
+        (#{uuid},#{code},#{name},#{descript},#{reserved},#{roletype},#{sysflag},#{office.id})
+    </insert>
+
+    <select id="getRoleByroleId" parameterType="String" resultMap="roleResultMap">
+        select a.id,a.uuid,a.code,a.name,a.descript,a.reserved,a.role_type,a.sys_flag,o.id as "office.id",o.name as "office.name",o.code as "office.code"
+        from crm_sys_role a
+        JOIN sys_office o ON o.id = a.office_dr
+        where a.id=#{roleId}
+    </select>
+
+
+    <update id="update" parameterType="com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole">
+        update crm_sys_role
+        set code=#{code},
+            name=#{name},
+            descript=#{descript},
+            reserved=#{reserved},
+            role_type=#{roletype},
+            sys_flag=#{sysflag},
+            office_dr=#{office.id}
+        where id=#{id}
+    </update>
+
+    <select id="getAllMenuList" resultType="Menu">
+        select id,parent_id as parentIds,name from sys_menu where del_flag=0 ORDER BY sort
+    </select>
+
+    <delete id="deleteRoleMenu">
+        delete from crm_sys_role_menu where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertRoleMenu">
+        insert into crm_sys_role_menu
+        (role_id,menu_id)
+        values
+        (#{roleId},#{id})
+    </insert>
+
+    <resultMap id="menuIdResult" type="java.lang.String" >
+        <result column="menu_id" property="menu_id" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="findAllMenuByRole" resultMap="menuIdResult" >
+        select menu_id from crm_sys_role_menu
+        where  role_id=#{roleId}
+    </select>
+
+</mapper>

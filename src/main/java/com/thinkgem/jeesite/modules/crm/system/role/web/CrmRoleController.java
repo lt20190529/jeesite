@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.crm.system.role.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.thinkgem.jeesite.common.utils.AlertInfo;
@@ -7,6 +8,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.crm.system.role.Service.SysRoleService;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
+import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
@@ -19,9 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "${adminPath}/sysmgr/role")
@@ -76,10 +76,30 @@ public class CrmRoleController extends BaseController {
         model.addAttribute("role",sysRole);
         return "modules/crm/system/role/insert";
     }
-    @RequestMapping(value="maintain",method=RequestMethod.POST)
-    public String power(Model model){
-        model.addAttribute("menuList", systemService.findAllMenu());
+    @RequestMapping(value="maintain/{roleId}",method=RequestMethod.POST)
+    public String power(Model model,@PathVariable("roleId")String roleId){
+        model.addAttribute("menuList", sysroleService.findAllMenu());
+        model.addAttribute("RoleMenuList", sysroleService.findAllMenuByRole(roleId));
         return "modules/crm/system/role/menupower";
+    }
+
+    @RequestMapping(value="GetMenuList",method=RequestMethod.GET)
+    @ResponseBody
+    public String GetMenuList(@RequestParam(value = "roleId") String roleId){
+        JSONObject result = new JSONObject();
+        result.put("list", sysroleService.findAllMenuByRole(roleId));
+        result.put("state", "success");
+        return result.toJSONString();
+    }
+
+
+    @RequestMapping(value="saveRoleMenu",method=RequestMethod.POST)
+    @ResponseBody
+    public String saveRoleMenu(@RequestParam(value = "roleId") String roleId,@RequestParam("ids") String[] ids){
+        sysroleService.saveRoleMenu(roleId,ids);
+        JSONObject result = new JSONObject();
+        result.put("state", "success");
+        return result.toJSONString();
     }
 
     @RequestMapping(value="insert",method=RequestMethod.POST)

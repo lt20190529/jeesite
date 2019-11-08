@@ -111,7 +111,7 @@
                             <td style="text-align:center">
                                 <%--<c:choose>--%>
                                     <%--<c:when test="${roleList.reserved=='true'}">--%>
-                                            <a  onclick="show()">
+                                            <a  onclick="show(${roleList.id})">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;权限设置
                                             </a>
                                             <a href="${ctx}/sysmgr/role/modify/${roleList.id}">
@@ -146,22 +146,80 @@
 
 </form:form>
 <script>
-    function show(){
-        $.jBox.open("iframe:${ctx}/sysmgr/role/maintain", "角色权限维护", 600, 300, {           //如果是修改，传个ID就行了
+    function show(roleId){
+        $.jBox.open("iframe:${ctx}/sysmgr/role/maintain/"+roleId, "角色权限维护", 600, 600, {           //如果是修改，传个ID就行了
+
             buttons: {"确定": "ok", "关闭": true},submit: function (v, h, f) {
                 if (v == "ok") {
                     var iframeName = h.children(0).attr("name");
                     var iframeHtml = window.frames[iframeName];               //获取子窗口的句柄
-                    iframeHtml.saveOrUpdate();
+                    var tree =iframeHtml.zTreeObj.getCheckedNodes();
+                    var param = [];
+                    var ids=[];
+                    for (var i = 0, j = tree.length; i < j; i++) {
+                        ids[i] = [tree[i].id];  //ids[i] = [tree[i].id, tree[i].pId, tree[i].name]
+                    }
+                    saveOrUpdate(roleId,ids)
                     return false;
                 }
             },
+
             loaded: function (h) {
+                var ids="";
+                $.ajax({
+                    url:"${ctx}/sysmgr/role/GetMenuList",
+                    type:"GET",
+                    data:{"roleId":roleId},
+                    dataType:"text",
+                    success : function(data) {
+                        var obj = JSON.parse(data);
+                        if (obj.state="success") {
+                            var ids =obj.list;
+                            for(var i=0; i<ids.length; i++) {
+                                var iframeName = h.children(0).attr("name");
+                                var iframeHtml = window.frames[iframeName];               //获取子窗口的句柄
+                                var tree =iframeHtml.zTreeObj;
+                                var node = tree.getNodeByParam("id", ids[i]);
+                                try{tree.checkNode(node, true, false);}
+                                catch(e){
+                                }
+                                tree.expandAll(true);   // 默认展开全部节点
+                            }
+                        }
+                    },
+                    error : function() {
+                        layer.alert("失败!");
+                    }
+                })
+
+
+
                 $(".jbox-content", document).css("overflow-y", "hidden");
             }
         });
     };
-    function saveOrUpdate(){};
+
+    //保存角色菜单
+    function saveOrUpdate(roleId,ids){
+        $.ajax({
+            url:"${ctx}/sysmgr/role/saveRoleMenu",
+            type:"post",
+            data:{"roleId":roleId,"ids":ids},
+            dataType:"text",
+            traditional: true,
+            contentType : "application/x-www-form-urlencoded",
+            dataType : "json",
+            success : function(data) {
+                if (data.state == "success") {
+                    layer.alert("保存成功!")
+                }
+            },
+            error : function() {
+                layer.alert("保存失败!");
+            }
+        })
+
+    };
 
 
 </script>
