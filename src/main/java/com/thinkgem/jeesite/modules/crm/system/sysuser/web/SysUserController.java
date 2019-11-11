@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thinkgem.jeesite.modules.crm.system.role.Service.SysRoleService;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import org.codehaus.jackson.JsonProcessingException;
@@ -37,6 +38,9 @@ public class SysUserController extends BaseController {
 
 	@Autowired
 	private SysUserService sysUserService;
+
+	@Autowired
+    private SysRoleService sysRoleService;
 	
 	@Autowired
 	private FlexService flexService;
@@ -77,7 +81,8 @@ public class SysUserController extends BaseController {
 		SysUser sysUser=new SysUser();
 		model.addAttribute("userStatus",userStatus);
 		model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
-        model.addAttribute("roleList",systemService.findAllRole());
+        //model.addAttribute("roleList",systemService.findAllRole());
+        model.addAttribute("roleList", sysRoleService.findRoleList());
 		model.addAttribute("sysUser",sysUser);
 		return "modules/user/insert";
 	}

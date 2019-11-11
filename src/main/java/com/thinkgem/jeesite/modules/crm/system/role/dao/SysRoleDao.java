@@ -15,6 +15,9 @@ public interface SysRoleDao {
 
     public List<SysRole> findRoleList(PageBounds pageBounds);
 
+    public List<SysRole> findRoleList();
+
+
     void insert(SysRole role);
 
     SysRole getRoleByroleId(@Param(value="roleId") String roleId);

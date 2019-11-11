@@ -38,6 +38,10 @@
         JOIN sys_office o ON o.id = a.office_dr
     </select>
 
+    <select id="findRole" resultMap="roleResultMap">
+        select a.id,a.uuid,a.code,a.name,a.descript,a.reserved,a.role_type,a.sys_flag
+        from crm_sys_role a
+    </select>
     <insert id="insert" parameterType="com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
         insert into crm_sys_role
         (uuid,code,name,descript,reserved,role_type,sys_flag,office_dr)

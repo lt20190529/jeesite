@@ -24,6 +24,12 @@ public class SysRoleService {
         return sysRoleDao.findRoleList(pageBounds);
     }
 
+
+    public List<SysRole> findRoleList(){
+        return sysRoleDao.findRoleList();
+    };
+
+
     public void insert(SysRole role) {
         role.setUuid(IdGen.uuid());
         sysRoleDao.insert(role);

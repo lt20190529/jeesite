@@ -166,6 +166,9 @@
 
             loaded: function (h) {
                 var ids="";
+                var iframeName = h.children(0).attr("name");
+                var iframeHtml = window.frames[iframeName];               //获取子窗口的句柄
+                var tree =iframeHtml.zTreeObj;
                 $.ajax({
                     url:"${ctx}/sysmgr/role/GetMenuList",
                     type:"GET",
@@ -176,9 +179,6 @@
                         if (obj.state="success") {
                             var ids =obj.list;
                             for(var i=0; i<ids.length; i++) {
-                                var iframeName = h.children(0).attr("name");
-                                var iframeHtml = window.frames[iframeName];               //获取子窗口的句柄
-                                var tree =iframeHtml.zTreeObj;
                                 var node = tree.getNodeByParam("id", ids[i]);
                                 try{tree.checkNode(node, true, false);}
                                 catch(e){
@@ -191,9 +191,6 @@
                         layer.alert("失败!");
                     }
                 })
-
-
-
                 $(".jbox-content", document).css("overflow-y", "hidden");
             }
         });
