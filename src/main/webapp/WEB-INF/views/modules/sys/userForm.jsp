@@ -135,7 +135,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">用户角色:</label>
+			<label class="control-label">用户角色xxxx:</label>
 			<div class="controls">
 				<form:checkboxes path="roleIdList" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
 				<span class="help-inline"><font color="red">*</font> </span>

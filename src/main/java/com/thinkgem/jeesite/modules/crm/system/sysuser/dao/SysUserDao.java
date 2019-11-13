@@ -24,11 +24,14 @@ public interface SysUserDao  {
 	void insert(SysUser sysUser);
 
 	//新增用户保存角色
-    void insertUserRole(@Param("userID") String userID, @Param("roleList") List<String> roleList);
+    void insertUserRole(SysUser sysUser);
 
     //新增用户保存组别
     void insertUserGroup(@Param("userID") String id, @Param("groupList") List<Office> groupList);
 
     //查询用户角色(包含已分配和未分配)
     List<SysRole> getRoleListByAdminId(String userid);
+
+    //查询用户角色(已分配)
+    List<SysRole> getRoleListByUserId(String sysUserId);
 }

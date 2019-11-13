@@ -31,9 +31,10 @@ public class SysUserService {
     public void insert(SysUser sysUser) {
         //保存用户
         sysUserDao.insert(sysUser);
-        //保存用户角色
-        List<String> roleIdList = sysUser.getRoleList();
-        sysUserDao.insertUserRole(sysUser.getId(), roleIdList);
+        String id = sysUser.getId();
+        System.out.println(id);
+        //保存用户角色();
+        sysUserDao.insertUserRole(sysUser);
         //保存用户组别
         //List<Office> groupList=sysUser.getGroupList();
         //sysUserDao.insertUserGroup(sysUser.getId(),groupList);
@@ -50,9 +51,14 @@ public class SysUserService {
      * @param userid
      * @return
      */
-    public List<SysRole> getRoleListByUserID(String userid){
+    public List<SysRole> getRoleListByAdminId(String userid){
 
        return sysUserDao.getRoleListByAdminId(userid);
 
+    }
+
+    //获取用户已分配角色
+    public List<SysRole> getRoleListByUserID(String userid){
+        return sysUserDao.getRoleListByUserId(userid);
     }
 }

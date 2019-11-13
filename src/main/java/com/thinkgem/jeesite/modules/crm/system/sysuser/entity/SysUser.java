@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 
 import java.util.Calendar;
@@ -31,7 +33,7 @@ public class SysUser {
     private String qq;
     private String officeTel;
 
-    private List<String> roleList = Lists.newArrayList();
+    private List<SysRole> roleList = Lists.newArrayList();
     private List<Office> groupList = Lists.newArrayList();
 
     private int primaryGroupID;
@@ -202,12 +204,31 @@ public class SysUser {
         this.officeTel = officeTel;
     }
 
-    public List<String> getRoleList() {
+
+    public List<SysRole> getRoleList() {
         return roleList;
     }
 
-    public void setRoleList(List<String> roleList) {
+    public void setRoleList(List<SysRole> roleList) {
         this.roleList = roleList;
+    }
+
+    @JsonIgnore
+    public List<String> getRoleIdList() {
+        List<String> roleIdList = Lists.newArrayList();
+        for (SysRole sysRole : roleList) {
+            roleIdList.add(sysRole.getId());
+        }
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<String> roleIdList) {
+        roleList = Lists.newArrayList();
+        for (String roleId : roleIdList) {
+            SysRole sysRole = new SysRole();
+            sysRole.setId(roleId);
+            roleList.add(sysRole);
+        }
     }
 
     public List<Office> getGroupList() {

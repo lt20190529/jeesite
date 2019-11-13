@@ -472,7 +472,12 @@
 				<hr>
 				<div class="col-md-12 form-inline">
 					<label class="col-sm-1">角色：</label>
-					<div class="col-sm-10 col-md-offset-0 text-left " style="">
+                    <div class="controls">
+                        <form:checkboxes path="roleIdList" items="${roleList}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
+                        <span class="help-inline"><font color="red">*</font> </span>
+                    </div>
+
+					<%--<div class="col-sm-10 col-md-offset-0 text-left " style="">
 						<c:forEach items="${roleList}" var="roleList" varStatus="status">
 							<label style="vertical-align:middle;padding:0px 20px 0px 20px">
 								<input id=${roleList.id } name="roleList" type="checkbox"
@@ -480,7 +485,7 @@
 								value=${roleList.id }>${roleList.name}
 							</label>
 						</c:forEach>
-					</div>
+					</div>--%>
 				</div>
 
 				<br>

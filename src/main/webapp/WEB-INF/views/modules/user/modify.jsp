@@ -485,8 +485,13 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 form-inline">
                 <label class="col-sm-1">角色：</label>
-                <div class="col-sm-10 col-md-offset-0 text-left checkbox"
-                     style="zoom:100%;width: 90%;border:1px solid #b1b1b1">
+                <div class="controls">
+                    <form:checkboxes path="roleIdList" items="${allRoleList}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
+                    <span class="help-inline"><font color="red">*</font> </span>
+                </div>
+
+
+                <%--<div class="col-sm-10 col-md-offset-0 text-left checkbox">
                     <c:forEach items="${roleList}" var="roleList" varStatus="status">
                         <c:if test="${roleList.checked=='Y'}">
                             <label class="checkbox checkbox-inline">
@@ -502,7 +507,7 @@
                         </c:if>
                     </c:forEach>
 
-                </div>
+                </div>--%>
             </div>
         </div>
 

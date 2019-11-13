@@ -100,10 +100,12 @@ public class SysUserController extends BaseController {
     public String modify(@PathVariable("sysUserId") String sysUserId,Model model){
         model.addAttribute("userStatus",userStatus);
         model.addAttribute("USER_TYPE",flexService.getOptionsBySetCode("USER_TYPE",true));
-        model.addAttribute("roleList",sysUserService.getRoleListByUserID(sysUserId));
+        //model.addAttribute("roleList",sysUserService.getRoleListByUserID(sysUserId));
+        model.addAttribute("allRoleList",sysRoleService.findRoleList());  //加載所有角色
 	    SysUser sysUser=sysUserService.findSysUserById(sysUserId);
 	    List<Office> list = new ArrayList<Office>();
 	    model.addAttribute("sysUser",sysUser);
+        sysUser.setRoleList(sysUserService.getRoleListByUserID(sysUserId));  //用戶已經擁有的角色
         System.out.println(sysUser.toString());
 	    return  "modules/user/modify";
     }

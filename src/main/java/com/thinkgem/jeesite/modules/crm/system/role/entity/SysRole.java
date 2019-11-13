@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class SysRole {
     public static final String ROLE_PERFIX = "ROLE_";
-    private long id;
+    private String id;
     private String uuid;
     private String code;
     private String name;
@@ -15,12 +15,13 @@ public class SysRole {
     private String roletype;
     private boolean sysflag;
     private Office Office;
+    private boolean checked;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -88,6 +89,14 @@ public class SysRole {
         Office = office;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
     @Override
     public String toString() {
         return "SysRole{" +
@@ -100,6 +109,7 @@ public class SysRole {
                 ", roletype='" + roletype + '\'' +
                 ", sysflag=" + sysflag +
                 ", Office=" + Office +
+                ", checked=" + checked +
                 '}';
     }
 }

@@ -32,6 +32,7 @@
         <result property="descript" column="DESCRIPT"/>
         <result property="tenantId" column="TENANT_ID"/>
         <result property="reserved" column="RESERVED"/>
+        <result property="checked" column="CHECKED"/>
     </resultMap>
     
 	<select id="findUserList" resultMap="userResultMap">
@@ -66,8 +67,8 @@
     <insert id="insertUserRole">
         insert into crm_sys_user_role (user_id,role_id)
         VALUES
-        <foreach collection="roleList" item="roleID" separator=",">
-            (#{userID},#{roleID})
+        <foreach collection="roleList" item="role" separator=",">
+            (#{id}, #{role.id})
         </foreach>
     </insert>
 
@@ -90,7 +91,7 @@
         WHERE FUR.ROLE_ID = FR.ID
         AND fu.uuid=#{uuid}
         AND FUR.USER_ID =fu.id
-        AND FR.RESERVED = 'N'
+        AND FR.RESERVED = '1'
         UNION
         SELECT T.*,
         'Y' RESERVED_FLAG,
@@ -109,4 +110,15 @@
         WHERE T.RESERVED = 'Y'
 
     </select>
+
+    <!--获取用户分配角色-->
+    <select id="getRoleListByUserId" resultMap="roleResultMap" parameterType="String">
+        SELECT DISTINCT FR.*, 'Y' CHECKED
+        FROM  crm_sys_user_role FUR,
+              crm_sys_role FR,
+              crm_sys_user fu
+        WHERE FUR.ROLE_ID = FR.ID
+        AND fu.uuid=#{sysUserId}
+        AND FUR.USER_ID =fu.id
+     </select>
 </mapper>
