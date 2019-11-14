@@ -15,7 +15,9 @@
         <result property="enabled" column="ENABLE_FLAG"/>
         <result property="mobile" column="MOBILE"/>
         <result property="officeID" column="office_dr"/>
+        <result property="officeName" column="officeName"/>
         <result property="companyID" column="company_dr"/>
+        <result property="companyName" column="companyName"/>
         <result property="email" column="EMAIL"/>
         <result property="fax" column="FAX"/>
         <result property="qq" column="QQ"/>
@@ -46,7 +48,13 @@
 
     <!--查找用户-->
     <select id="findSysUserById" parameterType="String" resultMap="userResultMap">
-        select * from CRM_SYS_USER where uuid=#{sysUserId}
+         select csu.*,
+                 OFF.Name as officeName,
+                 COM.Name as companyName
+         from  CRM_SYS_USER csu
+               left join   SYS_OFFICE OFF on csu.office_dr=OFF.id
+               left join   SYS_OFFICE COM on csu.company_dr=COM.id
+         where uuid=#{sysUserId}
     </select>
 	
 	<!--新增用户-->
@@ -62,6 +70,28 @@
         #{startDate},#{endDate},#{enabled} ,#{uuid},#{tenantId,jdbcType=VARCHAR}
         )
     </insert>
+    <update id="update">
+        update crm_sys_user SET
+        LOGIN_NAME= #{loginName},
+        DISPLAY_NAME=#{displayName},
+        USER_TYPE=#{userType,jdbcType=VARCHAR},
+        USER_GRADE=#{userGrade,jdbcType=VARCHAR},
+        PASSWORD=#{password,jdbcType=VARCHAR},
+        EMPLOYEE_NUMBER=#{employeeNumber,jdbcType=VARCHAR},
+        office_dr=#{officeID},
+        company_dr=#{companyID},
+        MOBILE=#{mobile,jdbcType=VARCHAR},
+        FAX=#{fax,jdbcType=VARCHAR},
+        QQ=#{qq,jdbcType=VARCHAR},
+        OFFICE_TEL=#{officeTel,jdbcType=VARCHAR},
+        START_DATE= #{startDate},
+        END_DATE=#{endDate},
+        ENABLE_FLAG=#{enabled}
+    </update>
+
+    <delete id="deleteSysUserRole">
+        delete from crm_sys_user_role where user_id=#{id}
+    </delete>
 
     <!--新增用户保存角色-->
     <insert id="insertUserRole">

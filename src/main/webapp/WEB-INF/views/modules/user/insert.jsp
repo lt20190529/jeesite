@@ -107,9 +107,9 @@
 		                        message: '登录名不能为空'           //验证错误时的信息，
 		                    },
 		                    stringLength: {                        //长度校验
-	                            min: 6,
+	                            min: 2,
 	                            max: 18,
-	                            message: '用户名长度必须在6到18位之间'
+	                            message: '用户名长度必须在2到18位之间'
 	                        },
 	                        regexp: {                                      //格式校验(正则表达式)
 	                            regexp: /^[a-zA-Z0-9_]+$/,
@@ -330,7 +330,7 @@
 					</div>
 				</div>
 
-				<br> <br>
+				<br>
 				<br>
 
 				<div class="col-md-4 form-inline">
@@ -356,7 +356,7 @@
 					</div>
 				</div>
 
-				<br> <br>
+				<br>
 				<br>
 	
 
@@ -389,7 +389,7 @@
 				</div>
 
 
-				<br> <br>
+				<br>
 				<br>
 
 				<div class="col-md-4 form-inline">
@@ -429,8 +429,8 @@
 					</div>
 				</div>
 
-				<br> <br>
 				<br>
+
                
 				<hr>
 
@@ -450,7 +450,10 @@
 						</div>
 					</div>
 				</div>
+
                 <br>
+
+
                 <hr>
   
 				<div class="col-md-12 form-inline">
@@ -467,32 +470,19 @@
 					</div>
 				</div>
 
-				<br> <br>
-
-				<hr>
+                <br>
+                <hr>
 				<div class="col-md-12 form-inline">
 					<label class="col-sm-1">角色：</label>
-                    <div class="controls">
-                        <form:checkboxes path="roleIdList" items="${roleList}" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
+                    <div class="controls" style="width:900px;height:80px">
+                        <form:checkboxes path="roleIdList" items="${roleList}" delimiter="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" itemLabel="name" itemValue="id" htmlEscape="false" class="required"/>
                         <span class="help-inline"><font color="red">*</font> </span>
                     </div>
 
-					<%--<div class="col-sm-10 col-md-offset-0 text-left " style="">
-						<c:forEach items="${roleList}" var="roleList" varStatus="status">
-							<label style="vertical-align:middle;padding:0px 20px 0px 20px">
-								<input id=${roleList.id } name="roleList" type="checkbox"
-								class="vertical-align:middle" style="zoom:140%;"
-								value=${roleList.id }>${roleList.name}
-							</label>
-						</c:forEach>
-					</div>--%>
 				</div>
 
-				<br>
-
-				<hr>
-
-
+                <br>
+                <hr>
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group sino-form-group-btn col-md-offset-0">
 						<button type="submit" class="btn btn-warning col-md-offset-8">

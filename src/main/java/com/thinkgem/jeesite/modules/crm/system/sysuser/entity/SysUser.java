@@ -39,13 +39,18 @@ public class SysUser {
     private int primaryGroupID;
 
     private String companyID;
+    private String companyName;
     private String officeID;
+
+
+
+    private String officeName;
 
     private  String uuid;
 
     private String tenantName;
     private String groupName;
-    private String companyName;
+
 
     private String roleId;
     private String tenantId;
@@ -66,6 +71,14 @@ public class SysUser {
         String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
         this.uuid=temp;
 
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
     }
 
     public String getCompanyID() {

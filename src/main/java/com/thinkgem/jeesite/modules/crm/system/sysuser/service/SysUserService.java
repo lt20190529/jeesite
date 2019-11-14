@@ -2,7 +2,10 @@ package com.thinkgem.jeesite.modules.crm.system.sysuser.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.common.service.ServiceException;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.crm.system.role.entity.SysRole;
+import org.activiti.crystalball.simulator.delegate.event.impl.EventLog2SimulationEventFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +31,29 @@ public class SysUserService {
     }
 
     //新增用户
-    public void insert(SysUser sysUser) {
-        //保存用户
-        sysUserDao.insert(sysUser);
-        String id = sysUser.getId();
-        System.out.println(id);
-        //保存用户角色();
-        sysUserDao.insertUserRole(sysUser);
-        //保存用户组别
-        //List<Office> groupList=sysUser.getGroupList();
-        //sysUserDao.insertUserGroup(sysUser.getId(),groupList);
+    public void Save(SysUser sysUser) {
+
+        //保存用户信息
+        if (StringUtils.isBlank(sysUser.getId())) {
+            //保存用户
+            sysUserDao.insert(sysUser);
+            //保存用户组别
+            //List<Office> groupList=sysUser.getGroupList();
+            //sysUserDao.insertUserGroup(sysUser.getId(),groupList);
+        }else{
+            sysUserDao.update(sysUser);
+
+        }
+
+        //保存用户角色信息
+        //1:删除之前保存的角色
+        sysUserDao.deleteSysUserRole(sysUser);
+        //2：保存用户新的角色();
+        if (sysUser.getRoleList() != null && sysUser.getRoleList().size() > 0){
+            sysUserDao.insertUserRole(sysUser);
+        }else{
+            throw new ServiceException(sysUser.getLoginName() + "没有设置角色！");
+        }
 
     }
 

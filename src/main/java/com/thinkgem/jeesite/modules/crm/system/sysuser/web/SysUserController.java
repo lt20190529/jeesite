@@ -90,7 +90,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="insert",method = RequestMethod.POST)
 	public String insert(@ModelAttribute("sysUser") SysUser sysUser,
             RedirectAttributes redirectAttributes){
-		 sysUserService.insert(sysUser);
+		 sysUserService.Save(sysUser);
 		 AlertInfo alertInfo = new AlertInfo(AlertInfo.Type.success, "保存成功..");
 		 redirectAttributes.addFlashAttribute("alertInfo", alertInfo);
 		 return "redirect:" + adminPath + "/sysmgr/user/insert";
@@ -112,7 +112,7 @@ public class SysUserController extends BaseController {
 
     @RequestMapping(value = "modify",method = RequestMethod.POST)
     public String modify(@ModelAttribute("sysUser") SysUser sysUser,Model model,RedirectAttributes redirectAttributes){
-        System.out.println(sysUser.toString());
+        sysUserService.Save(sysUser);
 	    AlertInfo alertInfo=new AlertInfo(AlertInfo.Type.success,"保存成功..");
 	    redirectAttributes.addFlashAttribute("alertinfo",alertInfo);
 	    return "redirect:"+adminPath+"/sysmgr/user/list";
