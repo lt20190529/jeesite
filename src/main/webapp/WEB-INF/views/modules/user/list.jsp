@@ -138,7 +138,7 @@
 									<td>${user.qq}</td>
 									<td hidden="hidden">${user.tenantName}</td>
 									<td>${user.companyName}</td>
-									<td>${user.groupName}</td>
+									<td>${user.officeName}</td>
 
 									<td>
 										<%-- <sec:authorize ifNotGranted="ROLE_ADMIN">--%> <a
@@ -160,30 +160,7 @@
 									</td>
 
 								</tr>
-								<%--<tr style="display: none">
-                        <td colspan="2" class="pd-0">
-                            <div class="sino-form bd-0">
-                                <form class="form-horizontal">
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <div class="form-group sino-form-group">
-                                            <label  class="col-sm-4 control-label">Fax：</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control input-sm" value="${user.fax}" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <div class="form-group sino-form-group">
-                                            <label  class="col-sm-4 control-label">QQ：</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control input-sm" value="${user.qq}" readonly/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>--%>
+
 							</c:forEach>
 						</tbody>
 					</table>

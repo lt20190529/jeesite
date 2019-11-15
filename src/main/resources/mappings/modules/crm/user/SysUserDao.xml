@@ -38,8 +38,12 @@
     </resultMap>
     
 	<select id="findUserList" resultMap="userResultMap">
-	    SELECT DISTINCT FU.*
-	        FROM CRM_SYS_USER FU
+	    SELECT DISTINCT csu.*,
+	            OFF.Name as officeName,
+                 COM.Name as companyName
+         from  CRM_SYS_USER csu
+               left join   SYS_OFFICE OFF on csu.office_dr=OFF.id
+               left join   SYS_OFFICE COM on csu.company_dr=COM.id
 	</select>
 	
 	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">
@@ -87,6 +91,7 @@
         START_DATE= #{startDate},
         END_DATE=#{endDate},
         ENABLE_FLAG=#{enabled}
+        WHERE id=#{id}
     </update>
 
     <delete id="deleteSysUserRole">

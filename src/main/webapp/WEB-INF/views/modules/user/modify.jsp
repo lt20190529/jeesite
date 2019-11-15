@@ -449,7 +449,6 @@
                                         cssStyle="width:500px;height:26.96px"
                                         hideBtn="true" smallBtn="true" allowClear="true" isAll="true"
                                         notAllowSelectParent="true"/>
-
                     </div>
                 </div>
             </div>
@@ -483,6 +482,7 @@
             </div>
         </div>
         <hr>
+
         <div class="row">
             <div class="row">
                 <div class="col-md-3 col-md-offset-8 form-inline">
