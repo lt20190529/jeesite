@@ -61,16 +61,18 @@ public class SysUserController extends BaseController {
     }
 
 	@RequestMapping(value="list",method=RequestMethod.GET)     //get常用于取回数11111据，post用于提交数据
-	public String list(Model model,
+	public String list(SysUser sysUser,Model model,
 			@RequestParam(value = "page", defaultValue = "1") int page){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
 		List<SysUser> userList = sysUserService.getUserList(pageBounds);
 		model.addAttribute("userList", userList);
+        model.addAttribute("sysUser", new SysUser());
 		return "modules/user/list";
 	}
 	
 	@RequestMapping(value="query",method=RequestMethod.POST)   //get常用于取回数据，post用于提交数据
-	public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model){
+	public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model,SysUser sysUser){
+	    System.out.println(sysUser.toString());
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
 		model.addAttribute("userList", sysUserService.getUserList(pageBounds));
 		return "modules/user/list";

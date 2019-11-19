@@ -28,7 +28,7 @@
 <body>
 
 	
-	<form:form id="userlist" method="post" modelAttribute="userQueryParams"
+	<form:form id="userlist" method="post" modelAttribute="sysUser"
 		class="form-horizontal" role="form" action="${ctx}/sysmgr/user/query">
 
 		<div class="container-fluid">
@@ -51,23 +51,25 @@
 				<br>
 				<div class="row">
 					<div class="col-md-3 form-inline">
-						用户名称：<input class="input-medium" type="text" name="drug.Drug_Code" />
+						用户名称：<form:input class="input-medium" type="text" path="displayName" />
 					</div>
 					<div class="col-md-3 form-inline">
-						登录名称：<input class="input-medium" type="text" name="drug.Drug_Desc" />
+						登录名称：<form:input class="input-medium" type="text" path="loginName" />
 					</div>
 					<div class="col-md-3 form-inline">
-						租户名称：<input class="input-medium" type="text"
-							name="drug.Drug_Alias" />
+                        <li><label>机构名称：</label><sys:treeselect id="officeID" name="officeID" value="${sysUser.officeID}" labelName="officeName" labelValue="${user.officeName}"
+                                                                title="机构" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true"/></li>
 					</div>
 					<div class="col-md-3 form-inline">
-						公司名称：<input class="input-medium" type="text" name="drug.Drug_Code" />
+                        <li><label>公司名称：</label><sys:treeselect id="companyID" name="companyID" value="${sysUser.companyID}" labelName="companyName" labelValue="${user.companyName}"
+                                                                title="公司" url="/sys/office/treeData?type=1" cssClass="input-small" allowClear="true"/></li>
+
 					</div>
 				</div>
 	            <br>
 				<div class="row">
 					<div class="col-md-3 form-inline">
-						组别名称：<input class="input-medium" type="text" name="drug.Drug_Code" />
+						组别名称：<form:input class="input-medium" type="text" path="groupName" />
 					</div>
 					
 				</div>
