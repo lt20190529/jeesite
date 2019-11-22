@@ -44,6 +44,7 @@
          from  CRM_SYS_USER csu
                left join   SYS_OFFICE OFF on csu.office_dr=OFF.id
                left join   SYS_OFFICE COM on csu.company_dr=COM.id
+        where OFF.Name=#{sysUser.officeName})
 	</select>
 	
 	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">

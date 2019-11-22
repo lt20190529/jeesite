@@ -22,8 +22,8 @@ public class SysUserService {
     @Autowired
     private SysUserDao sysUserDao;
 
-    public List<SysUser> getUserList(PageBounds pageBounds) {
-        return sysUserDao.findUserList(pageBounds);
+    public List<SysUser> getUserList(PageBounds pageBounds,SysUser sysUser) {
+        return sysUserDao.findUserList(pageBounds,sysUser);
     }
 
     public SysUser findUserByLoginName(String loginName) {

@@ -64,7 +64,7 @@ public class SysUserController extends BaseController {
 	public String list(SysUser sysUser,Model model,
 			@RequestParam(value = "page", defaultValue = "1") int page){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
-		List<SysUser> userList = sysUserService.getUserList(pageBounds);
+		List<SysUser> userList = sysUserService.getUserList(pageBounds,sysUser);
 		model.addAttribute("userList", userList);
         model.addAttribute("sysUser", new SysUser());
 		return "modules/user/list";
@@ -74,7 +74,7 @@ public class SysUserController extends BaseController {
 	public String query(@RequestParam(value = "page", defaultValue = "1") int page,Model model,SysUser sysUser){
 	    System.out.println(sysUser.toString());
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
-		model.addAttribute("userList", sysUserService.getUserList(pageBounds));
+		model.addAttribute("userList", sysUserService.getUserList(pageBounds,sysUser));
 		return "modules/user/list";
 	}
 	

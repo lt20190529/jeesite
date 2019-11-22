@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 @MyBatisDao
 public interface SysUserDao  {
 	
-	public List<SysUser> findUserList(PageBounds pageBounds);
+	public List<SysUser> findUserList(PageBounds pageBounds,SysUser sysUser);
 
 	public SysUser findUserByLoginName(String loginName);
 
