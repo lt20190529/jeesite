@@ -38,15 +38,20 @@
     </resultMap>
     
 	<select id="findUserList" resultMap="userResultMap">
+
 	    SELECT DISTINCT csu.*,
 	            OFF.Name as officeName,
                  COM.Name as companyName
          from  CRM_SYS_USER csu
                left join   SYS_OFFICE OFF on csu.office_dr=OFF.id
                left join   SYS_OFFICE COM on csu.company_dr=COM.id
-        where OFF.Name=#{sysUser.officeName})
+
+        where 1=1
+        <if test="officeName!=null and officeName!=''">
+            AND OFF.Name = #{officeName}
+        </if>
 	</select>
-	
+
 	<select id="findUserByLoginName" parameterType="String" resultMap="userResultMap">
 	     select * from CRM_SYS_USER where login_name=#{loginName}
 	</select>
@@ -61,7 +66,7 @@
                left join   SYS_OFFICE COM on csu.company_dr=COM.id
          where uuid=#{sysUserId}
     </select>
-	
+
 	<!--新增用户-->
     <insert id="insert" parameterType="com.thinkgem.jeesite.modules.crm.system.sysuser.entity.SysUser" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO CRM_SYS_USER

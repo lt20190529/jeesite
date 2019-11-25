@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
@@ -13,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
 @MyBatisDao
 public interface SysUserDao  {
 	
-	public List<SysUser> findUserList(PageBounds pageBounds,SysUser sysUser);
+	public List<SysUser> findUserList(PageBounds pageBounds,Map<String, Object> map);
 
 	public SysUser findUserByLoginName(String loginName);
 

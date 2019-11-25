@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.crm.system.sysuser.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.thinkgem.jeesite.common.service.ServiceException;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -23,7 +25,9 @@ public class SysUserService {
     private SysUserDao sysUserDao;
 
     public List<SysUser> getUserList(PageBounds pageBounds,SysUser sysUser) {
-        return sysUserDao.findUserList(pageBounds,sysUser);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("officeName", sysUser.getOfficeName());
+        return sysUserDao.findUserList(pageBounds,map);
     }
 
     public SysUser findUserByLoginName(String loginName) {
