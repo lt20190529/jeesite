@@ -173,4 +173,30 @@ public class Collections3 {
 		}
 		return list;
 	}
+    /**
+     * 返回a中有，b中没有的元素
+     */
+    public static <T> List<T> intersectiondif(Collection<T> a, Collection<T> b) {
+        List<T> list = new ArrayList<T>();
+
+        for (T element : a) {
+            if (!b.contains(element)) {
+                list.add(element);
+            }
+        }
+        return list;
+    }
+    /**
+     * 返回b中有，a中没有的元素
+     */
+    public static <T> List<T> intersectiondiff(Collection<T> a, Collection<T> b) {
+        List<T> list = new ArrayList<T>();
+
+        for (T element : b) {
+            if (!a.contains(element)) {
+                list.add(element);
+            }
+        }
+        return list;
+    }
 }
