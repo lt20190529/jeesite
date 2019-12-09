@@ -17,6 +17,12 @@
     <script src="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/static/bootstrap-table/locale/bootstrap-table-zh-CN.js" type="text/javascript"></script>
 
+
+    <style>
+        .pp{
+        margin:20px 15px 25px;
+        }
+    </style>
     <script>
         $(document).ready(function() {
             InitTable();
@@ -174,8 +180,10 @@
         <div>
             <input id="button" class="btn btn-primary" type="button" value="添加明细" onclick="append()"></button>
         </div>
-        <table id="table" data-height="360"></table>
 
+        <div class="pp">
+        <table id="table" data-height="360" ></table>
+        </div>
         <div class="form-actions">
             <shiro:hasPermission name="rec:erpRec:edit">
                 <input id="btnsave" class="btn btn-primary" onclick="SaveData()"

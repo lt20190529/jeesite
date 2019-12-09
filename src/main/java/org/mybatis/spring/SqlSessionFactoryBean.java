@@ -53,8 +53,6 @@ import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
-import org.mybatis.spring.MapperRefresh;
-
 /**
  * {@code FactoryBean} that creates an MyBatis {@code SqlSessionFactory}.
  * This is the usual way to set up a shared MyBatis {@code SqlSessionFactory} in a Spring application context;
@@ -491,7 +489,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
             }
 
             // ThinkGem 启动刷新MapperXML定时器（有助于开发者调试）。
-            new MapperRefresh(this.mapperLocations, configuration).run();
+           // new MapperRefresh(this.mapperLocations, configuration).run();
 
         } else {
             if (LOGGER.isDebugEnabled()) {
