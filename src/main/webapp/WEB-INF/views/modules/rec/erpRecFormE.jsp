@@ -1137,5 +1137,8 @@
 		</div>
 		    <%-- <img src="${ctxStatic}/images/1.jpg" width="100px" hight="100px"  alt="提示文字"> --%>
 	</form:form>
+<script>
+
+</script>
 </body>
 </html>

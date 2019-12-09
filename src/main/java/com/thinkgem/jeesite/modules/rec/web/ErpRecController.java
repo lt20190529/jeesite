@@ -357,7 +357,36 @@ public class ErpRecController extends BaseController {
 		return "modules/rec/erpRecReport";
 	}
 
-	
+    /* **********************************************入库制单界面[New]****************************************************
 
+     ***********************************************入库制单界面[New]****************************************************/
+    // 跳转到入库制单
+    @RequiresPermissions("rec:erpRec:view")
+    @RequestMapping(value = "formA")
+    public String formA(ErpRecNew erpRecNew, Model model) {
+        System.out.print(erpRecNew);
+        model.addAttribute("erpRecNew", erpRecNew);
+
+        ErpVendor erpVendor = new ErpVendor();
+        List<ErpVendor> erpVendorlist = erpVendorService.findList(erpVendor);
+        model.addAttribute("erpVendorlist", erpVendorlist);
+
+        ErpDepartments erpDepartments = new ErpDepartments();
+        List<ErpDepartments> erpDepartmentslist = erpDepartmentsSerivce
+                .findList(erpDepartments);
+        model.addAttribute("erpDepartmentslist", erpDepartmentslist);
+
+        return "modules/rec/erpRecFormA";
+    }
+
+    // 提交保存入库数据
+    @RequestMapping(value = "SaveRecItemA")
+    @ResponseBody
+    public String SaveRecItemA(ErpRecNew erpRecNew) {
+        System.out.println(erpRecNew.toString());
+        //erpRecNewService.save(erpRecNew);
+        return "success";
+
+    }
 	
 }
