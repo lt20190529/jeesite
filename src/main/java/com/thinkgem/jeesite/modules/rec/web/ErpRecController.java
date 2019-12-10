@@ -388,5 +388,21 @@ public class ErpRecController extends BaseController {
         return "success";
 
     }
-	
+    //项目检索列表
+    @RequestMapping("/getItemList")
+    @ResponseBody
+    public Map<String, Object> getItemList(String input) {
+        System.out.print(input);
+        List<ErpItem> items = new ArrayList<ErpItem>();
+        Map<String,Object> params = new LinkedHashMap<String,Object>();
+        params.put("input", "%"+input+"%");    //当sql的条件有模糊匹配时，参数需前后带上%
+        params.put("start", 1);
+        params.put("pagesize", 10);
+        items=erpItemService.findErpItemListBy(params);
+        Integer total=erpItemService.getErpItemBybrevitycodeCount(params);
+        Map<String,Object> jsonMap = new HashMap<String,Object>();
+        jsonMap.put("rows",items);
+        jsonMap.put("total",total);
+        return jsonMap;
+    }
 }
