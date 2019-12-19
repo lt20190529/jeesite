@@ -73,4 +73,29 @@ public class test1 {
 
         System.out.println(Collections3.convertToString(list1,"前缀","后缀"));
     }
+
+    @Test
+    public void GetMaxNum(){
+        int data[] = new int[5]; /*开辟了一个长度为3的数组*/
+        data[0] = 15; // 第一个元素
+        data[1] = 30; // 第二个元素
+        data[2] = 20; // 第三
+        data[3] = 40; // 第三
+        data[4] = 10; // 第三
+        for(int i=0;i<data.length;i++){
+           for(int j=0;j<data.length-i-1;j++){
+               if (data[j]>data[j+1]){
+                   int tmp;
+                   tmp=data[j+1];
+                   data[j+1]=data[j];
+                   data[j]=tmp;
+               }
+           }
+
+        }
+
+        for(int m=0;m<data.length;m++){
+            System.out.println(data[m]);
+        }
+    }
 }

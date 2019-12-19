@@ -120,7 +120,8 @@
                     field: 'Qty',
                     title: '数量',
                     width:200,
-                    formatter:editFormatter1
+                    formatter:editFormatter1,
+                    events: operatorObj,
                 }, {
                     field: 'Price',
                     title: '单价',
@@ -131,6 +132,8 @@
                     field: 'Amount',
                     title: '金额',
                     width:200
+
+
                 }, {
                     field:'ID',
                     title: '操作',
@@ -154,6 +157,7 @@
                 },
             });
         };
+
 
         //模态框Table
         function InitTableSub (input) {
@@ -321,23 +325,43 @@
 
     function editFormatter(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" class="form-control" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
+            '<input type="text" id="1plan'+row.id+'" class="form-control " data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
         ].join("");
     }
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" class="form-control" data='+value+' value='+value+' onBlur="amount('+row.Price+','+value+')">'
+            '<input type="text" id="2plan'+row.id+'" class="form-control Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'
         ].join("");
     }
     function editFormatter2(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" class="form-control" data='+value+' value='+value+'>'
+            '<input type="text" id="3plan'+row.id+'" class="form-control Price" data='+value+' value='+value+'>'
         ].join("");
     }
 
-    function amount(price,qty){
-        alert(price+"==="+qty)
+    var operatorObj = {
+        "change .Qty":function (e,value,row,index) { //单价列，注意通过样式.price监听
+            var price = row.Price || 0;//单价
+            var nums = $("#"+"2plan"+row.id).val() || 0;  //数量
+            alert(price * nums);
+            var amt =  price * nums ;
+
+            $('#table').bootstrapTable('updateCell', {
+                index: index,
+                field:"Amount",
+                value: amt
+            });
+        },
+        "change .Price":function (e,value,row,index) {//单价列，注意通过样式.num(列中input的样式)监听
+            alert("Price");
+        }
+
     }
+
+    function amount(id,price,value){
+
+    }
+
     function myFunction(id,type) {
 
         var writevalue=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
