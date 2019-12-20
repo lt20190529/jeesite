@@ -348,6 +348,11 @@
 
             $('#table').bootstrapTable('updateCell', {
                 index: index,
+                field:"Qty",
+                value: nums
+            });
+            $('#table').bootstrapTable('updateCell', {
+                index: index,
                 field:"Amount",
                 value: amt
             });
@@ -375,13 +380,16 @@
 
     //保存数据
     function SaveData() {
+        //alert("data:"+JSON.stringify($('#table').bootstrapTable('getData')));  //获取行数据
+        var rows=$("#table").bootstrapTable("getData").length;   //获取总行数方式1
+        var rows1=$("#table").bootstrapTable("getOptions").totalRows; //获取总行数方式2
+
         var params = {};// 参数对象
         params.id = id;
         params.no = no;
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());
         params.erpRecdetailNewList = "";
-        alert(JSON.stringify(params))
         $.ajax({
             type : "post",
             url : "${ctx}/rec/erpRec/SaveRecItemA",
@@ -422,7 +430,7 @@
     function appenddata() {
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
-        $('#table').bootstrapTable('insertRow', {
+        $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
                 id:count,
@@ -441,6 +449,8 @@
     $('#myModal').on('hide.bs.modal', function () {
 
     })
+
+
 </script>
 </body>
 
