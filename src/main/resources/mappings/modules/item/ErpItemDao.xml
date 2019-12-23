@@ -92,7 +92,7 @@
 	</resultMap>
 	
 	<resultMap type="com.thinkgem.jeesite.modules.item.entity.ErpItem" id="ErpItemResultMap" extends="DataEntityResultMap">
-		<id property="id" column="id" />
+		<id property="id" column="itemID" />
 		<result property="itemNo" column="itemNo" />
 		<result property="itemDesc" column="itemDesc" />
 		<result property="itemSpec" column="itemSpec" />
@@ -146,7 +146,7 @@
 		   
 		</select>
 	<select id="getErpItemBybrevitycode"  parameterType="map" resultMap="ErpItemResultMap">
-		select  item.id,
+		select  item.id as "itemID",
 				item.item_no as "itemNo",
 				item.item_desc as "itemDesc",
 				item.item_spec as "itemSpec",
@@ -160,7 +160,7 @@
 		  from  erp_item item,
 		        erp_uom uom
 		  <!-- where item.item_brevitycode like concat(concat('%',#{input}),'%')  -->
-		  where item.item_brevitycode like #{input} 
+		  where item.item_brevitycode like #{input}
 		    and item.item_uom=uom.erp_uomCode
 	   Order by item.item_no
 		  limit #{start},#{pagesize}

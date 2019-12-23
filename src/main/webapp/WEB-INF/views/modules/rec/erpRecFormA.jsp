@@ -26,6 +26,9 @@
         .btn{
         margin:20px;
         }
+        .btnhight{
+            height: 20px;
+        }
         .mm{
             margin:30px 380px;
         }
@@ -47,9 +50,9 @@
     </style>
     <script>
         $(document).ready(function() {
-
             InitTable();
         });
+
         function InitTable () {
             $table = $('#table').bootstrapTable({
                 url: "",                            //请求后台的URL（*）
@@ -71,7 +74,7 @@
                 showRefresh: false,                  //是否显示刷新按钮
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
-                //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                height: 300,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
@@ -95,6 +98,9 @@
                     title: 'id',
                     visible: false,
                 }, {
+                    field: 'itemID',
+                    title: 'itemID'
+                }, {
                     field: 'DrugCode',
                     title: '产品编码',
                     sortable: true,
@@ -117,6 +123,9 @@
                     title: '单位',
                     formatter: "",
                     width:200
+                }, {
+                    field: 'UomID',
+                    title: 'UomID'
                 }, {
                     field: 'Qty',
                     title: '数量',
@@ -182,7 +191,7 @@
                 pageList: [8, 16, 24],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
-                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "itemID",                     //每一行的唯一标识，一般为主键列
                 rowStyle: function (row, index) {   //按需求设置不同的样式：5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
                     /*var style = "";
                     if (row.name=="小红") {style='success';}*/
@@ -200,9 +209,9 @@
                     checkbox: true,
                     visible: true,                  //是否显示复选框
                 }, {
-                    field: 'id',
-                    title: 'id',
-                    visible: false,
+                    field: 'itemID',
+                    title: 'itemID',
+                    visible: true,
                 }, {
                     field: 'itemNo',
                     title: '产品编码'
@@ -215,6 +224,9 @@
                 }, {
                     field: 'erpUom.erpUomdesc',
                     title: '单位'
+                }, {
+                    field: 'erpUom.id',
+                    title: 'UomID'
                 }, {
                     field: 'itemSp',
                     title: '售价'
@@ -300,11 +312,11 @@
         <div class="pp">
         <table id="table" data-height="300" ></table>
         </div>
-        <div class="form-actions">
+        <div class="btnhight">
             <shiro:hasPermission name="rec:erpRec:edit">
                 <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
                        type="button" value="提交" />&nbsp;</shiro:hasPermission>
-            <input id="btnCancel" class="btn" type="button" value="返 回"
+            <input id="btnCancel" class="btn btn-primary" type="button" value="返 回"
                    onclick="history.go(-1)" />
         </div>
 
@@ -443,16 +455,31 @@
     function append() {
         var count = $('#table').bootstrapTable('getData').length;
 
+        var rows = $('#table').bootstrapTable('getData');   //行的数据
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].DrugDesc==""){
+                layer.msg("项目不能为空!");
+                return;
+            };
+            if(rows[i].Qty==""){
+                layer.msg("数量不能为空!");
+                return;
+            }
+
+        }
+
 
         $('#table').bootstrapTable('insertRow', {
             index: count,
             row: {
                 id:count,
+                itemID:"",
                 DrugCode: "",
                 DrugDesc: "",
                 Spec: "",
                 Price: "",
                 Uom:"",
+                UomID:"",
                 Qty:"",
                 Amount:""
             }
@@ -463,17 +490,19 @@
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
 
-
+alert(row[0].itemID)
 
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
                 id:count,
+                itemID:row[0].itemID,
                 DrugCode: row[0].itemNo,
                 DrugDesc: row[0].itemDesc,
                 Spec: row[0].itemSpec,
                 Price: row[0].itemSp,
                 Uom:row[0].erpUom.erpUomdesc,
+                UomID:row[0].erpUom.id,
                 Qty:"",
                 Amount:""
             }
