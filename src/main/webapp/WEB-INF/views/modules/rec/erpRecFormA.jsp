@@ -104,7 +104,8 @@
                     title: '产品名称',
                     sortable: true,
                     width:300,
-                    formatter:editFormatter
+                    formatter:editFormatter,
+                    events: operatorDrugDesc,
                 }, {
                     field: 'Spec',
                     title: '规格',
@@ -121,13 +122,14 @@
                     title: '数量',
                     width:200,
                     formatter:editFormatter1,
-                    events: operatorObj,
+                    events: operatorQty,
                 }, {
                     field: 'Price',
                     title: '单价',
                     sortable: true,
                     width:200,
-                    formatter:editFormatter2
+                    formatter:editFormatter2,
+                    events: operatorPrice,
                 }, {
                     field: 'Amount',
                     title: '金额',
@@ -325,7 +327,7 @@
 
     function editFormatter(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" class="form-control " data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
+            '<input type="text" id="1plan'+row.id+'" class="form-control Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
         ].join("");
     }
     function editFormatter1(value,row,index){
@@ -339,11 +341,22 @@
         ].join("");
     }
 
-    var operatorObj = {
+    var operatorDrugDesc = {
+        "change .Desc":function (e,value,row,index) {//描述列，change
+            $("#"+"1plan"+row.id).attr("readonly",true)
+        },
+        "blur .Desc":function (e,value,row,index) {//描述列，失去焦点
+            $("#"+"1plan"+row.id).attr("readonly",true)
+        },
+        "focus .Desc":function (e,value,row,index) {//描述列，得到焦点
+            $("#"+"1plan"+row.id).attr("readonly",false)
+        }
+    }
+
+    var operatorQty = {
         "change .Qty":function (e,value,row,index) { //单价列，注意通过样式.price监听
-            var price = row.Price || 0;//单价
+            var price = row.Price || 0;//单价   ||0 Price有值返回值，无值返回0
             var nums = $("#"+"2plan"+row.id).val() || 0;  //数量
-            alert(price * nums);
             var amt =  price * nums ;
 
             $('#table').bootstrapTable('updateCell', {
@@ -357,10 +370,25 @@
                 value: amt
             });
         },
-        "change .Price":function (e,value,row,index) {//单价列，注意通过样式.num(列中input的样式)监听
-            alert("Price");
+        "blur .Qty":function (e,value,row,index) {//单价列，失去焦点
+            $("#"+"2plan"+row.id).attr("readonly",true)
+        },
+        "focus .Qty":function (e,value,row,index) {//单价列，得到焦点
+            $("#"+"2plan"+row.id).attr("readonly",false)
         }
 
+
+    }
+    var operatorPrice = {
+        "change .Price":function (e,value,row,index) {//单价列，change
+            alert("xxx:"+"Price");
+        },
+        "blur .Price":function (e,value,row,index) {//单价列，失去焦点
+            $("#"+"3plan"+row.id).attr("readonly",true)
+        },
+        "focus .Price":function (e,value,row,index) {//单价列，得到焦点
+            $("#"+"3plan"+row.id).attr("readonly",false)
+        }
     }
 
     function amount(id,price,value){
@@ -383,6 +411,8 @@
         //alert("data:"+JSON.stringify($('#table').bootstrapTable('getData')));  //获取行数据
         var rows=$("#table").bootstrapTable("getData").length;   //获取总行数方式1
         var rows1=$("#table").bootstrapTable("getOptions").totalRows; //获取总行数方式2
+
+
 
         var params = {};// 参数对象
         params.id = id;
@@ -412,6 +442,8 @@
 
     function append() {
         var count = $('#table').bootstrapTable('getData').length;
+
+
         $('#table').bootstrapTable('insertRow', {
             index: count,
             row: {
@@ -430,6 +462,9 @@
     function appenddata() {
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
+
+
+
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {

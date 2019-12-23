@@ -11,6 +11,7 @@
 	<context:property-placeholder ignore-unresolvable="true" location="classpath:jeesite.properties" />
 	
 	<!-- Activiti begin -->
+    <!--配置流程引擎配置对象-->
 	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
 		<property name="dataSource" ref="dataSource" />
 		<property name="transactionManager" ref="transactionManager" />
