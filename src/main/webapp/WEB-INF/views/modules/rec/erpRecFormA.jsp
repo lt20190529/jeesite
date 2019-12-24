@@ -20,6 +20,67 @@
 
 
     <style>
+
+        .checkbox-custom {
+            position: relative;
+            padding: 0 15px 0 25px;
+            margin-bottom: 7px;
+            margin-top: 0;
+            display: inline-block;
+        }
+        /*
+        将初始的checkbox的样式改变
+        */
+        .checkbox-custom input[type="checkbox"] {
+            opacity: 0;/*将初始的checkbox隐藏起来*/
+            position: absolute;
+            cursor: pointer;
+            z-index: 2;
+            margin: -6px 0 0 0;
+            top: 90%;
+            left: 3px;
+        }
+        /*
+        设计新的checkbox，位置
+        */
+        .checkbox-custom label:before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 4px;
+            margin-top: -9px;
+            width: 19px;
+            height: 18px;
+            display: inline-block;
+            border-radius: 2px;
+            border: 1px solid #bbb;
+            background: #fff;
+        }
+        /*
+        点击初始的checkbox，将新的checkbox关联起来
+        */
+        .checkbox-custom input[type="checkbox"]:checked +label:after {
+            position: absolute;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            content: "\e013";
+            top: 90%;
+            left: 3px;
+            margin-top: -5px;
+            font-size: 11px;
+            line-height: 1;
+            width: 16px;
+            height: 16px;
+            color: #333;
+        }
+        .checkbox-custom label {
+            cursor: pointer;
+            line-height: 1.2;
+            font-weight: normal;/*改变了rememberme的字体*/
+            margin-bottom: 0;
+            text-align: left;
+        }
+
         .pp{
         margin:20px 15px 25px;
         }
@@ -48,11 +109,36 @@
             display:none;
         }
     </style>
+
+
     <script>
+
+
         $(document).ready(function() {
             InitTable();
+
+            /*获取单据编码*/
+            var id = $.trim($("#id").val());
+            if (id == "") {
+                GetMaxNo();
+            }
         });
 
+        //获取最大单据编号
+        function GetMaxNo() {
+            $.ajax({
+                type : "post",
+                url : "${ctx}/rec/erpRec/GetMaxNo",
+                dataType : 'json',
+                data : { //传值，多个值之间用逗号隔开，最后一个不用写逗号
+                },
+                success : function(data) {
+                    $("#no").val(data.result);
+                    $("#no").attr("readonly", "readonly");
+                }
+            });
+
+        }
         function InitTable () {
             $table = $('#table').bootstrapTable({
                 url: "",                            //请求后台的URL（*）
@@ -112,8 +198,8 @@
                     title: '产品名称',
                     sortable: true,
                     width:300,
-                    //formatter:editFormatter,
-                    //events: operatorDrugDesc,
+                    formatter:editFormatter,
+                    events: operatorDrugDesc,
 
                 }, {
                     field: 'Spec',
@@ -172,14 +258,7 @@
                 },
                 onPostBody:function()
                 {
-                    //重点就在这里，获取渲染后的数据列td的宽度赋值给对应头部的th,这样就表头和列就对齐了
-                    var header=$(".fixed-table-header table thead tr th");
-                    var body=$(".fixed-table-header table tbody tr td");
-                    var footer=$(".fixed-table-header table tr td");
-                    body.each(function(){
-                        header.width((this).width());
-                        footer.width((this).width());
-                    });
+
                 }
             });
         };
@@ -257,6 +336,20 @@
 
 
                 },
+                onPostBody : function () {
+                    $("#table1").find("input:checkbox").each(function (i) {
+                        var $check = $(this);
+                        if ($check.attr("id") && $check.next("label")) {
+                            return;
+                        }
+                        var name = $check.attr("name");
+                        var id = name + "-" + i;
+                        var $label = $('<label for="'+ id +'"></label>');
+                        $check.attr("id", id).parent().addClass("checkbox-custom").append($label);
+                    });
+
+                },
+
             });
         };
 
@@ -277,7 +370,7 @@
     <sys:message content="${message}" />
 
     <div class="container">
-        <div class="row">
+        <div class="row ">
             <div class="col-xs-6">
                 编号：<form:input path="no" id="no" class="input-xlarge required" readonly="true" />
             </div>
@@ -285,8 +378,7 @@
 
             <div class="col-lg-6">
                 部门：
-                <form:select path="depid" class="input-xlarge"
-                             onchange="show_dep(this.options[this.options.selectedIndex].value)">
+                <form:select path="depid" class="input-xlarge" >
                     <form:option value="">请选择入库部门...</form:option>
                     <form:options items="${erpDepartmentslist}"
                                   itemLabel="departmentDesc" itemValue="id" htmlEscape="false" />
@@ -350,18 +442,19 @@
 
     function editFormatter(value,row,index){
         return [
-           /* '<input type="text" id="1plan'+row.id+'" class="Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'*/
+            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
         ].join("");
     }
     function editFormatter1(value,row,index){
         return [
-            /*'<input type="text" id="2plan'+row.id+'" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'*/
+            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'
         ].join("");
     }
     function editFormatter2(value,row,index){
         return [
-           /* '<input type="text" id="3plan'+row.id+'" class="Price" data='+value+' value='+value+'>'*/
+            '<input type="text" id="3plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
         ].join("");
+
     }
 
     var operatorDrugDesc = {
@@ -431,21 +524,18 @@
 
     //保存数据
     function SaveData() {
-        //alert("data:"+JSON.stringify($('#table').bootstrapTable('getData')));  //获取行数据
         var rows=$("#table").bootstrapTable("getData").length;   //获取总行数方式1
         var rows1=$("#table").bootstrapTable("getOptions").totalRows; //获取总行数方式2
-
-
-
         var params = {};// 参数对象
-        params.id = id;
-        params.no = no;
+        params.id = "";
+        params.no = $.trim($("#no").val());;
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());
-        params.erpRecdetailNewList = "";
+        params.erpRecdetailNewList ="" // $('#table').bootstrapTable('getData');
+        alert(JSON.stringify(params));
         $.ajax({
             type : "post",
-            url : "${ctx}/rec/erpRec/SaveRecItemA",
+            url : "${ctx}/rec/erpRec/SaveListjqGridItemE",
             data : JSON.stringify(params),
             contentType : "application/json;charset=utf-8",
             dataType : "text",
@@ -467,7 +557,7 @@
         var count = $('#table').bootstrapTable('getData').length;
 
         var rows = $('#table').bootstrapTable('getData');   //行的数据
-        /*for(var i=0;i<rows.length;i++){
+        for(var i=0;i<rows.length;i++){
             if(rows[i].DrugDesc==""){
                 layer.msg("项目不能为空!");
                 return;
@@ -477,7 +567,7 @@
                 return;
             }
 
-        }*/
+        }
 
 
         $('#table').bootstrapTable('insertRow', {
