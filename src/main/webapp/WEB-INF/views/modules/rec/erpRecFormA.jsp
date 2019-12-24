@@ -33,7 +33,7 @@
             margin:30px 380px;
         }
         .qq{
-            margin:0px 0px;
+            margin:0px 0px 0px 0px;
         }
         .butn{
             margin:2px 3px 2px 660px;   /*margin 上右下左*/
@@ -57,7 +57,7 @@
             $table = $('#table').bootstrapTable({
                 url: "",                            //请求后台的URL（*）
                 method: 'GET',                      //请求方式（*）
-                //toolbar: '#toolbar',              //工具按钮用哪个容器
+                toolbar: '#toolbar',              //工具按钮用哪个容器
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
@@ -74,11 +74,12 @@
                 showRefresh: false,                  //是否显示刷新按钮
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
-                height: 300,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                height: 400,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                  //是否显示父子表
+
                 //得到查询的参数
                 queryParams : function (params) {
                     //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
@@ -99,7 +100,8 @@
                     visible: false,
                 }, {
                     field: 'itemID',
-                    title: 'itemID'
+                    title: 'itemID',
+                    visible:false
                 }, {
                     field: 'DrugCode',
                     title: '产品编码',
@@ -110,8 +112,9 @@
                     title: '产品名称',
                     sortable: true,
                     width:300,
-                    formatter:editFormatter,
-                    events: operatorDrugDesc,
+                    //formatter:editFormatter,
+                    //events: operatorDrugDesc,
+
                 }, {
                     field: 'Spec',
                     title: '规格',
@@ -125,7 +128,8 @@
                     width:200
                 }, {
                     field: 'UomID',
-                    title: 'UomID'
+                    title: 'UomID',
+                    visible:false
                 }, {
                     field: 'Qty',
                     title: '数量',
@@ -166,6 +170,17 @@
                 onDblClickRow: function (field,value,row, $element) {
 
                 },
+                onPostBody:function()
+                {
+                    //重点就在这里，获取渲染后的数据列td的宽度赋值给对应头部的th,这样就表头和列就对齐了
+                    var header=$(".fixed-table-header table thead tr th");
+                    var body=$(".fixed-table-header table tbody tr td");
+                    var footer=$(".fixed-table-header table tr td");
+                    body.each(function(){
+                        header.width((this).width());
+                        footer.width((this).width());
+                    });
+                }
             });
         };
 
@@ -191,7 +206,7 @@
                 pageList: [8, 16, 24],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
-                uniqueId: "itemID",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 rowStyle: function (row, index) {   //按需求设置不同的样式：5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
                     /*var style = "";
                     if (row.name=="小红") {style='success';}*/
@@ -209,9 +224,9 @@
                     checkbox: true,
                     visible: true,                  //是否显示复选框
                 }, {
-                    field: 'itemID',
-                    title: 'itemID',
-                    visible: true,
+                    field: 'id',
+                    title: 'id',
+                    visible: false,
                 }, {
                     field: 'itemNo',
                     title: '产品编码'
@@ -226,7 +241,8 @@
                     title: '单位'
                 }, {
                     field: 'erpUom.id',
-                    title: 'UomID'
+                    title: 'UomID',
+                    visible:false
                 }, {
                     field: 'itemSp',
                     title: '售价'
@@ -262,66 +278,61 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-4 col-sm-4">
-                单据编号：<form:input path="no" id="no"  class="required" readonly="true" />
+            <div class="col-xs-6">
+                编号：<form:input path="no" id="no" class="input-xlarge required" readonly="true" />
             </div>
 
 
-            <div class="col-xs-4 col-sm-4">
+            <div class="col-lg-6">
                 部门：
-                <form:select path="depid" class="input-medium"
+                <form:select path="depid" class="input-xlarge"
                              onchange="show_dep(this.options[this.options.selectedIndex].value)">
                     <form:option value="">请选择入库部门...</form:option>
                     <form:options items="${erpDepartmentslist}"
                                   itemLabel="departmentDesc" itemValue="id" htmlEscape="false" />
-                    <span id="val_dep" style="color:rgba(255,0,0,0.98)" class="help-inline"><font
-                            color="red">*</font> </span>
                 </form:select>
             </div>
-            <div class="col-xs-4 col-sm-4">
-                供货商：
-                <form:select path="vendorid" class="input-medium"
-                             onchange="show_vendor(this.options[this.options.selectedIndex].value)">
-                    <form:option value="">请选择供货商...</form:option>
-                    <form:options items="${erpVendorlist}" itemLabel="vendorDesc"
-                                  itemValue="id" htmlEscape="false" />
-                </form:select>
-            </div>
+
         </div>
 
         <br>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                备注信息：
-                <form:textarea path="remarks" id="remarks" htmlEscape="false"
-                               maxlength="255" class="input-xxlarge " />
+            <div class="col-lg-6">
+                厂商：
+                <form:select path="vendorid" class="input-xlarge"
+                             onchange="show_vendor(this.options[this.options.selectedIndex].value)">
+                    <form:option value="">请选择供货商...</form:option>
+                    <form:options items="${erpVendorlist}"
+                                  itemLabel="vendorDesc" itemValue="id" htmlEscape="false" />
+                </form:select>
             </div>
+            <div class="col-lg-6">
+                备注：
+                <form:textarea path="remarks"  id="remarks" htmlEscape="false"
+                               maxlength="140" class="input-xlarge " />
+            </div>
+
         </div>
     </div>
 
 
-    <br>
+    </div>
+
 
     <div>
-
-        <div >
-            <input id="button" class="btn btn-primary btn" type="button" value="添加明细" onclick="append()"></button>
+        <div id="toolbar" style="height: 50px">
+        <button type="button" class="btn btn-primary" onclick="append()">添加</button>
         </div>
-
-        <div class="pp">
-        <table id="table" data-height="300" ></table>
-        </div>
-        <div class="btnhight">
-            <shiro:hasPermission name="rec:erpRec:edit">
-                <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
-                       type="button" value="提交" />&nbsp;</shiro:hasPermission>
-            <input id="btnCancel" class="btn btn-primary" type="button" value="返 回"
-                   onclick="history.go(-1)" />
-        </div>
-
+        <table id="table" class="table table-bordered table-hover" data-height="300" ></table>
     </div>
-
+    <div class="form-actions">
+        <shiro:hasPermission name="rec:erpRec:edit">
+            <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
+                   type="button" value="提交" />&nbsp;</shiro:hasPermission>
+        <input id="btnCancel" class="btn" type="button" value="返 回"
+               onclick="history.go(-1)" />
+    </div>
 </form:form>
 <!-- 模态框（Modal） -->
 <div class="modal fade mm" id="myModal" style="width:50%;height: 515px" tabindex="-1" >
@@ -339,17 +350,17 @@
 
     function editFormatter(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" class="form-control Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
+           /* '<input type="text" id="1plan'+row.id+'" class="Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'*/
         ].join("");
     }
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="2plan'+row.id+'" class="form-control Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'
+            /*'<input type="text" id="2plan'+row.id+'" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'*/
         ].join("");
     }
     function editFormatter2(value,row,index){
         return [
-            '<input type="text" id="3plan'+row.id+'" class="form-control Price" data='+value+' value='+value+'>'
+           /* '<input type="text" id="3plan'+row.id+'" class="Price" data='+value+' value='+value+'>'*/
         ].join("");
     }
 
@@ -456,7 +467,7 @@
         var count = $('#table').bootstrapTable('getData').length;
 
         var rows = $('#table').bootstrapTable('getData');   //行的数据
-        for(var i=0;i<rows.length;i++){
+        /*for(var i=0;i<rows.length;i++){
             if(rows[i].DrugDesc==""){
                 layer.msg("项目不能为空!");
                 return;
@@ -466,7 +477,7 @@
                 return;
             }
 
-        }
+        }*/
 
 
         $('#table').bootstrapTable('insertRow', {
@@ -490,13 +501,11 @@
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
 
-alert(row[0].itemID)
-
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
                 id:count,
-                itemID:row[0].itemID,
+                itemID:row[0].id,
                 DrugCode: row[0].itemNo,
                 DrugDesc: row[0].itemDesc,
                 Spec: row[0].itemSpec,

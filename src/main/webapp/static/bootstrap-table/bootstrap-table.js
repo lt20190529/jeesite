@@ -2487,8 +2487,8 @@
 
         if (this.options.showHeader && this.options.height) {
             this.$tableHeader.show();
-            this.resetHeader();
-            padding += this.$header.outerHeight();
+            //this.resetHeader();
+            //padding += this.$header.outerHeight();  //解决表头和数据行不对齐问题
         } else {
             this.$tableHeader.hide();
             this.trigger('post-header');
