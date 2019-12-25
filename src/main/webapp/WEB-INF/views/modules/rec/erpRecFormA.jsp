@@ -273,7 +273,7 @@
                 sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 0,                      //初始化加载第一页，默认第一页,并记录
+                pageNumber: 0,                      //初始化加载第一页，默认第一页,并记录11
                 pageSize:8,                     //每页的记录行数（*）
                 paginationDetailHAlign:"left",
                 pageList: [8, 16, 24],        //可供选择的每页的行数（*）
