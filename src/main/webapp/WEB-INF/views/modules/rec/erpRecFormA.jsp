@@ -185,16 +185,16 @@
                     title: 'id',
                     visible: false,
                 }, {
-                    field: 'itemID',
-                    title: 'itemID',
+                    field: 'itemid',
+                    title: 'itemid',
                     visible:false
                 }, {
-                    field: 'DrugCode',
+                    field: 'itemno',
                     title: '产品编码',
                     sortable: true,
                     width:200
                 }, {
-                    field: 'DrugDesc',
+                    field: 'itemdesc',
                     title: '产品名称',
                     sortable: true,
                     width:300,
@@ -202,39 +202,37 @@
                     events: operatorDrugDesc,
 
                 }, {
-                    field: 'Spec',
+                    field: 'itemspec',
                     title: '规格',
                     sortable: true,
                     formatter: "",
                     width:200
                 }, {
-                    field: 'Uom',
+                    field: 'uomdesc',
                     title: '单位',
                     formatter: "",
                     width:200
                 }, {
-                    field: 'UomID',
-                    title: 'UomID',
+                    field: 'uomid',
+                    title: 'uomid',
                     visible:false
                 }, {
-                    field: 'Qty',
+                    field: 'qty',
                     title: '数量',
                     width:200,
                     formatter:editFormatter1,
                     events: operatorQty,
                 }, {
-                    field: 'Price',
+                    field: 'sp',
                     title: '单价',
                     sortable: true,
                     width:200,
                     formatter:editFormatter2,
                     events: operatorPrice,
                 }, {
-                    field: 'Amount',
+                    field: 'spamt',
                     title: '金额',
                     width:200
-
-
                 }, {
                     field:'ID',
                     title: '操作',
@@ -251,14 +249,10 @@
                 onLoadSuccess: function () {
                 },
                 onLoadError: function () {
-
                 },
                 onDblClickRow: function (field,value,row, $element) {
-
                 },
-                onPostBody:function()
-                {
-
+                onPostBody:function(){
                 }
             });
         };
@@ -279,7 +273,7 @@
                 sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+                pageNumber: 0,                      //初始化加载第一页，默认第一页,并记录
                 pageSize:8,                     //每页的记录行数（*）
                 paginationDetailHAlign:"left",
                 pageList: [8, 16, 24],        //可供选择的每页的行数（*）
@@ -327,14 +321,10 @@
                     title: '售价'
                 }, ],
                 onLoadSuccess: function () {
-
                 },
                 onLoadError: function () {
-
                 },
                 onDblClickRow: function (field,value,row, $element) {
-
-
                 },
                 onPostBody : function () {
                     $("#table1").find("input:checkbox").each(function (i) {
@@ -347,7 +337,6 @@
                         var $label = $('<label for="'+ id +'"></label>');
                         $check.attr("id", id).parent().addClass("checkbox-custom").append($label);
                     });
-
                 },
 
             });
@@ -392,8 +381,7 @@
         <div class="row">
             <div class="col-lg-6">
                 厂商：
-                <form:select path="vendorid" class="input-xlarge"
-                             onchange="show_vendor(this.options[this.options.selectedIndex].value)">
+                <form:select path="vendorid" class="input-xlarge">
                     <form:option value="">请选择供货商...</form:option>
                     <form:options items="${erpVendorlist}"
                                   itemLabel="vendorDesc" itemValue="id" htmlEscape="false" />
@@ -447,7 +435,7 @@
     }
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.Price+',value)">'
+            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.sp+',value)">'
         ].join("");
     }
     function editFormatter2(value,row,index){
@@ -458,51 +446,51 @@
     }
 
     var operatorDrugDesc = {
-        "change .Desc":function (e,value,row,index) {//描述列，change
+        "change .itemdesc":function (e,value,row,index) {//描述列，change
             $("#"+"1plan"+row.id).attr("readonly",true)
         },
-        "blur .Desc":function (e,value,row,index) {//描述列，失去焦点
+        "blur .itemdesc":function (e,value,row,index) {//描述列，失去焦点
             $("#"+"1plan"+row.id).attr("readonly",true)
         },
-        "focus .Desc":function (e,value,row,index) {//描述列，得到焦点
+        "focus .itemdesc":function (e,value,row,index) {//描述列，得到焦点
             $("#"+"1plan"+row.id).attr("readonly",false)
         }
     }
 
     var operatorQty = {
-        "change .Qty":function (e,value,row,index) { //单价列，注意通过样式.price监听
-            var price = row.Price || 0;//单价   ||0 Price有值返回值，无值返回0
+        "change .qty":function (e,value,row,index) { //单价列，注意通过样式.price监听
+            var price = row.sp || 0;//单价   ||0 Price有值返回值，无值返回0
             var nums = $("#"+"2plan"+row.id).val() || 0;  //数量
             var amt =  price * nums ;
 
             $('#table').bootstrapTable('updateCell', {
                 index: index,
-                field:"Qty",
+                field:"qty",
                 value: nums
             });
             $('#table').bootstrapTable('updateCell', {
                 index: index,
-                field:"Amount",
+                field:"spamt",
                 value: amt
             });
         },
-        "blur .Qty":function (e,value,row,index) {//单价列，失去焦点
+        "blur .qty":function (e,value,row,index) {//单价列，失去焦点
             $("#"+"2plan"+row.id).attr("readonly",true)
         },
-        "focus .Qty":function (e,value,row,index) {//单价列，得到焦点
+        "focus .qty":function (e,value,row,index) {//单价列，得到焦点
             $("#"+"2plan"+row.id).attr("readonly",false)
         }
 
 
     }
     var operatorPrice = {
-        "change .Price":function (e,value,row,index) {//单价列，change
+        "change .sp":function (e,value,row,index) {//单价列，change
             alert("xxx:"+"Price");
         },
-        "blur .Price":function (e,value,row,index) {//单价列，失去焦点
+        "blur .sp":function (e,value,row,index) {//单价列，失去焦点
             $("#"+"3plan"+row.id).attr("readonly",true)
         },
-        "focus .Price":function (e,value,row,index) {//单价列，得到焦点
+        "focus .sp":function (e,value,row,index) {//单价列，得到焦点
             $("#"+"3plan"+row.id).attr("readonly",false)
         }
     }
@@ -528,17 +516,17 @@
         var rows1=$("#table").bootstrapTable("getOptions").totalRows; //获取总行数方式2
         var params = {};// 参数对象
         params.id = "";
-        params.no = $.trim($("#no").val());;
+        params.no = $.trim($("#no").val());
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());
-        params.erpRecdetailNewList ="" // $('#table').bootstrapTable('getData');
-        alert(JSON.stringify(params));
+        params.erpRecdetailNewList =$('#table').bootstrapTable('getData');
         $.ajax({
             type : "post",
             url : "${ctx}/rec/erpRec/SaveListjqGridItemE",
-            data : JSON.stringify(params),
+            data :JSON.stringify(params),
             contentType : "application/json;charset=utf-8",
             dataType : "text",
+
             success : function(data) {
                 layer.msg("保存成功！", {
                     offset : '100px'
@@ -558,11 +546,11 @@
 
         var rows = $('#table').bootstrapTable('getData');   //行的数据
         for(var i=0;i<rows.length;i++){
-            if(rows[i].DrugDesc==""){
+            if(rows[i].itemdesc==""){
                 layer.msg("项目不能为空!");
                 return;
             };
-            if(rows[i].Qty==""){
+            if(rows[i].qty==""){
                 layer.msg("数量不能为空!");
                 return;
             }
@@ -574,15 +562,15 @@
             index: count,
             row: {
                 id:count,
-                itemID:"",
-                DrugCode: "",
-                DrugDesc: "",
-                Spec: "",
-                Price: "",
-                Uom:"",
-                UomID:"",
-                Qty:"",
-                Amount:""
+                itemid:"",
+                itemno: "",
+                itemdesc: "",
+                itemspec: "",
+                sp: "",
+                uomdesc:"",
+                uomid:"",
+                qty:"",
+                spamt:""
             }
         })
 
@@ -594,16 +582,16 @@
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
-                id:count,
-                itemID:row[0].id,
-                DrugCode: row[0].itemNo,
-                DrugDesc: row[0].itemDesc,
-                Spec: row[0].itemSpec,
-                Price: row[0].itemSp,
-                Uom:row[0].erpUom.erpUomdesc,
-                UomID:row[0].erpUom.id,
-                Qty:"",
-                Amount:""
+                id:"",
+                itemid:row[0].id,
+                itemno: row[0].itemNo,
+                itemdesc: row[0].itemDesc,
+                itemspec: row[0].itemSpec,
+                sp: row[0].itemSp,
+                uomdesc:row[0].erpUom.erpUomdesc,
+                uomid:row[0].erpUom.id,
+                qty:"",
+                spamt:""
             }
         })
         $('#myModal').modal('hide')

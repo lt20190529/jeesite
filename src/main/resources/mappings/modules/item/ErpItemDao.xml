@@ -108,7 +108,7 @@
 		</association>
 	</resultMap>
 	<select id="findErpItemList"  resultMap="ErpItemResultMap">
-	select  item.id,
+	select  item.id as "itemID",
 			item.item_no as "itemNo",
 			item.item_desc as "itemDesc",
 			item.item_spec as "itemSpec",
