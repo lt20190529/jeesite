@@ -1,0 +1,73 @@
+package com.thinkgem.jeesite.common.repeatformvalidator;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.lang.System.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import java.util.UUID;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
+
+
+/**
+ * 一个用户 相同url 同时提交 相同数据 验证
+ * 主要通过 session中保存到的url 和 请求参数。如果和上次相同，则是重复提交表单
+ * @author Administrator
+ *
+ */
+public class SameUrlDataInterceptor extends HandlerInterceptorAdapter {
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            SameUrlData annotation = method.getAnnotation(SameUrlData.class);
+            if (annotation != null) {
+                boolean needSaveSession = annotation.save();
+                if (needSaveSession) {
+                    request.getSession(true).setAttribute("token", UUID.randomUUID().toString());
+                }
+                boolean needRemoveSession = annotation.remove();
+                if (needRemoveSession) {
+                    if (isRepeatSubmit(request)) {
+                        return true; //false;
+                    }
+                    request.getSession(true).removeAttribute("token");
+                }
+            }
+            return true;
+        } else {
+            return super.preHandle(request, response, handler);
+        }
+    }
+
+
+    /**
+     * 验证同一个url数据是否相同提交  ,相同返回true
+     * @param
+     * @return
+     */
+    private boolean isRepeatSubmit(HttpServletRequest request) {
+        String serverToken = (String) request.getSession(true).getAttribute("token");
+        if (serverToken == null) {
+            return true;
+        }
+        String clinetToken = request.getParameter("token");
+        if (clinetToken == null) {
+            return true;
+        }
+        if (!serverToken.equals(clinetToken)) {
+            return true;
+        }
+        return false;
+    }
+}

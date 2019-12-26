@@ -96,7 +96,12 @@
 			<bean class="com.thinkgem.jeesite.modules.sys.interceptor.LogInterceptor" />
 			
 		</mvc:interceptor>
-		<!-- page分页 -->
+        <!--防止重复提交-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.thinkgem.jeesite.common.repeatformvalidator.SameUrlDataInterceptor"/>
+        </mvc:interceptor>
+        <!-- page分页 -->
 		<mvc:interceptor>
              <mvc:mapping path="/**" />
              <bean class="com.github.miemiedev.mybatis.paginator.springmvc.PageListAttrHandlerInterceptor"/>

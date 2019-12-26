@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 
+import com.thinkgem.jeesite.common.repeatformvalidator.SameUrlData;  //防重复提交
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -252,8 +253,10 @@ public class ErpRecController extends BaseController {
 	}
 
 	// 提交保存
+
 	@RequestMapping("SaveListjqGridItemE")
 	@ResponseBody
+    @SameUrlData(remove=true)
 	public String SaveListjqGridItemE(@RequestBody ErpRecNew erpRecNew) {
 		System.out.println(erpRecNew.toString());
 		erpRecNewService.save(erpRecNew);
@@ -363,6 +366,7 @@ public class ErpRecController extends BaseController {
     // 跳转到入库制单
     @RequiresPermissions("rec:erpRec:view")
     @RequestMapping(value = "formA")
+    @SameUrlData(save=true)
     public String formA(ErpRecNew erpRecNew, Model model) {
         System.out.print(erpRecNew);
         model.addAttribute("erpRecNew", erpRecNew);

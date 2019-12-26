@@ -356,6 +356,7 @@
 <form:form id="inputForm" modelAttribute="erpRecNew"
            action="" method="post" >
     <form:hidden path="id" />
+    <input type="hidden" name="token" value="${token}" />
     <sys:message content="${message}" />
 
     <div class="container">
@@ -518,7 +519,15 @@
         params.id = "";
         params.no = $.trim($("#no").val());
         params.depid = $.trim($("#depid").val());
+        if($.trim($("#depid").val())==""){
+            layer.msg("请选择部门!");
+            return;
+        }
         params.vendorid = $.trim($("#vendorid").val());
+        if($.trim($("#vendorid").val())==""){
+            layer.msg("请选择供货商!");
+            return;
+        }
         params.erpRecdetailNewList =$('#table').bootstrapTable('getData');
         $.ajax({
             type : "post",
