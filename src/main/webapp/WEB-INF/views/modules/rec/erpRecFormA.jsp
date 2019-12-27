@@ -259,10 +259,12 @@
 
 
         //模态框Table
-        function InitTableSub (input) {
-            var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" + input;
-            $table = $('#table1').bootstrapTable({
-                url: queryUrl,                            //请求后台的URL（*）
+        function InitTableSub () {
+
+
+
+            $table1 = $('#table1').bootstrapTable({
+                url: "",                            //请求后台的URL（*）
                 method: 'post',
                 contentType: "application/x-www-form-urlencoded",
                 search: true,                      //是否显示表格搜索
@@ -340,6 +342,8 @@
                 },
 
             });
+
+
         };
 
     </script>
@@ -356,7 +360,7 @@
 <form:form id="inputForm" modelAttribute="erpRecNew"
            action="" method="post" >
     <form:hidden path="id" />
-    <input type="hidden" name="token" value="${token}" />
+    <input type="hidden" id="token" name="token" value="${token}" />
     <sys:message content="${message}" />
 
     <div class="container">
@@ -431,7 +435,7 @@
 
     function editFormatter(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction('+row.id+',1)"/>'
+            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.id+',1)"/>'
         ].join("");
     }
     function editFormatter1(value,row,index){
@@ -500,38 +504,41 @@
 
     }
 
-    function myFunction(id,type) {
-
+    /*
+    Description:回车检索项目
+     */
+    function myFunction(event,id,type) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
         var writevalue=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
         var oldvalue = $("#"+type+"plan"+id).attr("data"); //获取输入框原本的值
-        if (event.keyCode==13){
+
+
+        if(e && e.keyCode==13){
            $("#"+type+"plan"+id).blur();
-           InitTableSub(writevalue)   //初始化弹出框Table
+           InitTableSub()   //初始化弹出框Table
+           var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" + writevalue;
+           $('#table1').bootstrapTable('refresh',{url:queryUrl});
            $("#myModal").modal('show');
         }
     }
 
-    //保存数据
+    /*
+    Description:保存数据
+     */
     function SaveData() {
-        var rows=$("#table").bootstrapTable("getData").length;   //获取总行数方式1
-        var rows1=$("#table").bootstrapTable("getOptions").totalRows; //获取总行数方式2
+
+        if(!checkDetailInfo()){return;}  //明细校验
+
         var params = {};// 参数对象
         params.id = "";
         params.no = $.trim($("#no").val());
         params.depid = $.trim($("#depid").val());
-        if($.trim($("#depid").val())==""){
-            layer.msg("请选择部门!");
-            return;
-        }
         params.vendorid = $.trim($("#vendorid").val());
-        if($.trim($("#vendorid").val())==""){
-            layer.msg("请选择供货商!");
-            return;
-        }
+        var token=$('#token').val();   //$("input[name='token']").val();
         params.erpRecdetailNewList =$('#table').bootstrapTable('getData');
         $.ajax({
             type : "post",
-            url : "${ctx}/rec/erpRec/SaveListjqGridItemE",
+            url : "${ctx}/rec/erpRec/SaveListjqGridItemE?token="+token,
             data :JSON.stringify(params),
             contentType : "application/json;charset=utf-8",
             dataType : "text",
@@ -551,22 +558,11 @@
 
 
     function append() {
+
+        if((!checkMainInfo())&&(!checkDetailInfo())){return;}
+
+
         var count = $('#table').bootstrapTable('getData').length;
-
-        var rows = $('#table').bootstrapTable('getData');   //行的数据
-        for(var i=0;i<rows.length;i++){
-            if(rows[i].itemdesc==""){
-                layer.msg("项目不能为空!");
-                return;
-            };
-            if(rows[i].qty==""){
-                layer.msg("数量不能为空!");
-                return;
-            }
-
-        }
-
-
         $('#table').bootstrapTable('insertRow', {
             index: count,
             row: {
@@ -587,7 +583,7 @@
     function appenddata() {
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
-
+        if(row==""){return;}
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
@@ -603,6 +599,7 @@
                 spamt:""
             }
         })
+
         $('#myModal').modal('hide')
 
     }
@@ -610,7 +607,38 @@
 
     })
 
+    /*
+    Description:主信息校验
+     */
+    function checkMainInfo(){
+        if($.trim($("#depid").val())==""){
+            layer.msg("请选择部门!");
+            return false;
+        }
+        if($.trim($("#vendorid").val())==""){
+            layer.msg("请选择供货商!");
+            return false;
+        }
+        return true;
+    }
 
+    /*
+    Description:明细数据校验
+     */
+    function checkDetailInfo(){
+        var rows = $('#table').bootstrapTable('getData');   //行的数据
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].itemdesc==""){
+                layer.msg("项目不能为空!");
+                return false;
+            };
+            if(rows[i].qty==""){
+                layer.msg("数量不能为空!");
+                return false;
+            }
+        }
+        return true;
+    }
 </script>
 </body>
 

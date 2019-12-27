@@ -252,17 +252,7 @@ public class ErpRecController extends BaseController {
 		return manfs;
 	}
 
-	// 提交保存
 
-	@RequestMapping("SaveListjqGridItemE")
-	@ResponseBody
-    @SameUrlData(remove=true)
-	public String SaveListjqGridItemE(@RequestBody ErpRecNew erpRecNew) {
-		System.out.println(erpRecNew.toString());
-		erpRecNewService.save(erpRecNew);
-		return "success";
-
-	}
 
 	// 已保存明细的删除
 	@RequestMapping(value = "DeleteRecDetailByid")
@@ -383,6 +373,17 @@ public class ErpRecController extends BaseController {
         return "modules/rec/erpRecFormA";
     }
 
+    // 提交保存
+
+    @RequestMapping("SaveListjqGridItemE")
+    @ResponseBody
+    @SameUrlData(remove=true)
+    public String SaveListjqGridItemE(@RequestBody ErpRecNew erpRecNew) {
+        System.out.println(erpRecNew.toString());
+        erpRecNewService.save(erpRecNew);
+        return "success";
+
+    }
     // 提交保存入库数据
     @RequestMapping(value = "SaveRecItemA")
     @ResponseBody

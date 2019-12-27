@@ -39,7 +39,7 @@ public class SameUrlDataInterceptor extends HandlerInterceptorAdapter {
                 boolean needRemoveSession = annotation.remove();
                 if (needRemoveSession) {
                     if (isRepeatSubmit(request)) {
-                        return true; //false;
+                        return false;
                     }
                     request.getSession(true).removeAttribute("token");
                 }
