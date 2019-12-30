@@ -55,7 +55,7 @@ public class ErpRec extends DataEntity<ErpRec> {
 		this.no = no;
 	}
 	
-	@ExcelField(value="dep.departmentDesc",title="部门", align=0, sort=2)
+	@ExcelField(value="dep.departmentDesc",title="部门",type=2, align=0, sort=2)
 	public ErpDepartments getDep() {
 		return dep;
 	}

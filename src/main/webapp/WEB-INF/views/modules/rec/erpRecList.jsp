@@ -167,7 +167,7 @@
 				      <c:choose>
                         <c:when test="${ErpRecNew.auditFlag=='N'}">
                             <a  class="sel_btn" onclick="Audit('${ErpRecNew.id}')">审核</a>
-		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/formE?id=${ErpRecNew.id}">修改</a>
+		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/formA?id=${ErpRecNew.id}">修改</a>
 		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/delete?id=${ErpRecNew.id}" onclick="return confirmx('确认要删除该入库吗？', this.href)">删除</a>
                         </c:when>
                         <c:otherwise>

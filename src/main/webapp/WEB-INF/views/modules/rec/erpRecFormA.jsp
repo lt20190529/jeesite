@@ -260,9 +260,6 @@
 
         //模态框Table
         function InitTableSub () {
-
-
-
             $table1 = $('#table1').bootstrapTable({
                 url: "",                            //请求后台的URL（*）
                 method: 'post',

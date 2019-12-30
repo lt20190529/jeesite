@@ -173,7 +173,7 @@ public class ErpRecController extends BaseController {
 	// **********************************************入库制单界面[EasyUI]****************************************************
 	// 跳转到入库制单或者编辑界面
 	@RequiresPermissions("rec:erpRec:view")
-	@RequestMapping(value = "formE")
+	@RequestMapping(value = "formB")
 	public String formnew(ErpRecNew erpRecNew, Model model) {
 		System.out.print(erpRecNew);
 		model.addAttribute("erpRecNew", erpRecNew);
@@ -187,7 +187,7 @@ public class ErpRecController extends BaseController {
 				.findList(erpDepartments);
 		model.addAttribute("erpDepartmentslist", erpDepartmentslist);
 
-		return "modules/rec/erpRecFormE";
+		return "modules/rec/erpRecFormA";
 	}
 
 	@RequestMapping("GetDetailListE")
