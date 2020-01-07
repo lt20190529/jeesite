@@ -4,9 +4,15 @@
   <head>
    <title>部门维护管理</title>
 	<meta name="decorator" content="default"/>
+    <link href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+      <link rel="stylesheet" href="${pageContext.request.contextPath}/static/vue/grid/style.css">
+    <script src="${pageContext.request.contextPath}/static/vue/dist/vue.js" type="text/javascript"></script>
 	<script type="text/javascript">
+        alert(22)
 		$(document).ready(function() {
-			
+
+
+
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -15,6 +21,30 @@
         	return false;
         }
 	</script>
+      <%--vue-grid測試--%>
+    <script type="text/x-template" id="grid-template">
+          <table v-if="filteredData.length">
+              <thead>
+              <tr>
+                  <th v-for="key in columns"
+                      @click="sortBy(key)"
+                      :class="{ active: sortKey == key }">
+                      {{ key | capitalize }}
+                      <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+              </span>
+                  </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="entry in filteredData">
+                  <td v-for="key in columns">
+                      {{entry[key]}}
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+          <p v-else>No matches found.</p>
+      </script>
   </head>
   
   <body>
@@ -100,5 +130,87 @@
 		</tbody>
 	</table>
 	<div class="pagination">${page}</div>
+    <br>
+    <h5>xxx</h5>
+    <br>
+    <!-- demo root element -->
+    <div id="demo">
+        <demo-grid
+                :data="gridData"
+                :columns="gridColumns"
+                :filter-key="searchQuery">
+        </demo-grid>
+    </div>
+
+    <script>
+        Vue.component('demo-grid', {
+            template: '#grid-template',
+            replace: true,
+            props: {
+                data: Array,
+                columns: Array,
+                filterKey: String
+            },
+            data: function () {
+                var sortOrders = {}
+                this.columns.forEach(function (key) {
+                    sortOrders[key] = 1
+                })
+                return {
+                    sortKey: '',
+                    sortOrders: sortOrders
+                }
+            },
+            computed: {
+                filteredData: function () {
+                    var sortKey = this.sortKey
+                    var filterKey = this.filterKey && this.filterKey.toLowerCase()
+                    var order = this.sortOrders[sortKey] || 1
+                    var data = this.data
+                    alert(this.data)
+                    if (filterKey) {
+                        data = data.filter(function (row) {
+                            return Object.keys(row).some(function (key) {
+                                return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+                            })
+                        })
+                    }
+                    if (sortKey) {
+                        data = data.slice().sort(function (a, b) {
+                            a = a[sortKey]
+                            b = b[sortKey]
+                            return (a === b ? 0 : a > b ? 1 : -1) * order
+                        })
+                    }
+                    return data
+                }
+            },
+            filters: {
+                capitalize: function (str) {
+                    return str.charAt(0).toUpperCase() + str.slice(1)
+                }
+            },
+            methods: {
+                sortBy: function (key) {
+                    this.sortKey = key
+                    this.sortOrders[key] = this.sortOrders[key] * -1
+                }
+            }
+        })
+        // bootstrap the demo
+        var demo = new Vue({
+            el: '#demo',
+            data: {
+                searchQuery: '',
+                gridColumns: ['name12', 'power'],
+                gridData: [
+                    { name12: '张三AA', power: 100 },
+                    { name12: 'Bruce Lee', power: 9000 },
+                    { name12: 'Jackie Chan', power: 7000 }
+                ]
+            }
+        })
+    </script>
+    <script src="${pageContext.request.contextPath}/static/vue/grid/grid.js" type="text/javascript"></script>
   </body>
 </html>
