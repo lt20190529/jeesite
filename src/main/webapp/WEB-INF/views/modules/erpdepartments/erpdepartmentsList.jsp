@@ -7,13 +7,13 @@
     <link href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
       <link rel="stylesheet" href="${pageContext.request.contextPath}/static/vue/grid/style.css">
     <script src="${pageContext.request.contextPath}/static/vue/dist/vue.js" type="text/javascript"></script>
+      <%--引入axios--%>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script type="text/javascript">
-        alert(22)
 		$(document).ready(function() {
-
-
-
 		});
+
+
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -142,6 +142,13 @@
         </demo-grid>
     </div>
 
+    <h5>***************************</h5>
+    <div id="demo1">
+          {{info}}
+    </div>
+    <script>
+
+    </script>
     <script>
         Vue.component('demo-grid', {
             template: '#grid-template',
@@ -167,7 +174,6 @@
                     var filterKey = this.filterKey && this.filterKey.toLowerCase()
                     var order = this.sortOrders[sortKey] || 1
                     var data = this.data
-                    alert(this.data)
                     if (filterKey) {
                         data = data.filter(function (row) {
                             return Object.keys(row).some(function (key) {
@@ -197,7 +203,7 @@
                 }
             }
         })
-        // bootstrap the demo
+
         var demo = new Vue({
             el: '#demo',
             data: {
@@ -209,8 +215,25 @@
                     { name12: 'Jackie Chan', power: 7000 }
                 ]
             }
+        });
+
+        var demo1=new Vue({
+            el: '#demo1',
+            data: function(){
+                return{
+                    info: null
+                }
+            },
+            mounted () {
+                axios
+                    .get('${ctx}/erpdepartments/departments/list')
+                    .then(response => (this.info = response.data))
+
+
+            }
         })
+
     </script>
-    <script src="${pageContext.request.contextPath}/static/vue/grid/grid.js" type="text/javascript"></script>
+    <%--<script src="${pageContext.request.contextPath}/static/vue/grid/grid.js" type="text/javascript"></script>--%>
   </body>
 </html>

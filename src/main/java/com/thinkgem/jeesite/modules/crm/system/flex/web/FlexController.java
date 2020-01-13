@@ -24,6 +24,8 @@ import com.thinkgem.jeesite.modules.crm.system.flex.entity.FlexValue;
 import com.thinkgem.jeesite.modules.crm.system.flex.service.FlexService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping(value = "${adminPath}/sysmgr/flex")
 public class FlexController extends BaseController {
@@ -35,10 +37,10 @@ public class FlexController extends BaseController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String list(@ModelAttribute("flexSet") FlexSet flexSet,
 			@RequestParam(value = "page", defaultValue = "1") int page,
-			Model model){
+			Model model,HttpServletResponse response){
 		PageBounds pageBounds = new PageBounds(page, 6,Order.formString("id.asc"));
 		model.addAttribute("flexSetList", flexService.getFlexSetList(flexSet,pageBounds));
-		return "modules/crm/system/flex/list";
+        return "modules/crm/system/flex/list";
 	}
 	
 	@RequestMapping(value="flexList",method=RequestMethod.POST)

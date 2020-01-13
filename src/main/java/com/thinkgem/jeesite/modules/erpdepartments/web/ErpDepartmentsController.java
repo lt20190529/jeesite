@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.modules.item.entity.ErpItem;
  * @author 部门维护
  * @version 2018-09-26
  */
+
 @Controller
 @RequestMapping(value = "${adminPath}/erpdepartments/departments")
 public class ErpDepartmentsController extends BaseController  {
@@ -59,12 +60,16 @@ public class ErpDepartmentsController extends BaseController  {
 	/*
 	 * 部门列表
 	 */
+
+
 	@RequiresPermissions("erpdepartments:departments:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(ErpDepartments erpDepartments,HttpServletRequest request,
 			HttpServletResponse response,Model model) {
 		Page<ErpDepartments> page = erpDepartmentsSerivce.findPage(new Page<ErpDepartments>(request, response), erpDepartments); 
 		model.addAttribute("page", page);
+        response.setHeader("Access-Control-Allow-Origin", "https://www.runoob.com/try/ajax/json_demo.json");
+        response.setHeader("Cache-Control","no-cache");
 		return "modules/erpdepartments/erpdepartmentsList";
 	}
 	
