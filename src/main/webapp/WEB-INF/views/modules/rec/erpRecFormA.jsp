@@ -239,25 +239,25 @@
                     width: 120,
                     align: 'center',
                     valign: 'middle',
-                    formatter:function(value,row,index){
-                        var element =
-                            "<a class='edit' data-id='"+row.id +"'>编辑</a> "+
-                            "<a class='delet' data-id='"+row.id +"'>删除</a> ";
-                        return element;
+                    formatter: function (value, row, index) {
+                        return   '<a class="" onclick="edit(\''+row.itemno+'\')" > 删除</a>'
                     }
-                }, ],
-                onLoadSuccess: function () {
-                },
-                onLoadError: function () {
-                },
-                onDblClickRow: function (field,value,row, $element) {
-                },
-                onPostBody:function(){
-                }
+                }, ]
             });
         };
 
 
+
+        function edit(id){
+            debugger;
+            var index = $('#table').bootstrapTable('getData').length;
+            $('#table').bootstrapTable('remove', {
+                field: "itemno",   //此处的 “id”对应的是字段名
+                values: id
+            });
+
+            //$('#table').bootstrapTable('remove',{field:"itemno", values:id});
+        }
         //模态框Table
         function InitTableSub () {
             $table1 = $('#table1').bootstrapTable({
@@ -437,7 +437,7 @@
     }
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+' onBlur="amount('+row.id+','+row.sp+',value)">'
+            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
         ].join("");
     }
     function editFormatter2(value,row,index){
@@ -465,7 +465,7 @@
             var nums = $("#"+"2plan"+row.id).val() || 0;  //数量
             var amt =  price * nums ;
 
-            $('#table').bootstrapTable('updateCell', {
+           $('#table').bootstrapTable('updateCell', {
                 index: index,
                 field:"qty",
                 value: nums
@@ -473,7 +473,7 @@
             $('#table').bootstrapTable('updateCell', {
                 index: index,
                 field:"spamt",
-                value: amt
+                value: price * nums
             });
         },
         "blur .qty":function (e,value,row,index) {//单价列，失去焦点
@@ -486,9 +486,6 @@
 
     }
     var operatorPrice = {
-        "change .sp":function (e,value,row,index) {//单价列，change
-            alert("xxx:"+"Price");
-        },
         "blur .sp":function (e,value,row,index) {//单价列，失去焦点
             $("#"+"3plan"+row.id).attr("readonly",true)
         },
@@ -497,9 +494,7 @@
         }
     }
 
-    function amount(id,price,value){
 
-    }
 
     /*
     Description:回车检索项目
