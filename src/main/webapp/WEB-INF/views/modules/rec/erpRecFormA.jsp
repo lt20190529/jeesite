@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>入库制单</title>
+    <title>入库制单1111</title>
     <meta name="decorator" content="default" />
     <!--引入4.0.0BootStrap-->
 
