@@ -160,7 +160,7 @@
                 showRefresh: false,                  //是否显示刷新按钮
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
-                height: 400,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
                 showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
@@ -198,9 +198,7 @@
                     title: '产品名称',
                     sortable: true,
                     width:300,
-                    formatter:editFormatter,
-                    events: operatorDrugDesc,
-
+                    formatter:editFormatter
                 }, {
                     field: 'itemspec',
                     title: '规格',
@@ -227,8 +225,7 @@
                     title: '单价',
                     sortable: true,
                     width:200,
-                    formatter:editFormatter2,
-                    events: operatorPrice,
+                    formatter:editFormatter2
                 }, {
                     field: 'spamt',
                     title: '金额',
@@ -240,7 +237,7 @@
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return   '<a class="" onclick="edit(\''+row.itemno+'\')" > 删除</a>'
+                        return   '<a class="" onclick="edit(\''+row.id+'\')" > 删除</a>'
                     }
                 }, ]
             });
@@ -250,13 +247,11 @@
 
         function edit(id){
             debugger;
-            var index = $('#table').bootstrapTable('getData').length;
-            $('#table').bootstrapTable('remove', {
-                field: "itemno",   //此处的 “id”对应的是字段名
-                values: id
-            });
 
-            //$('#table').bootstrapTable('remove',{field:"itemno", values:id});
+            $('#table').bootstrapTable('remove', {
+                field: "id",   //此处的 “id”对应的是字段名
+                values: [parseInt(id)]
+            });
         }
         //模态框Table
         function InitTableSub () {
@@ -280,8 +275,6 @@
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 rowStyle: function (row, index) {   //按需求设置不同的样式：5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
-                    /*var style = "";
-                    if (row.name=="小红") {style='success';}*/
                     return { classes: "active" }
                 },
                 queryParamsType:'',
@@ -326,7 +319,7 @@
                 onDblClickRow: function (field,value,row, $element) {
                 },
                 onPostBody : function () {
-                    $("#table1").find("input:checkbox").each(function (i) {
+                    /*$("#table1").find("input:checkbox").each(function (i) {
                         var $check = $(this);
                         if ($check.attr("id") && $check.next("label")) {
                             return;
@@ -335,7 +328,7 @@
                         var id = name + "-" + i;
                         var $label = $('<label for="'+ id +'"></label>');
                         $check.attr("id", id).parent().addClass("checkbox-custom").append($label);
-                    });
+                    });*/
                 },
 
             });
@@ -391,7 +384,7 @@
             </div>
             <div class="col-lg-6">
                 备注：
-                <form:textarea path="remarks"  id="remarks" htmlEscape="false"
+                <form:input path="remarks"  id="remarks" htmlEscape="false"
                                maxlength="140" class="input-xlarge " />
             </div>
 
@@ -401,62 +394,76 @@
 
     </div>
 
-
-    <div>
-        <div id="toolbar" style="height: 50px">
-        <button type="button" class="btn btn-primary" onclick="append()">添加</button>
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                <div id="toolbar">
+                    <button type="button" class="btn btn-primary" onclick="append()">添加</button>
+                </div>
+                <div>
+                    <table id="table" class="" ></table>
+                </div>
+            </div>
         </div>
-        <table id="table" class="table table-bordered table-hover" data-height="300" ></table>
     </div>
-    <div class="form-actions">
+
+    <div class="">
         <shiro:hasPermission name="rec:erpRec:edit">
             <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
                    type="button" value="提交" />&nbsp;</shiro:hasPermission>
-        <input id="btnCancel" class="btn" type="button" value="返 回"
+        <input id="btnCancel" class="btn btn-danger" type="button" value="返 回"
                onclick="history.go(-1)" />
     </div>
 </form:form>
 <!-- 模态框（Modal） -->
-<div class="modal fade mm" id="myModal" style="width:50%;height: 515px" tabindex="-1" >
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">选择药品</h4>
+<div class="modal fade mm" id="myModal" style="width:65%;height: 515px" tabindex="-1" >
+    <div class="container">
+        <div class="row" >
+            <div class="col-sm-10">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">选择药品</h4>
+                </div>
+            </div>
         </div>
-        <div class="modal-header box" style="height: 370px">
-            <table id="table1"></table>
+        <div class="row" >
+            <div class="col-sm-10">
+                <div class="modal-header box" style="height: 370px">
+                    <table id="table1"></table>
+                </div>
+            </div>
         </div>
-        <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
+        <div class="row" >
+            <div class="col--10">
+               <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
+            </div>
+    </div>
+    </div>
 </div>
 <script>
 
 
+    //名称
     function editFormatter(value,row,index){
-        return [
+        /*return [
             '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.id+',1)"/>'
+        ].join("");*/
+        return [
+            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="show(event,'+row.id+',1)"/>'
         ].join("");
     }
+    //数量
     function editFormatter1(value,row,index){
         return [
             '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
         ].join("");
     }
+    //单价
     function editFormatter2(value,row,index){
         return [
             '<input type="text" id="3plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
         ].join("");
 
-    }
-
-    var operatorDrugDesc = {
-        "change .itemdesc":function (e,value,row,index) {//描述列，change
-            $("#"+"1plan"+row.id).attr("readonly",true)
-        },
-        "blur .itemdesc":function (e,value,row,index) {//描述列，失去焦点
-            $("#"+"1plan"+row.id).attr("readonly",true)
-        },
-        "focus .itemdesc":function (e,value,row,index) {//描述列，得到焦点
-            $("#"+"1plan"+row.id).attr("readonly",false)
-        }
     }
 
     var operatorQty = {
@@ -473,7 +480,7 @@
             $('#table').bootstrapTable('updateCell', {
                 index: index,
                 field:"spamt",
-                value: price * nums
+                value: amt
             });
         },
         "blur .qty":function (e,value,row,index) {//单价列，失去焦点
@@ -485,14 +492,7 @@
 
 
     }
-    var operatorPrice = {
-        "blur .sp":function (e,value,row,index) {//单价列，失去焦点
-            $("#"+"3plan"+row.id).attr("readonly",true)
-        },
-        "focus .sp":function (e,value,row,index) {//单价列，得到焦点
-            $("#"+"3plan"+row.id).attr("readonly",false)
-        }
-    }
+
 
 
 
@@ -513,6 +513,21 @@
            $("#myModal").modal('show');
         }
     }
+    function show(event,id,type){
+        $.jBox.open("iframe:${ctx}/rec/erpRec/getItemList?input=" + writevalue, "物品选择", 600, 600, {           //如果是修改，传个ID就行了
+
+            buttons: {"确定": "ok", "关闭": true},submit: function (v, h, f) {
+
+            },
+
+            loaded: function (h) {
+
+                $(".jbox-content", document).css("overflow-y", "hidden");
+            }
+        });
+    };
+
+
 
     /*
     Description:保存数据
@@ -551,14 +566,14 @@
 
     function append() {
 
-        if((!checkMainInfo())&&(!checkDetailInfo())){return;}
+        if((!checkMainInfo())||(!checkDetailInfo())){return;}
 
 
         var count = $('#table').bootstrapTable('getData').length;
         $('#table').bootstrapTable('insertRow', {
             index: count,
             row: {
-                id:count,
+                id:count+1,
                 itemid:"",
                 itemno: "",
                 itemdesc: "",
@@ -579,7 +594,7 @@
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
-                id:"",
+                id:count,
                 itemid:row[0].id,
                 itemno: row[0].itemNo,
                 itemdesc: row[0].itemDesc,
@@ -598,6 +613,11 @@
     $('#myModal').on('hide.bs.modal', function () {
 
     })
+
+
+
+
+
 
     /*
     Description:主信息校验
