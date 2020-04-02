@@ -411,7 +411,7 @@
         <shiro:hasPermission name="rec:erpRec:edit">
             <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
                    type="button" value="提交" />&nbsp;</shiro:hasPermission>
-        <input id="btnCancel" class="btn btn-danger" type="button" value="返 回"
+        <input id="btnCancel" class="btn btn-primary" type="button" value="返 回"
                onclick="history.go(-1)" />
     </div>
 </form:form>
@@ -437,7 +437,7 @@
             <div class="col--10">
                <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
             </div>
-    </div>
+        </div>
     </div>
 </div>
 <script>
@@ -514,20 +514,30 @@
         }
     }
     function show(event,id,type){
-        $.jBox.open("iframe:${ctx}/rec/erpRec/getItemList?input=" + writevalue, "物品选择", 600, 600, {           //如果是修改，传个ID就行了
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        var input=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
+        if (isEmpty(input)) {return;}
 
-            buttons: {"确定": "ok", "关闭": true},submit: function (v, h, f) {
-
+        $.jBox.open("iframe:${ctx}/rec/erpRec/ItemInfo/" + input, "", 600, 350, {
+                 buttons: {"选择": "ok", "关闭": true},submit: function (v, h, f) {
             },
 
             loaded: function (h) {
-
                 $(".jbox-content", document).css("overflow-y", "hidden");
             }
         });
     };
 
-
+    //判断字符是否为空的方法
+    function isEmpty(obj){
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        if(typeof obj == "undefined" || obj == null || obj == "" || re.test(obj)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /*
     Description:保存数据

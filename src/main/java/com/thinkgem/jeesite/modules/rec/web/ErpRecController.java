@@ -410,4 +410,10 @@ public class ErpRecController extends BaseController {
         jsonMap.put("total",total);
         return jsonMap;
     }
+
+    @RequestMapping(value = "/ItemInfo/{params}",method = RequestMethod.POST)
+	public String itemInfo(Model model,@PathVariable("params")String params){
+    	System.out.println(params);
+    	return "modules/rec/ItemInfo";
+	}
 }
