@@ -65,7 +65,7 @@
             font-family: 'Glyphicons Halflings';
             content: "\e013";
             top: 90%;
-            left: 3px;
+            left: 5px;
             margin-top: -5px;
             font-size: 11px;
             line-height: 1;
@@ -319,7 +319,7 @@
                 onDblClickRow: function (field,value,row, $element) {
                 },
                 onPostBody : function () {
-                    /*$("#table1").find("input:checkbox").each(function (i) {
+                    $("#table1").find("input:checkbox").each(function (i) {
                         var $check = $(this);
                         if ($check.attr("id") && $check.next("label")) {
                             return;
@@ -328,7 +328,7 @@
                         var id = name + "-" + i;
                         var $label = $('<label for="'+ id +'"></label>');
                         $check.attr("id", id).parent().addClass("checkbox-custom").append($label);
-                    });*/
+                    });
                 },
 
             });
@@ -401,7 +401,7 @@
                     <button type="button" class="btn btn-primary" onclick="append()">添加</button>
                 </div>
                 <div>
-                    <table id="table" class="" ></table>
+                    <table id="table" class="table table-condensed" ></table>
                 </div>
             </div>
         </div>
@@ -416,27 +416,24 @@
     </div>
 </form:form>
 <!-- 模态框（Modal） -->
-<div class="modal fade mm" id="myModal" style="width:65%;height: 515px" tabindex="-1" >
+<div class="modal fade mm" id="myModal" style="width:72%;height: 482px" tabindex="-1" >
     <div class="container">
         <div class="row" >
-            <div class="col-sm-10">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">选择药品</h4>
                 </div>
-            </div>
         </div>
         <div class="row" >
-            <div class="col-sm-10">
-                <div class="modal-header box" style="height: 370px">
-                    <table id="table1"></table>
+                <div class="modal-header box" style="height: 300px">
+                    <table id="table1" class="table  table-condensed" style="table-automatic: fixed;">
+                    </table>
                 </div>
-            </div>
         </div>
         <div class="row" >
-            <div class="col--10">
-               <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
-            </div>
+                <div class="modal-footer">
+                   <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
+                </div>
         </div>
     </div>
 </div>
@@ -445,23 +442,21 @@
 
     //名称
     function editFormatter(value,row,index){
-        /*return [
-            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.id+',1)"/>'
-        ].join("");*/
         return [
-            '<input type="text" id="1plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="show(event,'+row.id+',1)"/>'
+            '<input type="text" id="1plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.id+',1)"/>'
         ].join("");
+
     }
     //数量
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="2plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
+            '<input type="text" id="2plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
         ].join("");
     }
     //单价
     function editFormatter2(value,row,index){
         return [
-            '<input type="text" id="3plan'+row.id+'" style="height:30px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
+            '<input type="text" id="3plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
         ].join("");
 
     }
@@ -496,23 +491,24 @@
 
 
 
-    /*
-    Description:回车检索项目
-     */
+    //模态框实现列表选择
     function myFunction(event,id,type) {
         var e = event || window.event || arguments.callee.caller.arguments[0];
-        var writevalue=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
+        var input=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
         var oldvalue = $("#"+type+"plan"+id).attr("data"); //获取输入框原本的值
 
+        if (isEmpty(input)) {return;}
 
         if(e && e.keyCode==13){
            $("#"+type+"plan"+id).blur();
            InitTableSub()                                        //初始化弹出框Table
-           var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" + writevalue;
+           var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" + input;
            $('#table1').bootstrapTable('refresh',{url:queryUrl});
            $("#myModal").modal('show');
         }
     }
+
+    //非模态框实现列表选择
     function show(event,id,type){
         var e = event || window.event || arguments.callee.caller.arguments[0];
         var input=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
@@ -521,14 +517,9 @@
         $.jBox.open("iframe:${ctx}/rec/erpRec/ItemInfo/" + input, "", 600, 350, {
                  buttons: {"选择": "ok", "关闭": true},submit: function (v, h, f) {
                 if(v=="ok") {
-                    var table=h.find("iframe")[0].contentWindow.$("#table1");
-                    var row=$(table).bootstrapTable('getSelections');
-                    alert(row[0].itemNo)
-
-
+                    var table=h.find("iframe")[0].contentWindow.document.getElementById("table1");
                 }
             },
-
             loaded: function (h) {
                 $(".jbox-content", document).css("overflow-y", "hidden");
             }
@@ -552,7 +543,6 @@
     function SaveData() {
 
         if(!checkDetailInfo()){return;}  //明细校验
-
         var params = {};// 参数对象
         params.id = "";
         params.no = $.trim($("#no").val());
