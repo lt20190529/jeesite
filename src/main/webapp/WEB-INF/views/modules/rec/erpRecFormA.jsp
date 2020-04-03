@@ -507,7 +507,7 @@
 
         if(e && e.keyCode==13){
            $("#"+type+"plan"+id).blur();
-           InitTableSub()   //初始化弹出框Table
+           InitTableSub()                                        //初始化弹出框Table
            var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" + writevalue;
            $('#table1').bootstrapTable('refresh',{url:queryUrl});
            $("#myModal").modal('show');
@@ -520,6 +520,13 @@
 
         $.jBox.open("iframe:${ctx}/rec/erpRec/ItemInfo/" + input, "", 600, 350, {
                  buttons: {"选择": "ok", "关闭": true},submit: function (v, h, f) {
+                if(v=="ok") {
+                    var table=h.find("iframe")[0].contentWindow.$("#table1");
+                    var row=$(table).bootstrapTable('getSelections');
+                    alert(row[0].itemNo)
+
+
+                }
             },
 
             loaded: function (h) {
