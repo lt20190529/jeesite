@@ -66,7 +66,7 @@
             font-family: 'Glyphicons Halflings';
             content: "\e013";
             top: 90%;
-            left: 5px;
+            left: 8px;
             margin-top: -5px;
             font-size: 11px;
             line-height: 1;
@@ -78,7 +78,7 @@
             cursor: pointer;
             line-height: 1.2;
             font-weight: normal;/*改变了rememberme的字体*/
-            margin-bottom: 0;
+            margin-bottom: 1;
             text-align: left;
         }
 
@@ -238,7 +238,7 @@
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return   '<a class="" onclick="edit(\''+row.id+'\')" > 删除</a>'
+                        return   '<a class="" onclick="edit(\''+row.itemno+'\')" > 删除</a>'
                     }
                 }, ]
             });
@@ -246,12 +246,12 @@
 
 
 
-        function edit(id){
-            debugger;
+        function edit(itemno){
+            //debugger;
 
             $('#table').bootstrapTable('remove', {
-                field: "id",   //此处的 “id”对应的是字段名
-                values: [parseInt(id)]
+                field: "itemno",   //此处的 “id”对应的是字段名
+                values: [id]
             });
         }
         //模态框Table
@@ -268,10 +268,10 @@
                 sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 0,                      //初始化加载第一页，默认第一页,并记录11
-                pageSize:8,                     //每页的记录行数（*）
+                pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录11
+                pageSize:6,                     //每页的记录行数（*）
                 paginationDetailHAlign:"left",
-                pageList: [8, 16, 24],        //可供选择的每页的行数（*）
+                pageList: [6, 12, 18],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
@@ -289,7 +289,7 @@
                 columns: [{
                     checkbox: true,
                     visible: true,                  //是否显示复选
-                    width:'100px'
+                    width:'30'
                 }, {
                     field: 'id',
                     title: 'id',
@@ -297,19 +297,19 @@
                 }, {
                     field: 'itemNo',
                     title: '产品编码',
-                    width:'100px'
+                    width:'120'
                 }, {
                     field: 'itemDesc',
                     title: '产品名称',
-                    width:'100px'
+                    width:'150'
                 }, {
                     field: 'itemSpec',
                     title: '规格',
-                    width:'100px'
+                    width:'100'
                 }, {
                     field: 'erpUom.erpUomdesc',
                     title: '单位',
-                    width:'100px'
+                    width:'100'
                 }, {
                     field: 'erpUom.id',
                     title: 'UomID',
@@ -317,7 +317,7 @@
                 }, {
                     field: 'itemSp',
                     title: '售价',
-                    width:'100px'
+                    width:'100'
                 }, ],
                 onLoadSuccess: function () {
                 },
@@ -423,12 +423,11 @@
     </div>
 </form:form>
 <!-- 模态框（Modal） -->
-<div class="modal fade mm" id="myModal" style="width:700px;height:482px" tabindex="-1" >
-    <div class="container">
+<div class="modal fade mm" id="myModal" style="width:750px;height:482px" tabindex="-1" >
         <div class="row" >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">选择药品</h4>
+                    <h3 class="" id="myModalLabel">&nbsp;&nbsp;&nbsp;&nbsp;选择物品</h3>
                 </div>
         </div>
         <div class="row" >
@@ -442,7 +441,6 @@
                    <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
                 </div>
         </div>
-    </div>
 </div>
 <script>
 
@@ -608,7 +606,7 @@
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
-                id:count,
+                id:"",
                 itemid:row[0].id,
                 itemno: row[0].itemNo,
                 itemdesc: row[0].itemDesc,
