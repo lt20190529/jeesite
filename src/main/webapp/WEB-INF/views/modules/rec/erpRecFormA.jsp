@@ -18,7 +18,8 @@
     <script src="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/static/bootstrap-table/locale/bootstrap-table-zh-CN.js" type="text/javascript"></script>
 
-
+    <link href="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table-fixed-columns-master/bootstrap-table-fixed-columns.css" type="text/css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table-fixed-columns-master/bootstrap-table-fixed-columns.js" type="text/javascript"></script>
     <style>
 
         .checkbox-custom {
@@ -287,30 +288,36 @@
                 },
                 columns: [{
                     checkbox: true,
-                    visible: true,                  //是否显示复选框
+                    visible: true,                  //是否显示复选
+                    width:'100px'
                 }, {
                     field: 'id',
                     title: 'id',
                     visible: false,
                 }, {
                     field: 'itemNo',
-                    title: '产品编码'
+                    title: '产品编码',
+                    width:'100px'
                 }, {
                     field: 'itemDesc',
-                    title: '产品名称'
+                    title: '产品名称',
+                    width:'100px'
                 }, {
                     field: 'itemSpec',
-                    title: '规格'
+                    title: '规格',
+                    width:'100px'
                 }, {
                     field: 'erpUom.erpUomdesc',
-                    title: '单位'
+                    title: '单位',
+                    width:'100px'
                 }, {
                     field: 'erpUom.id',
                     title: 'UomID',
                     visible:false
                 }, {
                     field: 'itemSp',
-                    title: '售价'
+                    title: '售价',
+                    width:'100px'
                 }, ],
                 onLoadSuccess: function () {
                 },
@@ -416,7 +423,7 @@
     </div>
 </form:form>
 <!-- 模态框（Modal） -->
-<div class="modal fade mm" id="myModal" style="width:72%;height: 482px" tabindex="-1" >
+<div class="modal fade mm" id="myModal" style="width:700px;height:482px" tabindex="-1" >
     <div class="container">
         <div class="row" >
                 <div class="modal-header">
@@ -426,7 +433,7 @@
         </div>
         <div class="row" >
                 <div class="modal-header box" style="height: 300px">
-                    <table id="table1" class="table  table-condensed" style="table-automatic: fixed;">
+                    <table id="table1" class="table  table-condensed" style="table-layout: fixed;word-break:break-all;">
                     </table>
                 </div>
         </div>
