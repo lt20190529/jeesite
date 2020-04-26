@@ -43,6 +43,7 @@
 		var htmlObj = $("html"), mainObj = $("#main");
 		var frameObj = $("#left, #openClose, #right, #right iframe");
 		function wSize(){
+
 			var strs = getWindowSize().toString().split(",");
 			htmlObj.css({"overflow-x":"hidden", "overflow-y":"hidden"});
 			mainObj.css("width","auto");

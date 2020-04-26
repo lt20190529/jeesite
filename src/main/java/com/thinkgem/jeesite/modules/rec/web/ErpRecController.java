@@ -401,7 +401,7 @@ public class ErpRecController extends BaseController {
         List<ErpItem> items = new ArrayList<ErpItem>();
         Map<String,Object> params = new LinkedHashMap<String,Object>();
         params.put("input", "%"+input+"%");    //当sql的条件有模糊匹配时，参数需前后带上%
-        params.put("start", (pageNumber-1)*6);
+        params.put("start", (pageNumber-1)*8);
         params.put("pagesize", pageSize);
         items=erpItemService.findErpItemListBy(params);
         Integer total=erpItemService.getErpItemBybrevitycodeCount(params);

@@ -39,7 +39,7 @@
 		</form>
 	</div>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/sys/user/list">用户列表xxx</a></li>
+		<li class="active"><a href="${ctx}/sys/user/list">用户列表</a></li>
 		<shiro:hasPermission name="sys:user:edit"><li><a href="${ctx}/sys/user/form">用户添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="user" action="${ctx}/sys/user/list" method="post" class="breadcrumb form-search ">

@@ -19,6 +19,7 @@
       body{background:url(${ctxStatic}/images/login_bg.jpg) no-repeat center center;}
     </style>
 	<script type="text/javascript">
+        alert(1)
 		$(document).ready(function() {
 			$("#loginForm").validate({
 				rules: {

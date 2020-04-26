@@ -48,10 +48,10 @@
             content: '';
             position: absolute;
             top: 100%;
-            left: 4px;
+            left: 8px;
             margin-top: -9px;
-            width: 19px;
-            height: 18px;
+            width: 14px;
+            height: 14px;
             display: inline-block;
             border-radius: 2px;
             border: 1px solid #bbb;
@@ -82,33 +82,26 @@
             text-align: left;
         }
 
-        .pp{
-        margin:20px 15px 25px;
-        }
         .btn{
-        margin:20px;
+        margin:6px;
         }
-        .btnhight{
-            height: 20px;
-        }
+
         .mm{
             margin:30px 380px;
         }
-        .qq{
-            margin:0px 0px 0px 0px;
-        }
+
         .butn{
             margin:2px 3px 2px 660px;   /*margin 上右下左*/
         }
         .box{
             margin:1px 1px 1px 1px;   /*margin 上右下左*/
         }
-        .pull-right.pagination-detail{   /*//bootstrap table不显示分页信息*/
-            display:none;
-        }
+
+
         .fixed-table-pagination .page-list {
             display:none;
         }
+
     </style>
 
 
@@ -144,16 +137,13 @@
             $table = $('#table').bootstrapTable({
                 url: "",                            //请求后台的URL（*）
                 method: 'GET',                      //请求方式（*）
-                toolbar: '#toolbar',              //工具按钮用哪个容器
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                pagination: true,                   //是否显示分页（*）
                 sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
                 pageSize: "",                       //每页的记录行数（*）
-
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 strictSearch: true,
@@ -161,11 +151,8 @@
                 showRefresh: false,                  //是否显示刷新按钮
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
-                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                height: 420,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-                showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
-                cardView: false,                    //是否显示详细视图
-                detailView: false,                  //是否显示父子表
 
                 //得到查询的参数
                 queryParams : function (params) {
@@ -251,7 +238,7 @@
 
             $('#table').bootstrapTable('remove', {
                 field: "itemno",   //此处的 “id”对应的是字段名
-                values: [id]
+                values: [itemno]
             });
         }
         //模态框Table
@@ -269,9 +256,9 @@
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录11
-                pageSize:6,                     //每页的记录行数（*）
+                pageSize:8,                     //每页的记录行数（*）
                 paginationDetailHAlign:"left",
-                pageList: [6, 12, 18],        //可供选择的每页的行数（*）
+                pageList: [8, 16, 24],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
@@ -363,70 +350,55 @@
     <div class="container">
         <div class="row ">
             <div class="col-xs-6">
-                编号：<form:input path="no" id="no" class="input-xlarge required" readonly="true" />
+                编&nbsp;&nbsp;&nbsp;&nbsp;号：<form:input path="no" id="no" class="input-xlarge required" readonly="true" />
             </div>
 
 
-            <div class="col-lg-6">
-                部门：
-                <form:select path="depid" class="input-xlarge" >
-                    <form:option value="">请选择入库部门...</form:option>
-                    <form:options items="${erpDepartmentslist}"
-                                  itemLabel="departmentDesc" itemValue="id" htmlEscape="false" />
-                </form:select>
+            <div class="col-xs-6">
+                备&nbsp;&nbsp;&nbsp;&nbsp;注： <form:input path="remarks"  id="remarks" class="input-xlarge"/>
             </div>
-
         </div>
-
         <br>
-
         <div class="row">
-            <div class="col-lg-6">
-                厂商：
+            <div class="col-xs-6">
+                供货商：
                 <form:select path="vendorid" class="input-xlarge">
                     <form:option value="">请选择供货商...</form:option>
                     <form:options items="${erpVendorlist}"
                                   itemLabel="vendorDesc" itemValue="id" htmlEscape="false" />
                 </form:select>
             </div>
-            <div class="col-lg-6">
-                备注：
-                <form:input path="remarks"  id="remarks" htmlEscape="false"
-                               maxlength="140" class="input-xlarge " />
+            <div class="col-xs-6">
+                部&nbsp;&nbsp;&nbsp;&nbsp;门：
+                <form:select path="depid" class="input-xlarge" >
+                    <form:option value="">请选择入库部门...</form:option>
+                    <form:options items="${erpDepartmentslist}"
+                                  itemLabel="departmentDesc" itemValue="id" htmlEscape="false" />
+                </form:select>
             </div>
-
         </div>
     </div>
 
-
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div>
-                <div id="toolbar">
-                    <button type="button" class="btn btn-primary" onclick="append()">添加</button>
-                </div>
-                <div>
-                    <table id="table" class="table table-condensed" ></table>
-                </div>
-            </div>
-        </div>
+    <div class="row" style="padding-left: 20px;padding-right: 20px">
+        <button type="button" class="btn btn-primary" onclick="append()">添加</button>
+        <table id="table"></table>
     </div>
 
     <div class="">
         <shiro:hasPermission name="rec:erpRec:edit">
             <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
-                   type="button" value="提交" />&nbsp;</shiro:hasPermission>
+                   type="button" value="提交" />
+        </shiro:hasPermission>
         <input id="btnCancel" class="btn btn-primary" type="button" value="返 回"
-               onclick="history.go(-1)" />
+               onclick="history.go(-1)"
+        />
     </div>
 </form:form>
 <!-- 模态框（Modal） -->
-<div class="modal fade mm" id="myModal" style="width:750px;height:482px" tabindex="-1" >
+<div class="modal fade mm" id="myModal" style="width:760px;height:482px" tabindex="-1" >
         <div class="row" >
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x&nbsp;&nbsp;</button>
                     <h3 class="" id="myModalLabel">&nbsp;&nbsp;&nbsp;&nbsp;选择物品</h3>
                 </div>
         </div>
@@ -606,7 +578,7 @@
         $('#table').bootstrapTable('updateRow', {
             index: count-1,
             row: {
-                id:"",
+                id:count,
                 itemid:row[0].id,
                 itemno: row[0].itemNo,
                 itemdesc: row[0].itemDesc,
@@ -618,7 +590,6 @@
                 spamt:""
             }
         })
-
         $('#myModal').modal('hide')
 
     }

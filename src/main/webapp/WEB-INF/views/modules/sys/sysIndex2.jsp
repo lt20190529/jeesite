@@ -207,7 +207,7 @@
 	    </div>
 	    <div class="container-fluid">
 			<div id="content" class="row-fluid">
-				<div id="left"><%-- 
+				<div id="left"><%--
 					<iframe id="menuFrame" name="menuFrame" src="" style="overflow:visible;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe> --%>
 				</div>
 				<div id="openClose" class="close">&nbsp;</div>
@@ -220,7 +220,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript"> 
+	<script type="text/javascript">
 		var leftWidth = 160; // 左侧窗口大小
 		var tabTitleHeight = 33; // 页签的高度
 		var htmlObj = $("html"), mainObj = $("#main");
@@ -232,7 +232,7 @@
 			htmlObj.css({"overflow-x":strs[1] < minWidth ? "auto" : "hidden", "overflow-y":strs[0] < minHeight ? "auto" : "hidden"});
 			mainObj.css("width",strs[1] < minWidth ? minWidth - 10 : "auto");
 			frameObj.height((strs[0] < minHeight ? minHeight : strs[0]) - headerObj.height() - footerObj.height() - (strs[1] < minWidth ? 42 : 28));
-			$("#openClose").height($("#openClose").height() - 5);// <c:if test="${cookie.tabmode.value eq '1'}"> 
+			$("#openClose").height($("#openClose").height() - 5);// <c:if test="${cookie.tabmode.value eq '1'}">
 			$(".jericho_tab iframe").height($("#right").height() - tabTitleHeight); // </c:if>
 			wSizeWidth();
 		}
@@ -243,7 +243,7 @@
 			}else{
 				$("#right").width("100%");
 			}
-		}// <c:if test="${cookie.tabmode.value eq '1'}"> 
+		}// <c:if test="${cookie.tabmode.value eq '1'}">
 		function openCloseClickCallBack(b){
 			$.fn.jerichoTab.resize();
 		} // </c:if>

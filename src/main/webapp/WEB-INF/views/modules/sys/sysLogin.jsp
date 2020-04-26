@@ -18,6 +18,7 @@
     </style>
 	<script type="text/javascript">
 		$(document).ready(function() {
+
 			$("#loginForm").validate({
 				rules: {
 					validateCode: {remote: "${pageContext.request.contextPath}/servlet/validateCodeServlet"}
@@ -37,6 +38,8 @@
 			alert('未登录或登录超时。请重新登录，谢谢！');
 			top.location = "${ctx}";
 		}
+
+
 	</script>
 </head>
 <body>
