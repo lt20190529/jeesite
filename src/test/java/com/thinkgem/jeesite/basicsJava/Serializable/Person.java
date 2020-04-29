@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.basicsJava.Serializable;
 
 import java.io.Serializable;
 
+
 public class Person implements Serializable {
 
     private  int age;
