@@ -14,7 +14,8 @@ import java.util.*;
 public class listAndSet {
 
     /*
-    分析：由于String类中重写了hashcode和equals方法，用来比较指向的字符串对象所存储的字符串是否相等。所以这里的第二个Hello是加不进去的。
+    分析：由于String类中重写了hashcode和equals方法，用来比较指向的字符串对象所存储的字符串是否相等。
+    所以这里的第二个Hello是加不进去的。
      */
     @Test
     public void test1(){
