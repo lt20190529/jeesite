@@ -6,7 +6,9 @@
 
 	<display-name>JeeSite</display-name>
 
-	<!-- Context ConfigLocation -->
+    <!--
+
+	 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:/spring-context*.xml</param-value>
@@ -99,7 +101,8 @@
 		
 		<!-- 当前servelt的参数信息 -->
 		<init-param>
-		    <!-- contextConfigLocation为参数名称，该参数的值包含SpringMVC的配置文件路径 -->
+		    <!-- contextConfigLocation为参数名称，该参数的值包含SpringMVC的配置文件路径
+		     contextConfigLocation：表示用于加载Bean的配置文件；-->
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath*:/spring-mvc*.xml</param-value>
 		</init-param>
@@ -160,6 +163,7 @@
 		<servlet-name>CKFinderConnectorServlet</servlet-name>
 		<url-pattern>/static/ckfinder/core/connector/java/connector.java</url-pattern>
 	</servlet-mapping>
+
 	<filter>
 		<filter-name>FileUploadFilter</filter-name>
 		<filter-class>com.ckfinder.connector.FileUploadFilter</filter-class>
