@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
+  <component name="ExternalSystem" externalSystem="Maven" />
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration />
@@ -168,7 +169,7 @@
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.20" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.10-FINAL" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.9" level="project" />
     <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.9" level="project" />
@@ -264,5 +265,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: org.dbunit:dbunit:2.4.8" level="project" />
   </component>
 </module>

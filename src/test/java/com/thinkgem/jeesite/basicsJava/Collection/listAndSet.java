@@ -47,7 +47,7 @@ public class listAndSet {
      */
     @Test
     public void test3(){
-        ArrayList<String> aa=new ArrayList<>();
+       ArrayList<String> aa=new ArrayList<>();
         aa.add("aaa");
         aa.add("bbb");
         aa.add("ccc");
