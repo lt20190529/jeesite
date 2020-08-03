@@ -35,11 +35,14 @@
  	<!-- MyBatis begin -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        
-
+		<!--它一般对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。
+		多个package之间可以用逗号或者分号等来进行分隔。(value的值一定要是包的全名)-->
         <property name="typeAliasesPackage" value="com.thinkgem.jeesite"/>
+		<!--代表实体类所继承的类的位置-->
         <property name="typeAliasesSuperType" value="com.thinkgem.jeesite.common.persistence.BaseEntity"/>
+		<!--mapperLocations：它表示我们的Mapper文件存放的位置，当我们的Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值-->
         <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
+		<!--用于指定Mybatis的配置文件位置。如果指定了该属性，那么会以该配置文件的内容作为配置信息构建对应的-->
 		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
 
     </bean>

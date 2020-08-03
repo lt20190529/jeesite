@@ -1032,6 +1032,11 @@
 					<version>3.10-FINAL</version>
 				</dependency>
 			</dependencies>
+
+
+
+
+
 			<build>
 				<plugins>
 					<plugin>
@@ -1047,7 +1052,7 @@
 								<!-- mssql
 								<property name="dbunit.datatype" value="org.dbunit.ext.mssql.MsSqlDataTypeFactory" /> -->
 
-								<!-- oracle   xxxxxxxx
+								<!-- oracle
 								<property name="dbunit.datatype" value="org.dbunit.ext.oracle.Oracle10DataTypeFactory" /> -->
 
 								<property file="src/main/resources/jeesite.properties" ></property>

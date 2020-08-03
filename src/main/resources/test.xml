@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="car1" class="com.thinkgem.jeesite.spring.Car"
+  <!--  <bean id="car1" class="com.thinkgem.jeesite.spring.Car"
               p:brand="spring注入-红旗001"
               p:color="spring注入-紫色"
               p:maxSpeed="520" >
-    </bean>
+    </bean>-->
 
 </beans>
