@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%><%--
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<script src="${ctxStatic}/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript"></script>
+<%--
 <html>
 <head>
 	<title>菜单导航</title>

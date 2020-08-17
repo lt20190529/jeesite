@@ -355,7 +355,7 @@ public class ErpRecController extends BaseController {
      ***********************************************入库制单界面[New]****************************************************/
     // 跳转到入库制单
     @RequiresPermissions("rec:erpRec:view")
-    @RequestMapping(value = "formA")
+    @RequestMapping(value = "form")
     @SameUrlData(save=true)
     public String formA(ErpRecNew erpRecNew, Model model) {
         System.out.print(erpRecNew);

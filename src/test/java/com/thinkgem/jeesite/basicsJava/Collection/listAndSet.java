@@ -47,7 +47,7 @@ public class listAndSet {
      */
     @Test
     public void test3(){
-       ArrayList<String> aa=new ArrayList<>();
+       ArrayList<String> aa=new ArrayList<String>();
         aa.add("aaa");
         aa.add("bbb");
         aa.add("ccc");
@@ -98,7 +98,7 @@ public class listAndSet {
      */
     @Test
     public void test5(){
-        HashMap<String,String> hashMap=new HashMap<>();
+        HashMap<String,String> hashMap=new HashMap<String, String>();
         hashMap.put("4","d");
         hashMap.put("3","c");
         hashMap.put("2","b");
@@ -110,7 +110,7 @@ public class listAndSet {
             System.out.println(key1+"       "+hashMap.get(key1));
         }
 
-        LinkedHashMap<String,String> linkedHashMap=new LinkedHashMap<>();
+        LinkedHashMap<String,String> linkedHashMap=new LinkedHashMap<String, String>();
         linkedHashMap.put("4","d");
         linkedHashMap.put("3","c");
         linkedHashMap.put("2","b");
