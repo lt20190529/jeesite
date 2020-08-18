@@ -39,7 +39,6 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
-import com.thinkgem.jeesite.modules.demotest.service.DemoTestService;
 import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
 import com.thinkgem.jeesite.modules.erpdepartments.service.ErpDepartmentsSerivce;
 import com.thinkgem.jeesite.modules.erpmanf.entity.ErpManf;
@@ -89,9 +88,6 @@ public class ErpRecController extends BaseController {
 	private DictService dictService;
 
 	@Autowired
-	private DemoTestService demoTestService;
-
-	@Autowired
 	private ErpItemService erpItemService;
 
 	@Autowired
@@ -102,8 +98,10 @@ public class ErpRecController extends BaseController {
 
 	// **********************************************入库列表****************************************************
 	// @ModelAttribute 注解的方法会在Controller每个方法执行之前都执行
+	//required：是否为必需的，默认为true，表示请求中必须包含对应的参数名，如果不存在就抛出异常
+	//defaultValue：默认参数名，设置该参数时，自动将required设为false。极少情况需要使用该参数，也不推荐使用该参数
 	@ModelAttribute
-	public ErpRecNew get(@RequestParam(required = false) String id, Model model) {
+	public ErpRecNew get(@RequestParam(required = false) String id) {
 		ErpRecNew entity = null;
 
 		if (StringUtils.isNotBlank(id)) {
@@ -171,24 +169,7 @@ public class ErpRecController extends BaseController {
 		
 		
 	// **********************************************入库制单界面[EasyUI]****************************************************
-	// 跳转到入库制单或者编辑界面
-	@RequiresPermissions("rec:erpRec:view")
-	@RequestMapping(value = "formB")
-	public String formnew(ErpRecNew erpRecNew, Model model) {
-		System.out.print(erpRecNew);
-		model.addAttribute("erpRecNew", erpRecNew);
 
-		ErpVendor erpVendor = new ErpVendor();
-		List<ErpVendor> erpVendorlist = erpVendorService.findList(erpVendor);
-		model.addAttribute("erpVendorlist", erpVendorlist);
-
-		ErpDepartments erpDepartments = new ErpDepartments();
-		List<ErpDepartments> erpDepartmentslist = erpDepartmentsSerivce
-				.findList(erpDepartments);
-		model.addAttribute("erpDepartmentslist", erpDepartmentslist);
-
-		return "modules/rec/erpRecFormA";
-	}
 
 	@RequestMapping("GetDetailListE")
 	@ResponseBody

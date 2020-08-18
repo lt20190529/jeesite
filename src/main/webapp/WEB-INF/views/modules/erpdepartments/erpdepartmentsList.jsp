@@ -131,7 +131,7 @@
 	</table>
 	<div class="pagination">${page}</div>
     <br>
-    <h5>xxx</h5>
+
     <br>
     <!-- demo root element -->
     <div id="demo">
@@ -142,7 +142,7 @@
         </demo-grid>
     </div>
 
-    <h5>***************************</h5>
+
     <div id="demo1">
           {{info}}
     </div>
@@ -225,9 +225,9 @@
                 }
             },
             mounted () {
-                axios
+               /* axios
                     .get('${ctx}/erpdepartments/departments/list')
-                    .then(response => (this.info = response.data))
+                    .then(response => (this.info = response.data));*/
 
 
             }

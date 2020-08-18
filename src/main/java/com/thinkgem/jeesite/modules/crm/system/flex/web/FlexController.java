@@ -165,6 +165,8 @@ public class FlexController extends BaseController {
 	
 	/*
 	 * 字典状态修改111
+	 * void setView（View view）：指定一个具体的视图对象。·
+	 * void setViewName（String viewName）：指定一个逻辑视图名。
 	 */
 	@RequestMapping(value="toggleStatus/{setId}")
 	public ModelAndView flextoggleStatus(@PathVariable("setId")int flexSetId){

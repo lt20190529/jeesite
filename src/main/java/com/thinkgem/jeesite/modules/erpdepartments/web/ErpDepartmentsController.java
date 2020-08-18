@@ -68,7 +68,7 @@ public class ErpDepartmentsController extends BaseController  {
 			HttpServletResponse response,Model model) {
 		Page<ErpDepartments> page = erpDepartmentsSerivce.findPage(new Page<ErpDepartments>(request, response), erpDepartments); 
 		model.addAttribute("page", page);
-        response.setHeader("Access-Control-Allow-Origin", "https://www.runoob.com/try/ajax/json_demo.json");
+        //response.setHeader("Access-Control-Allow-Origin", "https://www.runoob.com/try/ajax/json_demo.json");
         response.setHeader("Cache-Control","no-cache");
 		return "modules/erpdepartments/erpdepartmentsList";
 	}
