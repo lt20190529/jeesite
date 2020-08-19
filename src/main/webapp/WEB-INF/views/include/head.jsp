@@ -14,13 +14,11 @@
 <link rel="stylesheet"
 	href="${ctxStatic}/font-awesome-4.7.0/css/font-awesome.min.css"
 	type="text/css" />
-<link rel="stylesheet"
-	href="${ctxStatic}/sinoui/0.5.0/css/sinoui.css"
-	type="text/css" />
+
 
 <!--引入4.0.0BootStrap-->
-<%-- <link href="${ctxStatic}/bootstrap-4.0.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<script src="${ctxStatic}/bootstrap-4.0.0/js/bootstrap.min.js" type="text/javascript"></script> --%>
+<%--<link href="${ctxStatic}/bootstrap-4.0.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<script src="${ctxStatic}/bootstrap-4.0.0/js/bootstrap.min.js" type="text/javascript"></script>--%>
 
 
 

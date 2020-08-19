@@ -15,14 +15,11 @@
 	padding-left: 0px;
 }
 
-.modal.fade.in {
-	left: 500px;
-	overflow：hidden
-}
+
 </style>
 
 <link
-	href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css"
+	href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.css"
 	type="text/css" rel="stylesheet" />
 <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
@@ -109,177 +106,182 @@
 	</form:form>
 
 
+	<div class="modal" id="MyModal"
+		 style="width:900px;height:520px;top:60px;left:600px" tabindex="-1" role="dialog"
+		 aria-labelledby="myModalLabel" aria-hidden="true">
 
-	<div class="modal fade" id="MyModal" tabindex="-1"
-		style="width:900px;height:520px" data-backdrop="static">
-		<div class="modal-header">
-			<h3>维护</h3>
-		</div>
-		<div class="modal-body">
-			<form:form id="DrugInfoForm" modelAttribute="Drug" action="${ctx}/Drug/DrugInfo/Save"
-				method="post" class="form-horizontal">
-
-				<ul id="myTab" class="nav nav-tabs">
-					<li class="active"><a href="#BaseInfo" data-toggle="tab">
-					<span class="glyphicon glyphicon-cog">基本信息</span>
-					</a></li>
-					<li><a href="#OtherInfo" data-toggle="tab">
-					<span class="glyphicon glyphicon-cog">附加信息</span>
-					</a></li>
-				</ul>
-				<div id="myTabContent" class="tab-content">
-					<!-- 库存项 -->
-					<div class="tab-pane fade in active" id="BaseInfo">
-						<br>
-						<div class="row form-inline">
-                            <input type="hidden" id="Drug_id" name="Drug_id" />
-                           
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品编码：</div>
-							<div class="col-md-3">
-								 <form:input class="input-medium required" type="text" path="Drug_Code" autocomplete="off"
-									placeholder="请输入药品编码" />
-								 
-							</div>
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品描述：</div>
-							<div class="col-md-3">
-								 <form:input class="input-medium" type="text" path="Drug_Desc" autocomplete="off"
-								    placeholder="请输入药品描述" required="true"/>
-							</div>
-							<div class="col-md-2">
-								<div class="checkbox">
-									<label>  
-									<form:checkbox path="Drug_BaseDrugFlag" value="1"/>
-									基本药物
-									</label>
-								</div>
-							</div>
-						</div>
-						<br>
-						<div class="row form-inline">
-
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;规格：</div>
-							<div class="col-md-3">
-								<form:input class="input-medium" type="text"
-									path='Drug_Spec' placeholder="请输入规格" autocomplete="off" required="true"/>
-							</div>
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;单位：</div>
-							<div class="col-md-3">
-								<form:select path="Drug_Uom" class="input-medium">
-									<form:option value="">请选择单位</form:option>
-									<form:options items="${uomlist}" itemLabel="erpUomdesc"
-										itemValue="erpUomcode" htmlEscape="false" />
-								</form:select>
-							</div>
-							<div class="col-md-2">
-								<div class="checkbox">
-									<label> <form:checkbox path="Drug_ActiveFlag"
-									/>是否启用</label>
-								</div>
-							</div>
-						</div>
-						<br>
-						<div class="row form-inline">
-
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;库存大类：</div>
-							<div class="col-md-3">
-								<form:select path="Drug_Class_Dr" class="input-medium">
-									<form:option value="">请选择分类</form:option>
-							           <form:option value="1">西药</form:option>
-							           <form:option value="2">中药</form:option>
-							           <form:option value="3">草药</form:option>	
-								</form:select>
-							</div>
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;库存小类：</div>
-							<div class="col-md-3">
-								<form:select path="Drug_Cat_Dr" class="input-medium">
-									<form:option value="">请选择分类</form:option>
-							           <form:option value="1">西药</form:option>
-							           <form:option value="2">中药</form:option>
-							           <form:option value="3">草药</form:option>	
-								</form:select>
-							</div>
-							
-
-						</div>
-						<br>
-				        <div class="row form-inline">
-
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;进价：</div>
-							<div class="col-md-3">
-								<form:input class="input-medium" type="text" path="Drug_Rp"
-									placeholder="请输入进价" autocomplete="off"/>
-							</div>
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;售价：</div>
-							<div class="col-md-3">
-								<form:input class="input-medium" type="text" path="Drug_Sp"
-									placeholder="请输入售价" autocomplete="off"/>
-							</div>
-
-						</div>
-						<br>
-				        <div class="row form-inline">
-
-							<div class="col-md-2">&nbsp;&nbsp;别名：</div>
-							<div class="col-md-3">
-								<form:input class="input-medium" type="text" path="Drug_Alias"
-									placeholder="请输入别名" autocomplete="off"/>
-							</div>
-							<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;条码：</div>
-							<div class="col-md-3">
-								<form:input class="input-medium" type="text" path="Drug_BarCode"
-									name='Drug_BarCode' placeholder="请输入条码" autocomplete="off" required="true"/>
-							</div>
-
-						</div>
-						<hr>
-
-					</div>
-					<!-- 其他信息-->
-					<div class="tab-pane fade" id="OtherInfo">
-						<br>
-						<div class="row col-md-offset-1">
-							<div class=" form-group">
-								<label for="inputfile">文件上传</label> <input type="file"
-									id="inputfile">
-								<p class="help-block">这里是块级帮助文本的实例。</p>
-							</div>
-						</div>
-						<br>
-						<div class="row col-md-offset-1 ">
-							<%-- <div class="control-group">
-								<label class="control-label">图片:</label>
-								<div class="">
-						        <a href="#" class="thumbnail">
-						            <img src="../jeesite/static/images/IMG.jpg"
-						                 alt="请上传头像...">
-						        </a>
-						    </div>
-							<div class="controls">
-								<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-								<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
-							</div>
-							</div> --%>
-						</div>
-						<br>
-						<div class="row"></div>
-						<br>
-						<div class="row"></div>
-					</div>
+				<div class="modal-header">
+					<h3>维护</h3>
 				</div>
-			</form:form>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true" onclick="cancle()">取消</button>
-			<button class="btn btn-primary" onclick="SaveDrug()"
-				aria-hidden="true">提交</button>
+				<div class="modal-body">
+					<form:form id="DrugInfoForm" modelAttribute="Drug" action="${ctx}/Drug/DrugInfo/Save"
+							   method="post" class="form-horizontal">
+
+						<ul id="myTab" class="nav nav-tabs">
+							<li class="active"><a href="#BaseInfo" data-toggle="tab">
+								<span class="glyphicon glyphicon-cog">基本信息</span>
+							</a></li>
+							<li><a href="#OtherInfo" data-toggle="tab">
+								<span class="glyphicon glyphicon-cog">附加信息</span>
+							</a></li>
+						</ul>
+						<div id="myTabContent" class="">
+							<!-- 库存项 -->
+							<div class="tab-pane fade in active" id="BaseInfo">
+								<br>
+								<div class="row form-inline">
+
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品编码：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium required" type="text" path="Drug_Code" autocomplete="off"
+													placeholder="请输入药品编码" />
+
+									</div>
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品描述：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text" path="Drug_Desc" autocomplete="off"
+													placeholder="请输入药品描述" required="true"/>
+									</div>
+									<div class="col-md-2">
+										<div class="checkbox">
+											<label>
+												<form:checkbox path="Drug_BaseDrugFlag" value="1"/>
+												基本药物
+											</label>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row form-inline">
+
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;规格：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text"
+													path='Drug_Spec' placeholder="请输入规格" autocomplete="off" required="true"/>
+									</div>
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;单位：</div>
+									<div class="col-md-3">
+										<form:select path="Drug_Uom" class="input-medium">
+											<form:option value="">请选择单位</form:option>
+											<form:options items="${uomlist}" itemLabel="erpUomdesc"
+														  itemValue="erpUomcode" htmlEscape="false" />
+										</form:select>
+									</div>
+									<div class="col-md-2">
+										<div class="checkbox">
+											<label> <form:checkbox path="Drug_ActiveFlag"
+											/>是否启用</label>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="row form-inline">
+
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;库存大类：</div>
+									<div class="col-md-3">
+										<form:select path="Drug_Class_Dr" class="input-medium">
+											<form:option value="">请选择分类</form:option>
+											<form:option value="1">西药</form:option>
+											<form:option value="2">中药</form:option>
+											<form:option value="3">草药</form:option>
+										</form:select>
+									</div>
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;库存小类：</div>
+									<div class="col-md-3">
+										<form:select path="Drug_Cat_Dr" class="input-medium">
+											<form:option value="">请选择分类</form:option>
+											<form:option value="1">西药</form:option>
+											<form:option value="2">中药</form:option>
+											<form:option value="3">草药</form:option>
+										</form:select>
+									</div>
+
+
+								</div>
+								<br>
+								<div class="row form-inline">
+
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;进价：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text" path="Drug_Rp"
+													placeholder="请输入进价" autocomplete="off"/>
+									</div>
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;售价：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text" path="Drug_Sp"
+													placeholder="请输入售价" autocomplete="off"/>
+									</div>
+
+								</div>
+								<br>
+								<div class="row form-inline">
+
+									<div class="col-md-2">&nbsp;&nbsp;别名：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text" path="Drug_Alias"
+													placeholder="请输入别名" autocomplete="off"/>
+									</div>
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;条码：</div>
+									<div class="col-md-3">
+										<form:input class="input-medium" type="text" path="Drug_BarCode"
+													name='Drug_BarCode' placeholder="请输入条码" autocomplete="off" required="true"/>
+									</div>
+
+								</div>
+								<hr>
+
+							</div>
+							<!-- 其他信息-->
+							<div class="tab-pane fade" id="OtherInfo">
+								<br>
+								<div class="row col-md-offset-1">
+									<div class=" form-group">
+										<label for="inputfile">文件上传</label> <input type="file"
+																				   id="inputfile">
+										<p class="help-block">这里是块级帮助文本的实例。</p>
+									</div>
+								</div>
+								<br>
+								<div class="row col-md-offset-1 ">
+										<%-- <div class="control-group">
+											<label class="control-label">图片:</label>
+											<div class="">
+											<a href="#" class="thumbnail">
+												<img src="../jeesite/static/images/IMG.jpg"
+													 alt="请上传头像...">
+											</a>
+										</div>
+										<div class="controls">
+											<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+											<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+										</div>
+										</div> --%>
+								</div>
+								<br>
+								<div class="row"></div>
+								<br>
+								<div class="row"></div>
+							</div>
+						</div>
+					</form:form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn"  aria-hidden="" onclick="cancle()">取消</button>
+
+
+					<button class="btn btn-primary" onclick="SaveDrug()"
+							aria-hidden="true">提交</button>
+
 		</div>
 	</div>
+
 
 
 
     
 
 	<script>
+
 		$(document).ready(function() {
 			//页签切换
 			$('#myTab a:first').tab('show');//初始化显示哪个tab 
@@ -287,10 +289,12 @@
 				e.preventDefault();//阻止a链接的跳转行为 
 				$(this).tab('show');//显示当前选中的链接及关联的content 
 			});
-			
-			
-			
-			$("#DrugInfoForm").validate({
+
+
+
+
+
+            $("#DrugInfoForm").validate({
 				rules:{
 					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
 					Drug_Desc:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByDesc",type:"post"}}
@@ -307,7 +311,9 @@
 		});
 
 		function cancle(){
+
 			$("#MyModal").modal('hide');
+
 			$("#MyModal").on("hide.bs.modal", function() {
 				document.getElementById("DrugInfoForm").reset();
 				$("#DrugInfoForm").validate().resetForm();
@@ -546,6 +552,7 @@
 			return serializeObj;
 		};
 	</script>
+
 </body>
 
 
