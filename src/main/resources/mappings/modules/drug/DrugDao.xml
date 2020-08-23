@@ -40,7 +40,10 @@
         <result property="Drug_Cat_Dr" column="drug_Cat_Dr"/>
         <result property="Drug_Class_Dr" column="drug_Class_Dr"/>
         <result property="Drug_Sp" column="drug_Sp"/>
-        <result property="Drug_Rp" column="drug_Rp"/>
+		<result property="Drug_Phone" column="drug_Phone"/>
+        <result property="Drug_BaseDrugFlag" column="drug_BaseDrugFlag"/>
+		<result property="Drug_ActiveFlag" column="drug_ActiveFlag"/>
+		<result property="Drug_Rp" column="drug_Rp"/>
         <association property="Drug_Uom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
 		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
 		           可以有别名，如果无别名则对应表结构定义中的字段名称 -->
@@ -70,6 +73,7 @@
 		drug_Uom_Dr,
 		drug_Sp,
 		drug_Rp,
+		drug_Phone,
 		drug_BaseDrugFlag,
 		drug_Cat_Dr,
 		drug_Class_Dr,
@@ -103,6 +107,7 @@
 		drug_Cat_Dr,
 		drug_Rp,
 		drug_Sp,
+		drug_Phone,
 		drug_BaseDrugFlag,
 		drug_ActiveFlag,
 		remarks,
@@ -123,6 +128,7 @@
 		#{drug_Cat_Dr},
 		#{drug_Rp},
 		#{drug_Sp},
+		#{drug_Phone},
 		#{drug_BaseDrugFlag},
 		#{drug_ActiveFlag},
 		#{remarks},
@@ -145,6 +151,7 @@
 				drug_Cat_Dr=#{Drug_Cat_Dr},
 				drug_Rp=#{Drug_Rp},
 				drug_Sp=#{Drug_Sp},
+				drug_Phone=#{Drug_Phone},
 				drug_BaseDrugFlag=#{Drug_BaseDrugFlag},
 				drug_ActiveFlag=#{Drug_ActiveFlag},
 				remarks=#{remarks},

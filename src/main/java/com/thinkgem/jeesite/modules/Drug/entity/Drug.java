@@ -19,7 +19,7 @@ public class Drug extends DataEntity<Drug> {
 	private ErpUom Drug_Uom;
 	private String Drug_BarCode;
 	private String Drug_Alias;
-	
+	private String Drug_Phone;
 	private String Drug_Rp;
 	private String Drug_Sp;
 	private Boolean Drug_BaseDrugFlag;
@@ -113,6 +113,14 @@ public class Drug extends DataEntity<Drug> {
 	}
 	public void setDrug_Alias(String drug_Alias) {
 		Drug_Alias = drug_Alias;
+	}
+
+	public String getDrug_Phone() {
+		return Drug_Phone;
+	}
+
+	public void setDrug_Phone(String drug_Phone) {
+		Drug_Phone = drug_Phone;
 	}
 	@Override
 	public String toString() {

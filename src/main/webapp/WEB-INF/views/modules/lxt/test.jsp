@@ -51,7 +51,40 @@
              }
          });
 	 }
+     function uploadPhoto() {
+         $("#photoFile").click();
+     }
 
+     function upload(){
+         if ($("#photoFile").val() == '') {
+             return;
+         }
+
+         var formData = new FormData();
+         formData.append('photo', document.getElementById('photoFile').files[0]);
+         alert(formData.get("phone"));
+
+         $.ajax({
+             type : "post",
+             url : "${ctx}/lxt/test/photoUpload",
+             data: formData,
+             contentType: false,
+             processData: false,
+             success: function(data) {
+                 if (data.type == "success") {
+
+                     $("#preview_photo").attr("src", data.filepath+data.filename);
+                     $("#path").attr("value", data.filepath+data.filename);
+                     $("#productImg").val(data.filename);
+                 } else {
+                     alert(data.msg);
+                 }
+             },
+             error:function(data) {
+                 alert("上传失败")
+             }
+         });
+     }
 	</script>
 </head>
 <>
@@ -65,5 +98,19 @@
 	   type="button" value="ModelAttribute" />
 
 <input  id="name" class="input-xlarge required" readonly="true" >
+
+
+<a href="${ctx}/lxt/test/form?id=23">修改</a>
+
+
+<div>
+<%--	<a href="#" target="_top"><img src="${pageContext.request.contextPath }/" style="width:75px;height:75px;"  alt="暂无显示"></a>--%>
+	<a href="javascript:void(0)" onclick="uploadPhoto()">选择图片</a>
+	<input type="file" id="photoFile"  onchange="upload()">
+	<img id="preview_photo" src="" width="200px" height="200px">
+	<input id="path">
+</div>
+
 </body>
+
 </html>

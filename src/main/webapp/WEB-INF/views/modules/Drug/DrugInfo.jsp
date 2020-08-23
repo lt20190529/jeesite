@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %> 
 
 <c:set var="ctx"
@@ -10,12 +11,18 @@
 <title>测试</title>
 <meta name="decorator" content="default" />
 <style>
-.container-fluid {
-	padding-right: 0px;
-	padding-left: 0px;
-}
-
-
+	.upload{
+		padding: 4px 6px;
+		height:40px;
+		position: relative;
+	}
+	.change{
+		  position: absolute;
+		  overflow: hidden;
+		  right: 0;
+		  top: 0;
+		  opacity: 0;
+	  }
 </style>
 
 <link
@@ -107,7 +114,7 @@
 
 
 	<div class="modal" id="MyModal"
-		 style="width:900px;height:520px;top:60px;left:600px" tabindex="-1" role="dialog"
+		 style="width:900px;height:580px;top:60px;left:600px" tabindex="-1" role="dialog"
 		 aria-labelledby="myModalLabel" aria-hidden="true">
 
 				<div class="modal-header">
@@ -116,20 +123,21 @@
 				<div class="modal-body">
 					<form:form id="DrugInfoForm" modelAttribute="Drug" action="${ctx}/Drug/DrugInfo/Save"
 							   method="post" class="form-horizontal">
-
-						<ul id="myTab" class="nav nav-tabs">
-							<li class="active"><a href="#BaseInfo" data-toggle="tab">
-								<span class="glyphicon glyphicon-cog">基本信息</span>
-							</a></li>
-							<li><a href="#OtherInfo" data-toggle="tab">
-								<span class="glyphicon glyphicon-cog">附加信息</span>
-							</a></li>
-						</ul>
+                        <form:hidden path="Drug_id"></form:hidden>
 						<div id="myTabContent" class="">
-							<!-- 库存项 -->
 							<div class="tab-pane fade in active" id="BaseInfo">
-								<br>
 								<div class="row form-inline">
+									<div class="control-group">
+										<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品图片：</div>
+
+										<img id="preview_photo" src="" style="height:150px;width:250px;padding: 3px;" border="4">
+										<form:input id="Drug_Phone" path="Drug_Phone" type="hidden"/>
+
+										<a type="button" class="btn btn-primary upload" id="up_btn">
+											<input class="change" type="file" id="photoFile"  multiple="multiple" onchange="upload()"/>
+											<i class="fa fa-upload"></i>选择图片
+										</a>
+									</div>
 
 									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品编码：</div>
 									<div class="col-md-3">
@@ -226,49 +234,14 @@
 										<form:input class="input-medium" type="text" path="Drug_BarCode"
 													name='Drug_BarCode' placeholder="请输入条码" autocomplete="off" required="true"/>
 									</div>
-
 								</div>
 								<hr>
-
-							</div>
-							<!-- 其他信息-->
-							<div class="tab-pane fade" id="OtherInfo">
-								<br>
-								<div class="row col-md-offset-1">
-									<div class=" form-group">
-										<label for="inputfile">文件上传</label> <input type="file"
-																				   id="inputfile">
-										<p class="help-block">这里是块级帮助文本的实例。</p>
-									</div>
-								</div>
-								<br>
-								<div class="row col-md-offset-1 ">
-										<%-- <div class="control-group">
-											<label class="control-label">图片:</label>
-											<div class="">
-											<a href="#" class="thumbnail">
-												<img src="../jeesite/static/images/IMG.jpg"
-													 alt="请上传头像...">
-											</a>
-										</div>
-										<div class="controls">
-											<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-											<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
-										</div>
-										</div> --%>
-								</div>
-								<br>
-								<div class="row"></div>
-								<br>
-								<div class="row"></div>
 							</div>
 						</div>
 					</form:form>
 				</div>
 				<div class="modal-footer">
 					<button class="btn"  aria-hidden="" onclick="cancle()">取消</button>
-
-
 					<button class="btn btn-primary" onclick="SaveDrug()"
 							aria-hidden="true">提交</button>
 
@@ -281,7 +254,38 @@
     
 
 	<script>
+        function uploadPhoto() {
+            $("#photoFile").click();
+        }
+        function upload(){
+            if ($("#photoFile").val() == '') {
+                return;
+            }
 
+            var formData = new FormData();
+            formData.append('photo', document.getElementById('photoFile').files[0]);
+
+            $.ajax({
+                type : "post",
+                url : "${ctx}/Drug/DrugInfo/photoUpload",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.type == "success") {
+
+                        $("#preview_photo").attr("src", data.filepath+data.filename);
+                        $("#Drug_Phone").attr("value", data.filepath+data.filename);
+                        $("#productImg").val(data.filename);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error:function(data) {
+                    alert("上传失败")
+                }
+            });
+        }
 		$(document).ready(function() {
 			//页签切换
 			$('#myTab a:first').tab('show');//初始化显示哪个tab 
@@ -289,11 +293,6 @@
 				e.preventDefault();//阻止a链接的跳转行为 
 				$(this).tab('show');//显示当前选中的链接及关联的content 
 			});
-
-
-
-
-
             $("#DrugInfoForm").validate({
 				rules:{
 					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
@@ -410,6 +409,13 @@
 					halign: "center",
 					width : 100
 				}, {
+                    field : "drug_Phone",
+                    title : "图片",
+                    align : "right",
+                    halign: "center",
+                    width : 100,
+					hidden:false,
+                }, {
 					field : "drug_BaseDrugFlag",
 					title : "基本药物",
 					align : "right",
@@ -423,6 +429,19 @@
 						}
 					}
 				}, {
+                    field : "drug_ActiveFlag",
+                    title : "是否在用",
+                    align : "right",
+                    halign: "center",
+                    width : 100,
+                    formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
+                        if(value){
+                            return "是";
+                        }else {
+                            return "否";
+                        }
+                    }
+                }, {
 					field : "createBy",
 					title : "创建人",
 					align : "left",
@@ -477,9 +496,13 @@
 			$("#Drug_Class_Dr").val(num).select2();
 			$("#Drug_Uom").val(num1).select2();
 
+            $("#Drug_Phone").val(rowData["drug_Phone"]!= undefined ? rowData["drug_Phone"]:"");
+			$("#preview_photo").attr("src",rowData["drug_Phone"]!= undefined ? rowData["drug_Phone"]:"");
+
 			$("#Drug_BarCode").val(rowData["drug_BarCode"]);
 			$("#Drug_Sp").val(rowData["drug_Sp"]);
 			$("#Drug_Rp").val(rowData["drug_Rp"]);
+            $("#Drug_Phone").val(rowData["drug_Phone"]);
 			$("#Drug_BaseDrugFlag").val(rowData["drug_Code"]);
 			$("#Drug_ActiveFlag").val(rowData["drug_ActiveFlag"]);
 
@@ -489,6 +512,12 @@
 				$("[name='Drug_BaseDrugFlag']").attr("checked", false);
 
 			}
+            if (rowData["drug_ActiveFlag"]) {
+                $("[name='Drug_ActiveFlag']").attr("checked", true);
+            } else {
+                $("[name='Drug_ActiveFlag']").attr("checked", false);
+
+            }
 			$("#Drug_Alias").val(rowData["drug_Alias"]);
 		}
 
@@ -502,7 +531,8 @@
 			}else{
 				if (!$("#DrugInfoForm").valid()) {return;}
 			    msg="保存成功";
-			}; 			
+			};
+			//alert($("#DrugInfoForm").serialize())
 			$.ajax({
 				url : "${ctx}/Drug/DrugInfo/Save", 
 				method : "post",
