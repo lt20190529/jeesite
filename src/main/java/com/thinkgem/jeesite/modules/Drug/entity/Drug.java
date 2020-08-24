@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.Drug.entity;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 
 public class Drug extends DataEntity<Drug> {
@@ -34,24 +35,28 @@ public class Drug extends DataEntity<Drug> {
 		super(id);
 		// TODO Auto-generated constructor stub
 	}
+	@ExcelField(title="ID", type=1, align=2, sort=1)
 	public String getDrug_id() {
 		return Drug_id;
 	}
 	public void setDrug_id(String drug_id) {
 		Drug_id = drug_id;
 	}
+	@ExcelField(title="编码", type=1, align=2, sort=20)
 	public String getDrug_Code() {
 		return Drug_Code;
 	}
 	public void setDrug_Code(String drug_Code) {
 		Drug_Code = drug_Code;
 	}
+	@ExcelField(title="描述", type=1, align=2, sort=25)
 	public String getDrug_Desc() {
 		return Drug_Desc;
 	}
 	public void setDrug_Desc(String drug_Desc) {
 		Drug_Desc = drug_Desc;
 	}
+	@ExcelField(title="规格", type=1, align=2, sort=30)
 	public String getDrug_Spec() {
 		return Drug_Spec;
 	}

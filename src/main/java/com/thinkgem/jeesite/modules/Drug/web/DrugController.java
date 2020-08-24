@@ -4,9 +4,12 @@ import java.io.File;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import com.thinkgem.jeesite.modules.Drug.service.DrugService;
 import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 import com.thinkgem.jeesite.modules.erpuom.service.ErpUomService;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -166,4 +170,21 @@ public class DrugController {
 		ret.put("filename", filename);
 		return ret;
 	}
+
+    @RequestMapping(value="Excel",method=RequestMethod.POST)
+    public String ExcelDrugInfo(DrugVo drugVo, HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> map = new HashMap<String, Object>();
+	    try{
+	        String fileName="药品数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+
+	        List<Drug> listDrug=drugService.findDrugList(drugVo);
+            new ExportExcel("药品数据", Drug.class).setDataList(listDrug).write(response, fileName).dispose();
+            return null;
+        }catch (Exception e){
+           // map.put("message","导出药品数据错误,信息:"+e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        return "redirect:/modules/Drug/DrugInfo/QueryDrugInfo?repage";
+        //return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo").addAllObjects(map);
+    }
 }

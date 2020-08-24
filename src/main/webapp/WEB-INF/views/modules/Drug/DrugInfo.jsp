@@ -31,7 +31,22 @@
 <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
 	type="text/css" />
+<script>
+    $(document).ready(function() {
+        $("#btnExcel").click(function(){
+            alert(1)
+            $.ajax({
+                url:"${ctx}/Drug/DrugInfo/Excel",
+                type:"post",
+                success:function (data) {
+                },
+                error:function (data) {
+                }
+            })
+		})
+	})
 
+</script>
 </head>
 <body>
 	<%--@elvariable id="Drug" type=""--%>
@@ -97,7 +112,7 @@
 					</div>
 					<div class="col-md-5"></div>
 					<div class="col-md-offset-6 col-md-1">
-						<button type="button" class="btn btn-primary" onclick="execl()">导出</button>
+						<button type="button" class="btn btn-primary" id="btnExcel">导出</button>
 					</div>
 					<div class="col-md-1">
 					    <button type="button" class="btn btn-primary" onclick="print()">打印</button>
@@ -327,6 +342,28 @@
     
 
 	<script>
+
+		$(document).ready(function() {
+
+			//页签切换
+			$('#myTab a:first').tab('show');//初始化显示哪个tab
+			$('#myTab a').click(function(e) {
+				e.preventDefault();//阻止a链接的跳转行为
+				$(this).tab('show');//显示当前选中的链接及关联的content 
+			});
+            $("#DrugInfoForm").validate({
+				rules:{
+					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
+					Drug_Desc:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByDesc",type:"post"}}
+				},
+				messages:{
+					Drug_Code:{required: "代码不能为空",remote:"代码已经存在"},
+					Drug_Desc:{required: "描述不能为空",remote:"描述已经存在..."}
+				}
+			});
+			//GetUserList();
+		});
+
         function uploadPhoto() {
             $("#photoFile").click();
         }
@@ -358,25 +395,6 @@
                 }
             });
         }
-		$(document).ready(function() {
-			//页签切换
-			$('#myTab a:first').tab('show');//初始化显示哪个tab 
-			$('#myTab a').click(function(e) {
-				e.preventDefault();//阻止a链接的跳转行为 
-				$(this).tab('show');//显示当前选中的链接及关联的content 
-			});
-            $("#DrugInfoForm").validate({
-				rules:{
-					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
-					Drug_Desc:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByDesc",type:"post"}}
-				},
-				messages:{
-					Drug_Code:{required: "代码不能为空",remote:"代码已经存在"},
-					Drug_Desc:{required: "描述不能为空",remote:"描述已经存在..."}
-				}
-			});
-			//GetUserList();
-		});
 
 		function cancle(){
 
