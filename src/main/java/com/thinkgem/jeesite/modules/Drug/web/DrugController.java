@@ -5,6 +5,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSONArray;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,20 +41,22 @@ public class DrugController {
 	        }};
 	}
 	@RequestMapping("QueryDrugInfo")
-	public String form(Model model) {
+	public String form(Model model,DrugVo drugVo) throws Exception {
 		model.addAttribute("Drug", new Drug());
 		ErpUom erpUom = new ErpUom();	
 		List<ErpUom> list1 = erpUomService.findList(erpUom);
+		List<Drug> drugList=drugService.findDrugList(drugVo);
+		model.addAttribute("druglist",drugList);
 		model.addAttribute("uomlist", list1);
 		return "modules/Drug/DrugInfo";
 	}
 	
 	
 	/**
-	 * 校验代码是否存在
-	 * @param drug
+	 * &#x6821;&#x9a8c;&#x4ee3;&#x7801;&#x662f;&#x5426;&#x5b58;&#x5728;
+	 * @param drug_Code
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	
 	@RequestMapping(value="checkDrugByCode",produces="application/json")
@@ -67,7 +71,6 @@ public class DrugController {
 	
 	/**
 	 * 校验描述是否存在
-	 * @param drug
 	 * @return
 	 * @throws Exception 
 	 */
@@ -92,7 +95,12 @@ public class DrugController {
 	    
 	}
 	
-	
+	@RequestMapping(value="getDrugInfo/{drugID}",method = RequestMethod.POST)
+	@ResponseBody
+	public String getDrugInfo(@PathVariable("drugID")String drugID){
+		Drug drug=drugService.getDrugInfoByID(drugID);
+		return JsonMapper.getInstance().toJson(drug);
+	}
 	
 	//jqGrid  数据准备
 	@RequestMapping("getListjqGrid")

@@ -13,7 +13,7 @@
 <style>
 	.upload{
 		padding: 4px 6px;
-		height:40px;
+		height:30px;
 		position: relative;
 	}
 	.change{
@@ -34,7 +34,8 @@
 
 </head>
 <body>
-	<form:form id="DrugForm" modelAttribute=""
+	<%--@elvariable id="Drug" type=""--%>
+	<form:form id="DrugForm" modelAttribute="Drug"
 		action="${ctx}/Drug/DrugInfo/QueryDrugInfo" method="post">
 		<div class="container-fluid">
 			<div class="row-fluid ">
@@ -83,7 +84,7 @@
 							name="drug.Drug_ActiveFlag" id="optionsRadios" value="1"
 							checked>启用
 						</label> <label class="radio-inline"> <input type="radio"
-							name="drug.Drug_ActiveFlag" id="optionsRadios" value="0">禁用
+							name="drug.Drug_ActiveFlag" id="optionsRadios1" value="0">禁用
 						</label>
 					</div>
 
@@ -102,7 +103,79 @@
 					    <button type="button" class="btn btn-primary" onclick="print()">打印</button>
 					</div>
 					<div class="col-md-12">
-						<table id="table"></table>
+						<table id="table" class="table table-striped table-bordered table-condensed">
+							<thead>
+							<tr>
+								<th style="display:none;">ID</th>
+								<th style="align:center">编码</th>
+								<th>描述</th>
+								<th>规格</th>
+								<th>单位</th>
+								<th>库存分类</th>
+								<th>售价</th>
+								<th>进价</th>
+								<th>别名</th>
+								<th>条码</th>
+								<th>是否激活</th>
+								<th>是否在用</th>
+								<th>创建人</th>
+								<th>创建日期</th>
+								<shiro:hasPermission name="item:erpItem:edit"><th>操作</th></shiro:hasPermission>
+							</tr>
+							</thead>
+							<tbody>
+							<c:forEach items="${druglist}" var="drug">
+								<tr>
+									<td style="display:none;">
+											${drug.drug_id}
+									</td>
+									<td>
+											${drug.drug_Code}
+									</td>
+									<td>
+											${drug.drug_Desc}
+									</td>
+									<td>
+											${drug.drug_Spec}
+									</td>
+									<td>
+											${drug.drug_Uom.erpUomdesc}
+									</td>
+									<td>
+											${drug.drug_Cat_Dr}
+									</td>
+									<td>
+										    ${drug.drug_Sp}
+									</td>
+									<td>
+											${drug.drug_Rp}
+									</td>
+									<td>
+											${drug.drug_Alias}
+									</td>
+									<td>
+											${drug.drug_BarCode}
+									</td>
+									<td>
+											${drug.drug_BaseDrugFlag=='true'?'是':'否'}
+									</td>
+									<td>
+											${drug.drug_ActiveFlag=='true'?'是':'否'}
+									</td>
+									<td>
+											${drug.createBy}
+									</td>
+									<td>
+										<fmt:formatDate value="${drug.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+									</td>
+									<shiro:hasPermission name="item:erpItem:edit"><td>
+										<a  onclick="editDrug('${drug.drug_id}')">修改</a>
+										<a href="" onclick="return confirmx('确认要删除该字典维护吗？', this.href)">删除</a>
+									</td></shiro:hasPermission>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
 					</div>
 					
 				</div>
@@ -273,7 +346,6 @@
                 processData: false,
                 success: function(data) {
                     if (data.type == "success") {
-
                         $("#preview_photo").attr("src", data.filepath+data.filename);
                         $("#Drug_Phone").attr("value", data.filepath+data.filename);
                         $("#productImg").val(data.filename);
@@ -303,10 +375,7 @@
 					Drug_Desc:{required: "描述不能为空",remote:"描述已经存在..."}
 				}
 			});
-
-			GetUserList();
-			
-			
+			//GetUserList();
 		});
 
 		function cancle(){
@@ -321,204 +390,52 @@
 		}
 
 		
-		function GetUserList() {
-			
-			$("#table").datagrid({
-				url : "${ctx}/Drug/DrugInfo/getListjqGrid",
-				queryParams : //每次请求的参数
-				{
-					
-				},
-				fitColumns : true,
-				pagination : true,//允许分页
-				rownumbers : true,//行号
-				pageNumber : 1,
-				singleSelect : true,//只选择一行
-				pageSize : 10,//每一页数据数量
-				checkOnSelect : false,
-				pageList : [ 10, 20, 30 ],
-				columns : [ [ {
-					field : "drug_id",
-					title : "药品ID",
-					align : "center",
-					width : 100,
-					hidden:"true"
-				}, {
-					field : "drug_Code",
-					title : "药品编码",
-					align : "center",
-					width : 100
-				}, {
-					field : "drug_Desc",
-					title : "药品描述",
-					align : "center",
-					width : 200
-				}, {
-					field : "drug_Spec",
-					title : "规格",
-					align : "center",
-					width : 100
-				}, {
-					field : "drug_Uom",
-					title : "药品单位",
-					align : "center",
-					width : 100,
-					formatter:function(value,row){ 
-	                    if (value!= undefined){
-	                    	return row.drug_Uom.erpUomdesc;
-					    }else{
-					    	return ""; //--值用于显示
-					    };
-	                }
-				}, {
-					field : "drug_Class_Dr",
-					title : "类组",
-					align : "center",
-					width : 100,
-					formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
-						if(value =='1'){
-							return "西药";
-						}else if(value =='2'){
-							return "中成药";
-						}else if(value =='3'){
-							return "草药";
-						}
-					}
-				}, {
-					field : "drug_Alias",
-					title : "别名",
-					align : "left",
-					halign: "center",
-					width : 100
-				}, {
-					field : "drug_BarCode",
-					title : "条码",
-					align : "right",
-					halign: "center",
-					width : 100
-				}, {
-					field : "drug_Rp",
-					title : "进价",
-					align : "right",
-					halign: "center",
-					width : 100
-				}, {
-					field : "drug_Sp",
-					title : "售价",
-					align : "right",
-					halign: "center",
-					width : 100
-				}, {
-                    field : "drug_Phone",
-                    title : "图片",
-                    align : "right",
-                    halign: "center",
-                    width : 100,
-					hidden:false,
-                }, {
-					field : "drug_BaseDrugFlag",
-					title : "基本药物",
-					align : "right",
-					halign: "center",
-					width : 100,
-					formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
-						if(value){
-							return "是";
-						}else {
-							return "否";
-						}
-					}
-				}, {
-                    field : "drug_ActiveFlag",
-                    title : "是否在用",
-                    align : "right",
-                    halign: "center",
-                    width : 100,
-                    formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
-                        if(value){
-                            return "是";
-                        }else {
-                            return "否";
-                        }
-                    }
-                }, {
-					field : "createBy",
-					title : "创建人",
-					align : "left",
-					width : 100,
-					formatter:function(value,row){ 
-	                    if (value!= undefined){
-	                    	return row.createBy.name;
-					    }else{
-					    	return ""; 
-					    };
-	                }
-				}, {
-					field : "createDate",
-					title : "创建日期",
-					align : "right",
-					halign: "center",
-					width : 150
-				} ] ],
-
-				//点击每一行的时候触发
-				onClickRow : function(rowIndex, rowData) {
-					editDrug(rowData);
-				}
-			});
-		}
-		
-		function execl(){
-			$("#table").datagrid('toExcel', {
-			    filename: '药品字典列表'+2019+'.xls',
-			    worksheet: 'Worksheet'
-			});
-		}
-		function print(){
-			$('#table').datagrid('print', 'DataGrid');
-		}
-		
 		function addDrug(){
 		    $("#Drug_id").val("");
 		    $("#MyModal").modal("show");
 		}
-		function editDrug(rowData) {
-			$("#MyModal").modal("show");
-			$("#Drug_id").val(rowData["drug_id"]);
-			$("#Drug_Code").val(rowData["drug_Code"]);
-			$("#Drug_Desc").val(rowData["drug_Desc"]);
-			$("#Drug_Spec").val(rowData["drug_Spec"]);
+		function editDrug(drugID) {
+            $.ajax({
+                type : "post",
+                url : "${ctx}/Drug/DrugInfo/getDrugInfo/"+drugID,
+                dataType : 'json',
+                success : function(data) {
+                    showInfo(data)
+                }
+            });
+		}
+		function showInfo(data){
+            $("#MyModal").modal("show");
+            alert(data.drug_id);
+            $("#Drug_id").val(data.drug_id);
+            $("#Drug_Code").val(data.drug_Code);
+            $("#Drug_Desc").val(data.drug_Desc);
+            $("#Drug_Spec").val(data.drug_Spec);
 
-			var num = rowData["drug_Class_Dr"]; 
-			var num1 = rowData["drug_Uom"].erpUomcode; 
-			//$("#DrugClassDr").val(num).trigger("change");
-			//$("#DrugUom").val(num1).trigger("change");
-			$("#Drug_Class_Dr").val(num).select2();
-			$("#Drug_Uom").val(num1).select2();
+            var num = data.drug_Class_Dr;
+            var num1 = data.drug_Uom.erpUomcode;
+            $("#Drug_Class_Dr").val(num).select2();
+            $("#Drug_Uom").val(num1).select2();
 
-            $("#Drug_Phone").val(rowData["drug_Phone"]!= undefined ? rowData["drug_Phone"]:"");
-			$("#preview_photo").attr("src",rowData["drug_Phone"]!= undefined ? rowData["drug_Phone"]:"");
+            $("#Drug_Phone").val(data.drug_Phone!= undefined ? data.drug_Phone:"");
+            $("#preview_photo").attr("src",data.drug_Phone!= undefined ? data.drug_Phone:"");
+            $("#Drug_BarCode").val(data.drug_BarCode);
+            $("#Drug_Sp").val(data.drug_Sp);
+            $("#Drug_Rp").val(data.drug_Rp);
+            $("#Drug_Phone").val(data.drug_Phone);
+            if (data.drug_BaseDrugFlag) {
+                $("[name='Drug_BaseDrugFlag']").attr("checked", true);
+            } else {
+                $("[name='Drug_BaseDrugFlag']").attr("checked", false);
 
-			$("#Drug_BarCode").val(rowData["drug_BarCode"]);
-			$("#Drug_Sp").val(rowData["drug_Sp"]);
-			$("#Drug_Rp").val(rowData["drug_Rp"]);
-            $("#Drug_Phone").val(rowData["drug_Phone"]);
-			$("#Drug_BaseDrugFlag").val(rowData["drug_Code"]);
-			$("#Drug_ActiveFlag").val(rowData["drug_ActiveFlag"]);
-
-			if (rowData["drug_BaseDrugFlag"]) {
-				$("[name='Drug_BaseDrugFlag']").attr("checked", true);
-			} else {
-				$("[name='Drug_BaseDrugFlag']").attr("checked", false);
-
-			}
-            if (rowData["drug_ActiveFlag"]) {
+            }
+            if (data.drug_ActiveFlag) {
                 $("[name='Drug_ActiveFlag']").attr("checked", true);
             } else {
                 $("[name='Drug_ActiveFlag']").attr("checked", false);
 
             }
-			$("#Drug_Alias").val(rowData["drug_Alias"]);
+            $("#Drug_Alias").val(data.drug_Alias);
 		}
 
 		
@@ -543,7 +460,6 @@
 					if (data.state == "success") {
 						layer.alert(msg);
 						$("#MyModal").modal('hide');
-						$("#table").datagrid('reload');
 						document.getElementById("DrugInfoForm").reset();
 						$("#DrugInfoForm").validate().resetForm();
 					}

@@ -64,6 +64,32 @@
 		select count(*) from erp_drug where drug_Desc=#{drug_Desc}
 	</select>
 
+	<select id="getDrugInfoByID" parameterType="String" resultMap="drugResultMap">
+		select drug_id,
+		drug_Code,
+		drug_Desc,
+		drug_Spec,
+		drug_Uom_Dr,
+		drug_Sp,
+		drug_Rp,
+		drug_Phone,
+		drug_BaseDrugFlag,
+		drug_Cat_Dr,
+		drug_Class_Dr,
+		drug_ActiveFlag,
+		drug_Alias,
+		drug_BarCode,
+		drug_Uom_Dr,
+		uom.erp_uomCode as "uomCode",
+		uom.erp_uomDesc as "uomDesc",
+		createruser.login_name as "createBy.id",
+		drug.createDate as "createDate"
+		from erp_drug drug,
+		erp_uom uom,
+		sys_user createruser
+		where drug.drug_id=#{Drug_id}
+
+	</select>
 	<select id="findDrugList" parameterType="com.thinkgem.jeesite.modules.Drug.entity.DrugVo"
 	    resultMap="drugResultMap">
 		select drug_id,

@@ -48,4 +48,9 @@ public class DrugService extends CrudService<DrugDao, Drug> {
 			drugDao.update(drug);
 		}
 	}
+
+    //Desc:根据ID查询对应信息
+	public Drug getDrugInfoByID(String drugID) {
+		return drugDao.getDrugInfoByID(drugID);
+	}
 }

@@ -19,6 +19,7 @@ public interface DrugDao extends CrudDao<Drug> {
 	public int insert(Drug drug);
 	
 	public int update(Drug drug);
-	
-	
+
+    Drug getDrugInfoByID(String drugID);
+
 }
