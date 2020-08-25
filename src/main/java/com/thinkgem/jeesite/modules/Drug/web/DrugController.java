@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -172,19 +174,35 @@ public class DrugController {
 	}
 
     @RequestMapping(value="Excel",method=RequestMethod.POST)
-    public String ExcelDrugInfo(DrugVo drugVo, HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView ExcelDrugInfo(DrugVo drugVo, HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> map = new HashMap<String, Object>();
 	    try{
 	        String fileName="药品数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-
-	        List<Drug> listDrug=drugService.findDrugList(drugVo);
+			DrugVo drug=new DrugVo();
+	        List<Drug> listDrug=drugService.findDrugList(drug);
             new ExportExcel("药品数据", Drug.class).setDataList(listDrug).write(response, fileName).dispose();
             return null;
         }catch (Exception e){
-           // map.put("message","导出药品数据错误,信息:"+e.getMessage());
-            System.out.println(e.getMessage());
+           map.put("message","导出药品数据错误,信息:"+e.getMessage());
         }
-        return "redirect:/modules/Drug/DrugInfo/QueryDrugInfo?repage";
-        //return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo").addAllObjects(map);
+       return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo").addAllObjects(map);
     }
+
+	/**
+	 * 下载导入药品数据模板
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "import/template")
+	public ModelAndView importFileTemplate(HttpServletResponse response) {
+		try {
+			String fileName = "药品数据导入模板.xlsx";
+			List<Drug> list = Lists.newArrayList();
+			new ExportExcel("药品数据", Drug.class, 2).setDataList(list).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			System.out.println("导入模板下载失败！失败信息："+e.getMessage());
+		}
+		return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo");
+	}
 }

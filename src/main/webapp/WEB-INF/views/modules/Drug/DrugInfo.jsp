@@ -34,21 +34,35 @@
 <script>
     $(document).ready(function() {
         $("#btnExcel").click(function(){
-            alert(1)
-            $.ajax({
-                url:"${ctx}/Drug/DrugInfo/Excel",
-                type:"post",
-                success:function (data) {
-                },
-                error:function (data) {
+            var url =  $("#searchForm").attr("action");
+            top.$.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
+                if(v=="ok"){
+                    $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/Excel");
+                    $("#DrugForm").submit();
                 }
-            })
-		})
+                $("#searchForm").attr("action",url);
+
+            },{buttonsFocus:1});
+            top.$('.jbox-body .jbox-icon').css('top','55px');
+        })
+
+        $("#btnImport").click(function(){
+            $.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true},
+                bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
+        });
 	})
 
 </script>
 </head>
 <body>
+	<div id="importBox" class="hide">
+		<form id="importForm" action="${ctx}/sys/user/import" method="post" enctype="multipart/form-data"
+			  class="form-search" style="padding-left:20px;text-align:center;" onsubmit="loading('正在导入，请稍等...');"><br/>
+			<input id="uploadFile" name="file" type="file" style="width:330px"/><br/><br/>　　
+			<input id="btnImportSubmit" class="btn btn-primary" type="submit" value="   导    入   "/>
+			<a href="${ctx}/Drug/DrugInfo/import/template">下载模板</a>
+		</form>
+	</div>
 	<%--@elvariable id="Drug" type=""--%>
 	<form:form id="DrugForm" modelAttribute="Drug"
 		action="${ctx}/Drug/DrugInfo/QueryDrugInfo" method="post">
@@ -110,13 +124,15 @@
 					<div class="col-md-4">
 					    <h4><span class="glyphicon glyphicon-list-alt">药品列表</h4>
 					</div>
-					<div class="col-md-5"></div>
-					<div class="col-md-offset-6 col-md-1">
-						<button type="button" class="btn btn-primary" id="btnExcel">导出</button>
+					<div class="col-md-2 col-md-offset-6">
+
+						<input type="button" class="btn btn-primary" id="btnExcel" value="导出"/>
+						<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
+					    <input type="button" class="btn btn-primary" onclick="print()" value="打印"/>
+
 					</div>
-					<div class="col-md-1">
-					    <button type="button" class="btn btn-primary" onclick="print()">打印</button>
-					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-12">
 						<table id="table" class="table table-striped table-bordered table-condensed">
 							<thead>
@@ -192,7 +208,7 @@
 							</tbody>
 						</table>
 					</div>
-					
+				</div>
 				</div>
 
 			</div>
@@ -345,12 +361,6 @@
 
 		$(document).ready(function() {
 
-			//页签切换
-			$('#myTab a:first').tab('show');//初始化显示哪个tab
-			$('#myTab a').click(function(e) {
-				e.preventDefault();//阻止a链接的跳转行为
-				$(this).tab('show');//显示当前选中的链接及关联的content 
-			});
             $("#DrugInfoForm").validate({
 				rules:{
 					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
@@ -361,7 +371,6 @@
 					Drug_Desc:{required: "描述不能为空",remote:"描述已经存在..."}
 				}
 			});
-			//GetUserList();
 		});
 
         function uploadPhoto() {
@@ -424,12 +433,11 @@
 		}
 		function showInfo(data){
             $("#MyModal").modal("show");
-            alert(data.drug_id);
+
             $("#Drug_id").val(data.drug_id);
             $("#Drug_Code").val(data.drug_Code);
             $("#Drug_Desc").val(data.drug_Desc);
             $("#Drug_Spec").val(data.drug_Spec);
-
             var num = data.drug_Class_Dr;
             var num1 = data.drug_Uom.erpUomcode;
             $("#Drug_Class_Dr").val(num).select2();
@@ -441,32 +449,14 @@
             $("#Drug_Sp").val(data.drug_Sp);
             $("#Drug_Rp").val(data.drug_Rp);
             $("#Drug_Phone").val(data.drug_Phone);
-            if (data.drug_BaseDrugFlag) {
-                $("[name='Drug_BaseDrugFlag']").attr("checked", true);
-            } else {
-                $("[name='Drug_BaseDrugFlag']").attr("checked", false);
-
-            }
-            if (data.drug_ActiveFlag) {
-                $("[name='Drug_ActiveFlag']").attr("checked", true);
-            } else {
-                $("[name='Drug_ActiveFlag']").attr("checked", false);
-
-            }
+            $("[name='Drug_BaseDrugFlag']").attr("checked", data.drug_BaseDrugFlag?true:false);
+            $("[name='Drug_ActiveFlag']").attr("checked", data.drug_ActiveFlag?true:false);
             $("#Drug_Alias").val(data.drug_Alias);
 		}
 
 		
 
 		function SaveDrug() {
-			var url="";	
-			var msg="";	
-			if($("input:hidden[name='"+"Drug_id"+"']").val()){
-			    msg="编辑成功";
-			}else{
-				if (!$("#DrugInfoForm").valid()) {return;}
-			    msg="保存成功";
-			};
 			//alert($("#DrugInfoForm").serialize())
 			$.ajax({
 				url : "${ctx}/Drug/DrugInfo/Save", 
@@ -476,7 +466,7 @@
 				dataType : "json",
 				success : function(data) {
 					if (data.state == "success") {
-						layer.alert(msg);
+						layer.alert($("input:hidden[name='"+"Drug_id"+"']").val()?"编辑成功":"保存成功");
 						$("#MyModal").modal('hide');
 						document.getElementById("DrugInfoForm").reset();
 						$("#DrugInfoForm").validate().resetForm();
