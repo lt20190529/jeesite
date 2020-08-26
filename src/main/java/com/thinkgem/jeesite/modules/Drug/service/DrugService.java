@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.Drug.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class DrugService extends CrudService<DrugDao, Drug> {
 	
 	@Transactional(readOnly = false)
 	public void Save(Drug drug){
-		if(drug.getDrug_id().equals("")){
+		if(StringUtils.isBlank(drug.getDrug_id())){
 			drug.setIsNewRecord(false);
 			drug.preInsert();
 			drug.setDrug_id(IdGen.uuid());

@@ -147,7 +147,7 @@
 		#{drug_Code},
 		#{drug_Desc},
 		#{drug_Spec},
-		#{Drug_Uom.id},
+		#{Drug_Uom.erpUomcode},
 		#{drug_Class_Dr},
 		#{drug_BarCode},
 		#{drug_Alias},

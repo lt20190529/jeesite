@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.modules.Drug.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,10 @@ import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -203,6 +207,34 @@ public class DrugController {
 		} catch (Exception e) {
 			System.out.println("导入模板下载失败！失败信息："+e.getMessage());
 		}
+		return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo");
+	}
+
+
+
+	/*
+	基础数据--药品数据导入
+	 */
+	@RequestMapping(value="import",method = RequestMethod.POST)
+	public ModelAndView importDrugData(MultipartFile file) {
+		int successcount=0;
+		int failurecount=0;
+
+		try {
+			ImportExcel ie =new ImportExcel(file,1,0);
+			List<Drug> list=ie.getDataList(Drug.class);
+			for (Drug drug:list){
+				drug.setDrug_ActiveFlag(true);
+				drug.setDrug_BaseDrugFlag(true);
+				drugService.Save(drug);
+				successcount++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			failurecount++;
+
+		}
+		System.out.println(successcount+"====="+failurecount);
 		return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo");
 	}
 }

@@ -226,7 +226,9 @@ public class ExportExcel {
 				cell.setCellValue(ss[0]);
 				Comment comment = this.sheet.createDrawingPatriarch().createCellComment(
 						new XSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
-				comment.setString(new XSSFRichTextString(ss[1]));
+				comment.setString(new XSSFRichTextString(ss[1]));  //设置批注
+				//comment.setRow(1);
+				//comment.setColumn(2);
 				cell.setCellComment(comment);
 			}else{
 				cell.setCellValue(headerList.get(i));
@@ -455,7 +457,7 @@ public class ExportExcel {
 	
 	/**
 	 * 输出到文件
-	 * @param fileName 输出文件名
+	 * @param name 输出文件名
 	 */
 	public ExportExcel writeFile(String name) throws FileNotFoundException, IOException{
 		FileOutputStream os = new FileOutputStream(name);
