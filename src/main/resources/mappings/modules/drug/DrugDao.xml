@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.Drug.dao.DrugDao">
-	
+
 	<!-- sql片段 -->
 	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
 	<sql id="query_drug_where">
@@ -22,43 +22,43 @@
 				and drug.Drug_Cat_Dr = #{drug.Drug_Cat_Dr}
 			</if>
 			<!-- mybatis中用tinyint保存Boolean类型的时候，直接使用false和true就可以，mybatis会自动映射。-->
-            <!-- 但是要注意的是，一般的mapper.xml中写where的时候会判断(drug.Drug_Cat_Dr!='') -->
+			<!-- 但是要注意的是，一般的mapper.xml中写where的时候会判断(drug.Drug_Cat_Dr!='') -->
 			<if test="drug.Drug_ActiveFlag!=null">
 				and drug.Drug_ActiveFlag = #{drug.Drug_ActiveFlag}
 			</if>
 		</if>
 	</sql>
-	
-	
-    <resultMap id="drugResultMap" type="com.thinkgem.jeesite.modules.Drug.entity.Drug" extends="com.thinkgem.jeesite.modules.item.dao.ErpItemDao.DataEntityResultMap">
-        <id property="Drug_id" column="drug_ID"/>
-        <result property="Drug_Code" column="drug_Code"/>
-        <result property="Drug_Desc" column="drug_Desc"/>
-        <result property="Drug_Spec" column="drug_Spec"/>
-        <result property="Drug_BarCode" column="drug_BarCode"/>
-        <result property="Drug_Alias" column="drug_Alias"/>
-        <result property="Drug_Cat_Dr" column="drug_Cat_Dr"/>
-        <result property="Drug_Class_Dr" column="drug_Class_Dr"/>
-        <result property="Drug_Sp" column="drug_Sp"/>
+
+
+	<resultMap id="drugResultMap" type="com.thinkgem.jeesite.modules.Drug.entity.Drug" extends="com.thinkgem.jeesite.modules.item.dao.ErpItemDao.DataEntityResultMap">
+		<id property="Drug_id" column="drug_ID"/>
+		<result property="Drug_Code" column="drug_Code"/>
+		<result property="Drug_Desc" column="drug_Desc"/>
+		<result property="Drug_Spec" column="drug_Spec"/>
+		<result property="Drug_BarCode" column="drug_BarCode"/>
+		<result property="Drug_Alias" column="drug_Alias"/>
+		<result property="Drug_Cat_Dr" column="drug_Cat_Dr"/>
+		<result property="Drug_Class_Dr" column="drug_Class_Dr"/>
+		<result property="Drug_Sp" column="drug_Sp"/>
 		<result property="Drug_Phone" column="drug_Phone"/>
-        <result property="Drug_BaseDrugFlag" column="drug_BaseDrugFlag"/>
+		<result property="Drug_BaseDrugFlag" column="drug_BaseDrugFlag"/>
 		<result property="Drug_ActiveFlag" column="drug_ActiveFlag"/>
 		<result property="Drug_Rp" column="drug_Rp"/>
-        <association property="Drug_Uom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
-		    <!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
-		           可以有别名，如果无别名则对应表结构定义中的字段名称 -->
+		<association property="Drug_Uom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
+			<!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
+                   可以有别名，如果无别名则对应表结构定义中的字段名称 -->
 			<id property="id" column="drug_Uom_Dr" />
 			<result property="erpUomcode" column="uomCode" />
 			<result property="erpUomdesc" column="uomDesc" />
 		</association>
 
-    </resultMap>
+	</resultMap>
 
-    <!-- 代码校验 -->
+	<!-- 代码校验 -->
 	<select id="checkDrugByCode" parameterType="String" resultType="int">
 		select count(*) from erp_drug where drug_Code=#{drug_Code}
 	</select>
-	
+
 	<!-- 名称校验 -->
 	<select id="checkDrugByDesc" parameterType="String" resultType="int">
 		select count(*) from erp_drug where drug_Desc=#{drug_Desc}
@@ -91,7 +91,7 @@
 
 	</select>
 	<select id="findDrugList" parameterType="com.thinkgem.jeesite.modules.Drug.entity.DrugVo"
-	    resultMap="drugResultMap">
+			resultMap="drugResultMap">
 		select drug_id,
 		drug_Code,
 		drug_Desc,
@@ -109,17 +109,17 @@
 		drug_Uom_Dr,
 		uom.erp_uomCode as "uomCode",
 		uom.erp_uomDesc as "uomDesc",
-		createruser.login_name as "createBy.id",     
+		createruser.login_name as "createBy.id",
 		drug.createDate as "createDate"
 		from erp_drug drug,
 		erp_uom uom,
 		sys_user createruser
 		where drug.drug_Uom_Dr=uom.erp_uomCode
 		and drug.createBy=createruser.id
-        <include refid="query_drug_where" />
+		<include refid="query_drug_where" />
 	</select>
-	
-	
+
+
 	<insert id="insert">
 		INSERT INTO erp_Drug(
 		drug_ID,
@@ -189,6 +189,6 @@
 		where   drug_ID=#{Drug_id}
 	
 	</update>
-	
+
 
 </mapper>

@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -31,11 +33,12 @@ import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 import com.thinkgem.jeesite.modules.erpuom.service.ErpUomService;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
 @RequestMapping(value = "${adminPath}/Drug/DrugInfo")
-public class DrugController {
+public class DrugController extends BaseController {
 
 	@Autowired
 	private DrugService drugService;
@@ -216,7 +219,7 @@ public class DrugController {
 	基础数据--药品数据导入
 	 */
 	@RequestMapping(value="import",method = RequestMethod.POST)
-	public ModelAndView importDrugData(MultipartFile file) {
+	public String importDrugData(MultipartFile file, RedirectAttributes redirectAttributes) {
 		int successcount=0;
 		int failurecount=0;
 
@@ -234,7 +237,7 @@ public class DrugController {
 			failurecount++;
 
 		}
-		System.out.println(successcount+"====="+failurecount);
-		return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo");
+        addMessage(redirectAttributes, "已成功导入 "+successcount+" 条药品");
+        return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
 	}
 }

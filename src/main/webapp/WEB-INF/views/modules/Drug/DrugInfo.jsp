@@ -134,6 +134,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
+						<sys:message content="${message}"/>
 						<table id="table" class="table table-striped table-bordered table-condensed">
 							<thead>
 							<tr>

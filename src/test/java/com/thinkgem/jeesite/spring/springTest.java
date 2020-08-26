@@ -14,19 +14,19 @@ public class springTest {
 
     @Test
     public void test(){
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+       /* ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource res = resolver.getResource("classpath:test.xml");
         BeanFactory factory = new XmlBeanFactory(res);
         Car car = factory.getBean("car1",Car.class);
         System.out.println("car对象已经初始化完成");
-        System.out.println(car.getMaxSpeed());
+        System.out.println(car.getMaxSpeed());*/
     }
     @Test
     public void test1(){
-        ApplicationContext ac=new ClassPathXmlApplicationContext("test.xml");
+       /* ApplicationContext ac=new ClassPathXmlApplicationContext("test.xml");
         Car car = ac.getBean("car1",Car.class);
         System.out.println("car对象已经初始化完成111");
-        System.out.println(car.getMaxSpeed());
+        System.out.println(car.getMaxSpeed());*/
 
     }
 }
