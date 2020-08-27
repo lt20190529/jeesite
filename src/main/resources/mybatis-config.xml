@@ -47,20 +47,20 @@
 	</settings>
 	
 	<!-- 类型别名 -->
-	<!-- <typeAliases>
-		<typeAlias alias="Page" type="com.thinkgem.jeesite.common.persistence.Page" />分页 
+	 <typeAliases>
+		<typeAlias alias="Page" type="com.thinkgem.jeesite.common.persistence.Page" /><!--分页 -->
 	</typeAliases>
 	
-	插件配置
+	<!--插件配置-->
 	<plugins>
 		<plugin interceptor="com.thinkgem.jeesite.common.persistence.interceptor.PaginationInterceptor" />
 		
 
-    </plugins> -->
+    </plugins>
     
-    <plugins>
+    <!--<plugins>
        
-	 	 <!-- <plugin interceptor="com.github.pagehelper.PageHelper">
+	 	 &lt;!&ndash; <plugin interceptor="com.github.pagehelper.PageHelper">
 	 		<property name="dialect" value="mysql"/>
 	 		<property name="offsetAsPageNum" value="true"/>
 	 		rowBoundsWithCount设置为true时，使用 RowBounds 分页会进行 count 查询。
@@ -70,12 +70,12 @@
 	 		reasonable 为 true，这时如果 pageNum<=0 会查询第一页，如果 pageNum>总页数 会查询最后一页
 	 		<property name="reasonable" value="true"/>
  	 		<property name="returnPageInfo" value="check"/>
-	 	</plugin> -->
+	 	</plugin> &ndash;&gt;
 	 	 <plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
             <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
         </plugin>
 
-	 </plugins>
+	 </plugins>-->
 
 
   

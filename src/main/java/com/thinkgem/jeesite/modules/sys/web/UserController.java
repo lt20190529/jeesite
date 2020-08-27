@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private SystemService systemService;
-	
+
 	@ModelAttribute
 	public User get(@RequestParam(required=false) String id) {
 		if (StringUtils.isNotBlank(id)){
@@ -69,12 +69,11 @@ public class UserController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<User> page = systemService.findUser(new Page<User>(request, response), user);
-        model.addAttribute("page", page);
+		model.addAttribute("page", page);
 		return "modules/sys/userList";
 	}
-	
-	@ResponseBody
 
+	@ResponseBody
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"listData"})
 	public Page<User> listData(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -136,7 +135,7 @@ public class UserController extends BaseController {
 		addMessage(redirectAttributes, "保存用户'" + user.getLoginName() + "'成功");
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
-	
+
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "delete")
 	public String delete(User user, RedirectAttributes redirectAttributes) {
@@ -154,7 +153,7 @@ public class UserController extends BaseController {
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
 	}
-	
+
 	/**
 	 * 导出用户数据
 	 * @param user
@@ -164,18 +163,18 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequiresPermissions("sys:user:view")
-    @RequestMapping(value = "export", method=RequestMethod.POST)
-    public String exportFile(User user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "export", method=RequestMethod.POST)
+	public String exportFile(User user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "用户数据"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<User> page = systemService.findUser(new Page<User>(request, response, -1), user);
-    		new ExportExcel("用户数据", User.class).setDataList(page.getList()).write(response, fileName).dispose();
-    		return null;
+			String fileName = "用户数据"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			Page<User> page = systemService.findUser(new Page<User>(request, response, -1), user);
+			new ExportExcel("用户数据", User.class).setDataList(page.getList()).write(response, fileName).dispose();
+			return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出用户失败！失败信息："+e.getMessage());
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
-    }
+	}
 
 	/**
 	 * 导入用户数据
@@ -184,8 +183,8 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequiresPermissions("sys:user:edit")
-    @RequestMapping(value = "import", method=RequestMethod.POST)
-    public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "import", method=RequestMethod.POST)
+	public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/list?repage";
@@ -226,8 +225,8 @@ public class UserController extends BaseController {
 			addMessage(redirectAttributes, "导入用户失败！失败信息："+e.getMessage());
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
-    }
-	
+	}
+
 	/**
 	 * 下载导入用户数据模板
 	 * @param response
@@ -235,18 +234,18 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequiresPermissions("sys:user:view")
-    @RequestMapping(value = "import/template")
-    public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "import/template")
+	public String importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "用户数据导入模板.xlsx";
-    		List<User> list = Lists.newArrayList(); list.add(UserUtils.getUser());
-    		new ExportExcel("用户数据", User.class, 2).setDataList(list).write(response, fileName).dispose();
-    		return null;
+			String fileName = "用户数据导入模板.xlsx";
+			List<User> list = Lists.newArrayList(); list.add(UserUtils.getUser());
+			new ExportExcel("用户数据", User.class, 2).setDataList(list).write(response, fileName).dispose();
+			return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
 		return "redirect:" + adminPath + "/sys/user/list?repage";
-    }
+	}
 
 	/**
 	 * 验证登录名是否有效
@@ -305,7 +304,7 @@ public class UserController extends BaseController {
 	public User infoData() {
 		return UserUtils.getUser();
 	}
-	
+
 	/**
 	 * 修改个人用户密码
 	 * @param oldPassword
@@ -332,7 +331,7 @@ public class UserController extends BaseController {
 		model.addAttribute("user", user);
 		return "modules/sys/userModifyPwd";
 	}
-	
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
@@ -349,7 +348,7 @@ public class UserController extends BaseController {
 		}
 		return mapList;
 	}
-    
+
 //	@InitBinder
 //	public void initBinder(WebDataBinder b) {
 //		b.registerCustomEditor(List.class, "roleList", new PropertyEditorSupport(){
