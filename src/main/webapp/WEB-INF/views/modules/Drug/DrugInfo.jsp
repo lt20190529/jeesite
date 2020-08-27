@@ -208,6 +208,7 @@
 							</c:forEach>
 							</tbody>
 						</table>
+						<sys:pagination paginator="${drugListPaginator}" formId="" />
 					</div>
 				</div>
 				</div>

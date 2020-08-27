@@ -117,7 +117,7 @@
 		</mvc:interceptor>
 
         <!--测试拦截器-->
-       <!-- <mvc:interceptor>
+      <!-- <mvc:interceptor>
             <mvc:mapping path="${adminPath}/**" />
             <mvc:exclude-mapping path="${adminPath}/"/>
             <mvc:exclude-mapping path="${adminPath}/login"/>

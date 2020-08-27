@@ -85,7 +85,8 @@ public class DrugController extends BaseController {
 	/**
 	 * 校验描述是否存在
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
+	 * @out:false 存在  true不存在
 	 */
 	@RequestMapping(value="checkDrugByDesc",produces="application/json")
 	@ResponseBody
@@ -114,26 +115,7 @@ public class DrugController extends BaseController {
 		Drug drug=drugService.getDrugInfoByID(drugID);
 		return JsonMapper.getInstance().toJson(drug);
 	}
-	
-	//jqGrid  数据准备
-	@RequestMapping("getListjqGrid")
-    public  @ResponseBody Map<String,Object> getListjqGrid(
-            DrugVo drugVo,
-    		int page,//页码
-			int rows//每页显示个数
-    		)throws Exception{
- 	    int pageSize=rows; 
- 	    int pageNum=page; 
 
-        PageHelper.startPage(pageNum, pageSize);
-		List<Drug> basedatalist = drugService.findDrugList(drugVo);
-		PageInfo<Drug> pageInfo = new PageInfo<Drug>(basedatalist);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-		jsonMap.put("rows", pageInfo.getList());
-		jsonMap.put("total", pageInfo.getTotal());
-		return jsonMap;
-       
-    }
 	@RequestMapping(value="/photoUpload",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> test(MultipartFile photo, HttpServletRequest request){
@@ -222,22 +204,27 @@ public class DrugController extends BaseController {
 	public String importDrugData(MultipartFile file, RedirectAttributes redirectAttributes) {
 		int successcount=0;
 		int failurecount=0;
-
+		StringBuilder failureMsg=new StringBuilder();
 		try {
 			ImportExcel ie =new ImportExcel(file,1,0);
 			List<Drug> list=ie.getDataList(Drug.class);
 			for (Drug drug:list){
-				drug.setDrug_ActiveFlag(true);
-				drug.setDrug_BaseDrugFlag(true);
-				drugService.Save(drug);
-				successcount++;
+                //编码和描述同时不存在才可以insert
+				if(checkDrugByCode(drug.getDrug_Code()) && checkDrugByDesc(drug.getDrug_Desc())){
+					drug.setDrug_ActiveFlag(true);
+					drug.setDrug_BaseDrugFlag(true);
+					drugService.Save(drug);
+					successcount++;
+				}else{
+					failureMsg.append("</br>名称或者编码"+drug.getDrug_Code()+"  "+drug.getDrug_Desc()+"已经存在");
+					failurecount++;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			failurecount++;
-
+			failureMsg.insert(0, "，失败 "+failurecount+" 条药品，导入信息如下："+e.getMessage());
 		}
-        addMessage(redirectAttributes, "已成功导入 "+successcount+" 条药品");
+        addMessage(redirectAttributes, "已成功导入 "+successcount+" 条药品 "+"</br>"+failureMsg);
         return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
 	}
 }
