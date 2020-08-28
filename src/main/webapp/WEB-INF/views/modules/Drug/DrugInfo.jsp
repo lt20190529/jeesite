@@ -52,6 +52,14 @@
         });
 	})
 
+	//分页
+    function page(n,s){
+        if(n) $("#pageNo").val(n);
+        if(s) $("#pageSize").val(s);
+        $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/QueryDrugInfo");
+        $("#DrugForm").submit();
+        return false;
+    }
 </script>
 </head>
 <body>
@@ -66,6 +74,11 @@
 	<%--@elvariable id="Drug" type=""--%>
 	<form:form id="DrugForm" modelAttribute="Drug"
 		action="${ctx}/Drug/DrugInfo/QueryDrugInfo" method="post">
+
+		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
+
 		<div class="container-fluid">
 			<div class="row-fluid ">
 				<div class="row">
@@ -156,7 +169,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${druglist}" var="drug">
+							<c:forEach items="${page.list}" var="drug">
 								<tr>
 									<td style="display:none;">
 											${drug.drug_id}
@@ -208,7 +221,7 @@
 							</c:forEach>
 							</tbody>
 						</table>
-						<sys:pagination paginator="${drugListPaginator}" formId="" />
+						<div class="pagination">${page}</div>
 					</div>
 				</div>
 				</div>

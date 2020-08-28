@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.Drug.entity;
 
-public class DrugVo  {
+import com.thinkgem.jeesite.common.persistence.DataEntity;
+
+public class DrugVo extends DataEntity<DrugVo> {
 	private Drug drug;
 
 	public Drug getDrug() {

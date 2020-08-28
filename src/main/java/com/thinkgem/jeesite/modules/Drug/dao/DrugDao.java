@@ -14,7 +14,7 @@ public interface DrugDao extends CrudDao<Drug> {
 
 	public int checkDrugByDesc(String drug_Desc)throws Exception;
 	
-	public List<Drug> findDrugList(DrugVo drugVo)throws Exception;
+	public List<Drug> findList(Drug drug);
 	
 	public int insert(Drug drug);
 	

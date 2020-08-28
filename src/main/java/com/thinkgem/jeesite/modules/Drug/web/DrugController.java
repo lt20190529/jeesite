@@ -1,7 +1,6 @@
 package com.thinkgem.jeesite.modules.Drug.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,21 +10,18 @@ import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.thinkgem.jeesite.modules.Drug.entity.Drug;
 import com.thinkgem.jeesite.modules.Drug.entity.DrugVo;
 import com.thinkgem.jeesite.modules.Drug.service.DrugService;
@@ -54,13 +50,13 @@ public class DrugController extends BaseController {
 	        }};
 	}
 	@RequestMapping("QueryDrugInfo")
-	public String form(Model model,DrugVo drugVo) throws Exception {
-		model.addAttribute("Drug", new Drug());
+	public String form(Model model,Drug drug,HttpServletRequest request,HttpServletResponse response) {
 		ErpUom erpUom = new ErpUom();	
 		List<ErpUom> list1 = erpUomService.findList(erpUom);
-		List<Drug> drugList=drugService.findDrugList(drugVo);
-		model.addAttribute("druglist",drugList);
+		Page<Drug> page = drugService.findDrugList(new Page<Drug>(request,response,15), drug);
+		model.addAttribute("page", page);
 		model.addAttribute("uomlist", list1);
+		model.addAttribute("Drug", new Drug());
 		return "modules/Drug/DrugInfo";
 	}
 	
@@ -163,13 +159,12 @@ public class DrugController extends BaseController {
 	}
 
     @RequestMapping(value="Excel",method=RequestMethod.POST)
-    public ModelAndView ExcelDrugInfo(DrugVo drugVo, HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView ExcelDrugInfo(Drug drug, HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> map = new HashMap<String, Object>();
 	    try{
 	        String fileName="药品数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-			DrugVo drug=new DrugVo();
-	        List<Drug> listDrug=drugService.findDrugList(drug);
-            new ExportExcel("药品数据", Drug.class).setDataList(listDrug).write(response, fileName).dispose();
+	        Page<Drug> page = drugService.findDrugList(new Page<Drug>(request, response),drug);
+            new ExportExcel("药品数据", Drug.class).setDataList(page.getList()).write(response, fileName).dispose();
             return null;
         }catch (Exception e){
            map.put("message","导出药品数据错误,信息:"+e.getMessage());

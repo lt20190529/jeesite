@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.Drug.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,15 @@ public class DrugService extends CrudService<DrugDao, Drug> {
 	
 	//获取所有字典(字典列表使用)
 	
-	public List<Drug> findDrugList(DrugVo drugVo)throws Exception {
+	/*public List<Drug> findDrugList(DrugVo drugVo)throws Exception {
 		return drugDao.findDrugList(drugVo);
+	}*/
+
+	public Page<Drug> findDrugList(Page<Drug> page, Drug drug)  {
+		return super.findPage(page, drug);
 	}
-	
+
+
 	@Transactional(readOnly = false)
 	public void Save(Drug drug){
 		if(StringUtils.isBlank(drug.getDrug_id())){

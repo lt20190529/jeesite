@@ -8,7 +8,6 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.m2/repository/org/apache/poi/poi-ooxml/3.16/poi-ooxml-3.16-sources.jar!/" />
-      <root url="jar://$USER_HOME$/.m2/repository/org/apache/poi/poi-ooxml/3.16/poi-ooxml-3.16.jar!/" />
     </SOURCES>
   </library>
 </component>

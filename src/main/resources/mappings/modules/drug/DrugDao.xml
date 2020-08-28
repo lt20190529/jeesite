@@ -7,24 +7,24 @@
 	<sql id="query_drug_where">
 		<if test="drug!=null">
 			<if test="drug.Drug_Code!=null and drug.Drug_Code!=''">
-				and drug.Drug_Code = #{drug.Drug_Code}
+				and drug.Drug_Code = #{Drug_Code}
 			</if>
 			<if test="drug.Drug_Desc!=null and drug.Drug_Desc!=''">
-				and drug.Drug_Desc = #{drug.Drug_Desc}
+				and drug.Drug_Desc = #{Drug_Desc}
 			</if>
 			<if test="drug.Drug_Alias!=null and drug.Drug_Alias!=''">
-				and drug.Drug_Alias = #{drug.Drug_Alias}
+				and drug.Drug_Alias = #{Drug_Alias}
 			</if>
 			<if test="drug.Drug_Class_Dr!=null and drug.Drug_Class_Dr!=''">
-				and drug.Drug_Class_Dr = #{drug.Drug_Class_Dr}
+				and drug.Drug_Class_Dr = #{Drug_Class_Dr}
 			</if>
 			<if test="drug.Drug_Cat_Dr!=null and drug.Drug_Cat_Dr!=''">
-				and drug.Drug_Cat_Dr = #{drug.Drug_Cat_Dr}
+				and drug.Drug_Cat_Dr = #{Drug_Cat_Dr}
 			</if>
 			<!-- mybatis中用tinyint保存Boolean类型的时候，直接使用false和true就可以，mybatis会自动映射。-->
 			<!-- 但是要注意的是，一般的mapper.xml中写where的时候会判断(drug.Drug_Cat_Dr!='') -->
 			<if test="drug.Drug_ActiveFlag!=null">
-				and drug.Drug_ActiveFlag = #{drug.Drug_ActiveFlag}
+				and drug.Drug_ActiveFlag = #{Drug_ActiveFlag}
 			</if>
 		</if>
 	</sql>
@@ -90,11 +90,10 @@
 		where drug.drug_id=#{Drug_id}
 
 	</select>
-	<select id="findDrugList" parameterType="com.thinkgem.jeesite.modules.Drug.entity.DrugVo"
-			resultMap="drugResultMap">
-		select drug_id,
-		drug_Code,
-		drug_Desc,
+	<select id="findList" resultMap="drugResultMap">
+		select drug_id as Drug_id,
+		drug_Code as Drug_Code,
+		drug_Desc as Drug_Desc,
 		drug_Spec,
 		drug_Uom_Dr,
 		drug_Sp,
@@ -106,19 +105,20 @@
 		drug_ActiveFlag,
 		drug_Alias,
 		drug_BarCode,
-		drug_Uom_Dr,
 		uom.erp_uomCode as "uomCode",
 		uom.erp_uomDesc as "uomDesc",
-		createruser.login_name as "createBy.id",
+		tuser.login_name as "createBy.id",
 		drug.createDate as "createDate"
-		from erp_drug drug,
-		erp_uom uom,
-		sys_user createruser
-		where drug.drug_Uom_Dr=uom.erp_uomCode
-		and drug.createBy=createruser.id
-		<include refid="query_drug_where" />
+		from erp_drug drug
+		<include refid="drugJoins"/>
+
+
 	</select>
 
+	<sql id="drugJoins">
+		LEFT JOIN erp_uom uom ON drug.drug_Uom_Dr = uom.id
+		LEFT JOIN sys_user tuser ON drug.createBy = tuser.id
+	</sql>
 
 	<insert id="insert">
 		INSERT INTO erp_Drug(
