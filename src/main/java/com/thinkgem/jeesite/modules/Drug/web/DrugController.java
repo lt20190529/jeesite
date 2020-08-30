@@ -12,6 +12,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -49,6 +50,14 @@ public class DrugController extends BaseController {
 	            put("N", "否");
 	        }};
 	}
+	@ModelAttribute
+	public Drug get(@RequestParam(required=false) String id) {
+		if (StringUtils.isNotBlank(id)){
+			return drugService.getDrugInfoByID(id);
+		}else{
+			return new Drug();
+		}
+	}
 	@RequestMapping("QueryDrugInfo")
 	public String form(Model model,Drug drug,HttpServletRequest request,HttpServletResponse response) {
 		ErpUom erpUom = new ErpUom();	
@@ -62,7 +71,7 @@ public class DrugController extends BaseController {
 	
 	
 	/**
-	 * &#x6821;&#x9a8c;&#x4ee3;&#x7801;&#x662f;&#x5426;&#x5b58;&#x5728;
+	 * 校验编码是否存在
 	 * @param drug_Code
 	 * @return
 	 * @throws Exception
@@ -221,5 +230,13 @@ public class DrugController extends BaseController {
 		}
         addMessage(redirectAttributes, "已成功导入 "+successcount+" 条药品 "+"</br>"+failureMsg);
         return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
+	}
+
+	@RequestMapping("delete")
+	public String deleteDrug(Drug drug,RedirectAttributes redirectAttributes){
+		System.out.println(drug.toString());
+		drugService.delete(drug);
+		addMessage(redirectAttributes, "已成功删除!");
+		return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
 	}
 }

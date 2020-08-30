@@ -44,6 +44,7 @@
 		<result property="Drug_BaseDrugFlag" column="drug_BaseDrugFlag"/>
 		<result property="Drug_ActiveFlag" column="drug_ActiveFlag"/>
 		<result property="Drug_Rp" column="drug_Rp"/>
+		<result property="delFlag" column="delFlag"/>
 		<association property="Drug_Uom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
 			<!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
                    可以有别名，如果无别名则对应表结构定义中的字段名称 -->
@@ -91,9 +92,9 @@
 
 	</select>
 	<select id="findList" resultMap="drugResultMap">
-		select drug_id as Drug_id,
-		drug_Code as Drug_Code,
-		drug_Desc as Drug_Desc,
+		select drug_id ,
+		drug_Code ,
+		drug_Desc ,
 		drug_Spec,
 		drug_Uom_Dr,
 		drug_Sp,
@@ -105,13 +106,43 @@
 		drug_ActiveFlag,
 		drug_Alias,
 		drug_BarCode,
+		delFlag,
 		uom.erp_uomCode as "uomCode",
 		uom.erp_uomDesc as "uomDesc",
 		tuser.login_name as "createBy.id",
 		drug.createDate as "createDate"
 		from erp_drug drug
 		<include refid="drugJoins"/>
+		<where>
+			1=1
+			<if test="drug_Code != null and drug_Code != ''">
+				AND drug.drug_Code like concat('%',#{drug_Code},'%')
+			</if>
+			<if test="drug_Desc != null and drug_Desc != ''">
+				AND drug.drug_Desc like concat('%',#{drug_Desc},'%')
+			</if>
+			<if test="drug_Alias != null and drug_Alias != ''">
+				AND drug.drug_Alias  like concat('%',#{drug_Alias},'%')
+			</if>
+			<if test="drug_Class_Dr != null and drug_Class_Dr != '' and drug_Class_Dr !=0 ">
+				AND drug.drug_Class_Dr = #{drug_Class_Dr}
+			</if>
+			<if test="drug_Cat_Dr != null and drug_Cat_Dr != ''and drug_Cat_Dr !=0 ">
+				AND drug.drug_Cat_Dr = #{drug_Cat_Dr}
+			</if>
+			<if test="drug_ActiveFlag != null ">
+				AND drug_ActiveFlag=#{drug_ActiveFlag, jdbcType=BOOLEAN}
+			</if>
 
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY drug.createDate DESC
+			</otherwise>
+		</choose>
 
 	</select>
 
@@ -190,5 +221,13 @@
 	
 	</update>
 
+	<update id="delete">
+		update erp_drug
+		/*DEL_FLAG_DELETE  删除标记（0：正常；1：删除；2：审核；）*/
+		set delFlag=#{DEL_FLAG_DELETE},
+		     Drug_ActiveFlag=#{DEL_FLAG_NORMAL}
+		where drug_ID=#{Drug_id}
+
+	</update>
 
 </mapper>

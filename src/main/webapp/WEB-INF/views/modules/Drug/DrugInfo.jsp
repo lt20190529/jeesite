@@ -87,7 +87,7 @@
 					</div>
 					<div class="col-md-offset-5 col-md-2">
 						<button type="button" class="btn btn-primary" onclick="addDrug()">新增</button>
-						<button type="button" class="btn btn-primary" onclick="QueryDrug()">查询</button>
+						<button type="submit" class="btn btn-primary" onclick="return page();">查询</button>
 						<button type="button" class="btn btn-primary">清屏</button>
 
 					</div>
@@ -95,20 +95,22 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-3 form-inline">
-						药品编码：<input class="input-medium" type="text" name="drug.Drug_Code"/>
+						药品编码：<input class="input-medium" type="text" name="Drug_Code" path="Drug_Code"/>
 					</div>
 					<div class="col-md-3 form-inline">
-						药品名称：<input class="input-medium" type="text" name="drug.Drug_Desc"/>
+						药品名称：<input class="input-medium" type="text" name="Drug_Desc" path="Drug_Desc"/>
 					</div>
 					<div class="col-md-3 form-inline">
-						药品别名：<input class="input-medium" type="text" name="drug.Drug_Alias"/>
+						药品别名：<input class="input-medium" type="text" name="Drug_Alias" path="Drug_Alias"/>
 					</div>
 				</div>
 				<br>
 				<div class="row">
 					<div class="col-md-3 form-inline">
-						类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：<select
-							class="input-medium" name="drug.Drug_Class_Dr">
+						类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：
+						<select
+							class="input-medium" name="Drug_Class_Dr">
+							<option value="0"></option>
 							<option value="1">西药</option>
 							<option value="2">中成药</option>
 							<option value="3">中草药</option>
@@ -117,16 +119,22 @@
 					</div>
 
 					<div class="col-md-3 form-inline">
-						库存分类：<input class="input-medium" type="text" name="drug.Drug_Cat_Dr" />
+						库存分类：
+						<select class="input-medium" name="Drug_Cat_Dr">
+							<option value="0"><option>
+							<option value="1">西药</option>
+							<option value="2">中成药</option>
+							<option value="3">中草药</option>
+						</select>
 					</div>
 
 					<div class="col-md-3 ">
 						是否启用： 
 						<label class="radio-inline"> <input type="radio"
-							name="drug.Drug_ActiveFlag" id="optionsRadios" value="1"
+							name="Drug_ActiveFlag" id="optionsRadios" value="1"
 							checked>启用
 						</label> <label class="radio-inline"> <input type="radio"
-							name="drug.Drug_ActiveFlag" id="optionsRadios1" value="0">禁用
+							name="Drug_ActiveFlag" id="optionsRadios1" value="0">禁用
 						</label>
 					</div>
 
@@ -156,13 +164,15 @@
 								<th>描述</th>
 								<th>规格</th>
 								<th>单位</th>
+								<th>库存大类</th>
 								<th>库存分类</th>
 								<th>售价</th>
 								<th>进价</th>
 								<th>别名</th>
 								<th>条码</th>
-								<th>是否激活</th>
+								<th>基本药物</th>
 								<th>是否在用</th>
+								<th>逻辑删除</th>
 								<th>创建人</th>
 								<th>创建日期</th>
 								<shiro:hasPermission name="item:erpItem:edit"><th>操作</th></shiro:hasPermission>
@@ -187,7 +197,30 @@
 											${drug.drug_Uom.erpUomdesc}
 									</td>
 									<td>
-											${drug.drug_Cat_Dr}
+										<c:choose>
+											<c:when test="${drug.drug_Class_Dr=='1'}">
+												西药
+											</c:when>
+											<c:when test="${drug.drug_Class_Dr=='2'}">
+												中药
+											</c:when>
+											<c:when test="${drug.drug_Class_Dr=='3'}">
+												草药
+											</c:when>
+										</c:choose>
+									</td>
+									<td>
+										<c:choose>
+											<c:when test="${drug.drug_Cat_Dr=='1'}">
+												西药
+											</c:when>
+											<c:when test="${drug.drug_Cat_Dr=='2'}">
+												中药
+											</c:when>
+											<c:when test="${drug.drug_Cat_Dr=='3'}">
+												草药
+											</c:when>
+										</c:choose>
 									</td>
 									<td>
 										    ${drug.drug_Sp}
@@ -208,6 +241,9 @@
 											${drug.drug_ActiveFlag=='true'?'是':'否'}
 									</td>
 									<td>
+											${drug.delFlag=='1'?'是':'否'}
+									</td>
+									<td>
 											${drug.createBy}
 									</td>
 									<td>
@@ -215,7 +251,7 @@
 									</td>
 									<shiro:hasPermission name="item:erpItem:edit"><td>
 										<a  onclick="editDrug('${drug.drug_id}')">修改</a>
-										<a href="" onclick="return confirmx('确认要删除该字典维护吗？', this.href)">删除</a>
+										<a href="${ctx}/Drug/DrugInfo/delete?id=${drug.drug_id}" onclick="return confirmx('确认要删除该字典维护吗？', this.href)">删除</a>
 									</td></shiro:hasPermission>
 								</tr>
 							</c:forEach>
