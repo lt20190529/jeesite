@@ -37,7 +37,9 @@ public class DrugService extends CrudService<DrugDao, Drug> {
 	}*/
 
 	public Page<Drug> findDrugList(Page<Drug> page, Drug drug)  {
-		return super.findPage(page, drug);
+		drug.setPage(page);
+		page.setList(drugDao.findList(drug));
+		return page;
 	}
 
 

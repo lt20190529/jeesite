@@ -31,8 +31,17 @@
 <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
 	type="text/css" />
+
+	<script src="${pageContext.request.contextPath}/static/lodop/LodopFuncs.js"></script>
+	<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+		<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+	</object>
 <script>
     $(document).ready(function() {
+
+        $("#optionsRadios1").prop("checked", false) //$("#optionsRadios").attr("checked", false);   //
+        $("#optionsRadios").prop("checked", false);
+
         $("#btnExcel").click(function(){
             var url =  $("#searchForm").attr("action");
             top.$.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
@@ -50,6 +59,15 @@
             $.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true},
                 bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
         });
+
+        $("#btnprint").click(function () {
+            var LODOP=getLodop();
+            LODOP.PRINT_INIT("打印药品字典信息");               //首先一个初始化语句
+            LODOP.ADD_PRINT_TEXT(0,0,100,20,"文本内容一");//然后多个ADD语句及SET语句
+            //ADD_PRINT_TBURL(intTop,intLeft,intWidth,intheight,"http://localhost:8080/a/Drug/DrugInfo/QueryDrugInfo");
+            LODOP.ADD_PRINT_TABLE(10,5,500,"90%",document.getElementById("table").innerHTML);
+            LODOP.PRINT();                               //最后一个打印(或预览、维护、设计)语句
+        })
 	})
 
 	//分页
@@ -131,10 +149,10 @@
 					<div class="col-md-3 ">
 						是否启用： 
 						<label class="radio-inline"> <input type="radio"
-							name="Drug_ActiveFlag" id="optionsRadios" value="1"
+							name="Drug_ActiveFlag" id="optionsRadios"
 							checked>启用
 						</label> <label class="radio-inline"> <input type="radio"
-							name="Drug_ActiveFlag" id="optionsRadios1" value="0">禁用
+							name="Drug_ActiveFlag" id="optionsRadios1">禁用
 						</label>
 					</div>
 
@@ -149,7 +167,7 @@
 
 						<input type="button" class="btn btn-primary" id="btnExcel" value="导出"/>
 						<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
-					    <input type="button" class="btn btn-primary" onclick="print()" value="打印"/>
+					    <input type="button" class="btn btn-primary" id="btnprint" value="打印"/>
 
 					</div>
 				</div>

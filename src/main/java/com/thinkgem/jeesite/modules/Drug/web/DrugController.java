@@ -62,8 +62,9 @@ public class DrugController extends BaseController {
 	public String form(Model model,Drug drug,HttpServletRequest request,HttpServletResponse response) {
 		ErpUom erpUom = new ErpUom();	
 		List<ErpUom> list1 = erpUomService.findList(erpUom);
-		Page<Drug> page = drugService.findDrugList(new Page<Drug>(request,response,15), drug);
+		Page<Drug> page = drugService.findDrugList(new Page<Drug>(request,response), drug);
 		model.addAttribute("page", page);
+
 		model.addAttribute("uomlist", list1);
 		model.addAttribute("Drug", new Drug());
 		return "modules/Drug/DrugInfo";
