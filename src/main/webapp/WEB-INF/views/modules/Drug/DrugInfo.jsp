@@ -64,9 +64,10 @@
             var LODOP=getLodop();
             LODOP.PRINT_INIT("打印药品字典信息");               //首先一个初始化语句
             LODOP.ADD_PRINT_TEXT(0,0,100,20,"文本内容一");//然后多个ADD语句及SET语句
-            //ADD_PRINT_TBURL(intTop,intLeft,intWidth,intheight,"http://localhost:8080/a/Drug/DrugInfo/QueryDrugInfo");
-            LODOP.ADD_PRINT_TABLE(10,5,500,"90%",document.getElementById("table").innerHTML);
-            LODOP.PRINT();                               //最后一个打印(或预览、维护、设计)语句
+            LODOP.PRINT_INIT("");
+            LODOP.SET_PRINT_PAGESIZE(0,5500,4000,"");
+            LODOP.ADD_PRINT_TABLE(10,0,1500,1800,document.getElementById("table").innerHTML);
+            LODOP.PRINT_DESIGN();
         })
 	})
 

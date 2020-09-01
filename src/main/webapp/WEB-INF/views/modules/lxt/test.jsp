@@ -88,7 +88,7 @@
 	</script>
 </head>
 <>
-<h1>测试界面</h1>
+<h4>测试界面</h4>
 <input id="btnsave" class="btn btn-primary" onclick="submit()"
 		 type="button" value="CookieValue" />
 <input id="btnSession" class="btn btn-primary" onclick="submit1()"
@@ -104,13 +104,19 @@
 
 
 <div>
-<%--	<a href="#" target="_top"><img src="${pageContext.request.contextPath }/" style="width:75px;height:75px;"  alt="暂无显示"></a>--%>
 	<a href="javascript:void(0)" onclick="uploadPhoto()">选择图片</a>
 	<input type="file" id="photoFile"  onchange="upload()">
 	<img id="preview_photo" src="" width="200px" height="200px">
 	<input id="path">
 </div>
+<h4>${'明日科技'}</h4>
+<h4>${"明日科技"}</h4>
 
+${pageContext.out.bufferSize/1024}M
+
+${pageContext.page}
+11
+${pageContext.servletContext.contextPath}
 </body>
 
 </html>

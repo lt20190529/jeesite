@@ -47,6 +47,12 @@ public class lxtController extends BaseController {
 	@RequiresPermissions("lxt:test:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Model model) {
+		List<User> listuser=new ArrayList<>();
+		User user=new User("1","Boos");
+		User user1=new User("2","Kiss");
+		listuser.add(user);
+		listuser.add(user1);
+		model.addAttribute("user",user);
 		return "modules/lxt/test";
 	}
 
