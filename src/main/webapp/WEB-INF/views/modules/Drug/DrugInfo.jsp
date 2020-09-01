@@ -28,9 +28,11 @@
 <link
 	href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.css"
 	type="text/css" rel="stylesheet" />
-<link rel="stylesheet"
+    <link rel="stylesheet"
 	href="${ctxStatic}/jquery-easyui/themes/default/easyui.css"
 	type="text/css" />
+
+	<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 
 	<script src="${pageContext.request.contextPath}/static/lodop/LodopFuncs.js"></script>
 	<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
@@ -316,7 +318,7 @@
 									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品编码：</div>
 									<div class="col-md-3">
 										<form:input class="input-medium required" type="text" path="Drug_Code" autocomplete="off"
-													placeholder="请输入药品编码" />
+													placeholder="请输入药品编码" required="required" />
 
 									</div>
 									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品描述：</div>
@@ -428,7 +430,18 @@
     
 
 	<script>
+        function cancle(){
 
+            $("#MyModal").modal('hide');
+            $("#DrugInfoForm").validate().resetForm();
+            $("#DrugInfoForm").removeClass("has-error");
+            $("#MyModal").on("hide.bs.modal", function() {
+                document.getElementById("DrugInfoForm").reset();
+
+            });
+
+
+        }
 		$(document).ready(function() {
 
             $("#DrugInfoForm").validate({
@@ -475,16 +488,7 @@
             });
         }
 
-		function cancle(){
 
-			$("#MyModal").modal('hide');
-
-			$("#MyModal").on("hide.bs.modal", function() {
-				document.getElementById("DrugInfoForm").reset();
-				$("#DrugInfoForm").validate().resetForm();
-				$("#DrugInfoForm").removeClass("has-error");
-			});
-		}
 
 		
 		function addDrug(){
@@ -528,6 +532,10 @@
 
 		function SaveDrug() {
 			//alert($("#DrugInfoForm").serialize())
+			//表单必填信息校验
+            if(($('#Drug_id').val()=="")&&($('#DrugInfoForm').valid()==false)){
+                return;
+			};
 			$.ajax({
 				url : "${ctx}/Drug/DrugInfo/Save", 
 				method : "post",
@@ -547,6 +555,7 @@
 				}
 			});
 		}
+
 
 		function QueryDrug() {
 			var formdata = $("#DrugForm").serializeJson();
