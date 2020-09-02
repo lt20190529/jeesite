@@ -61,7 +61,9 @@
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
 	</listener>
-	
+	<listener>
+		<listener-class>com.thinkgem.jeesite.modules.sys.listener.MyListener</listener-class>
+	</listener>
 	     <!-- 在web.xml添加post乱码filter：CharacterEncodingFilter -->
 	     <!--  对于get请求中文参数出现乱码解决方法有两个：
          a. 修改tomcat配置文件添加编码与工程编码一致，如下：

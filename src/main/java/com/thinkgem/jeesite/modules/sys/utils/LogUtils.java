@@ -85,6 +85,8 @@ public class LogUtils {
 			if (StringUtils.isBlank(log.getTitle())){
 				String permission = "";
 				if (handler instanceof HandlerMethod){
+					//System.out.println(((HandlerMethod) handler).getBean());
+					//System.out.println(((HandlerMethod) handler).getMethod());
 					Method m = ((HandlerMethod)handler).getMethod();
 					RequiresPermissions rp = m.getAnnotation(RequiresPermissions.class);
 					permission = (rp != null ? StringUtils.join(rp.value(), ",") : "");

@@ -90,8 +90,8 @@
 			<!-- 拦截所有的请求，这个必须写在前面，也就是写在【不拦截】的上面 -->
 			<mvc:mapping path="${adminPath}/**" />
 			<!-- 但是排除下面这些，也就是不拦截请求 -->
-			<mvc:exclude-mapping path="${adminPath}/"/>
-			<mvc:exclude-mapping path="/a/Drug/DrugInfo/*"/> <!-- 不拦截药品字典模块-->
+			<!--<mvc:exclude-mapping path="${adminPath}/"/>-->
+	        <!--<mvc:exclude-mapping path="/a/Drug/DrugInfo/*"/> &lt;!&ndash; 不拦截药品字典模块&ndash;&gt;-->
 			<mvc:exclude-mapping path="${adminPath}/login"/>
 			<mvc:exclude-mapping path="${adminPath}/sys/menu/tree"/>
 			<mvc:exclude-mapping path="${adminPath}/sys/menu/treeData"/>
@@ -99,6 +99,20 @@
 			<bean class="com.thinkgem.jeesite.modules.sys.interceptor.LogInterceptor" />
 			
 		</mvc:interceptor>
+
+
+		<!--基础数据日志保存拦截器-->
+		<mvc:interceptor>
+			<mvc:mapping path="${adminPath}/**" />
+			<mvc:exclude-mapping path="${adminPath}/"/>
+			<mvc:exclude-mapping path="${adminPath}/login"/>
+			<mvc:exclude-mapping path="${adminPath}/sys/menu/tree"/>
+			<mvc:exclude-mapping path="${adminPath}/sys/menu/treeData"/>
+			<mvc:exclude-mapping path="${adminPath}/oa/oaNotify/self/count"/>
+			<bean class="com.thinkgem.jeesite.modules.Drug.interceptor.BaseDataLogInterceptor" />
+		</mvc:interceptor>
+
+
         <!--防止重复提交-->
         <mvc:interceptor>
             <mvc:mapping path="/**"/>

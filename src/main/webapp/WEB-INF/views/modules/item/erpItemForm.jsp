@@ -11,18 +11,19 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-	
-			$("#inputForm").validate({
-		        rules: {
-		        	itemNo: {remote: "${ctx}/item/erpItem/checkItemCode"}, 
-		        	itemDesc:{remote: "${ctx}/item/erpItem/checkItemDesc",type: "post"},
-		        },
-		        //messages 处，如果某个控件没有 message，将调用默认的信息
-		        messages: {
-		        	itemNo: {required: "代码不能为空",remote: "代码已经存在"},
-		        	itemDesc: {required: "描述不能为空",remote: "描述已经存在"}
-		        }
-		    });
+	        if($("#id").val()==""){
+				$("#inputForm").validate({
+					rules: {
+						itemNo: {remote: "${ctx}/item/erpItem/checkItemCode"},
+						itemDesc:{remote: "${ctx}/item/erpItem/checkItemDesc",type: "post"},
+					},
+					//messages 处，如果某个控件没有 message，将调用默认的信息
+					messages: {
+						itemNo: {required: "代码不能为空",remote: "代码已经存在"},
+						itemDesc: {required: "描述不能为空",remote: "描述已经存在"}
+					}
+				});
+			}
 		});
 	</script>
 	

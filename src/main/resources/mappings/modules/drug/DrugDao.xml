@@ -178,7 +178,7 @@
 		#{drug_Code},
 		#{drug_Desc},
 		#{drug_Spec},
-		#{Drug_Uom.erpUomcode},
+		#{Drug_Uom.id},
 		#{drug_Class_Dr},
 		#{drug_BarCode},
 		#{drug_Alias},
