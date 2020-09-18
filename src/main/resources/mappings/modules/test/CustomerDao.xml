@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thinkgem.jeesite.modules.test.dao.CustomerDaoa">
+
+  <!--if使用-->
+    <select id="findCustomer" resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        select * from customer
+        where 1=1
+        <if test="username!=null and username!=''">
+            and username like concat('%',#{username},'%')
+        </if>
+    </select>
+
+    <!--使用<choose>、<when>、<otherwise>元素-->
+    <select id="findCustomerByChoose" resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        select * from customer where 1=1
+        <choose>
+            <when test="username!=null and username!=''">
+               and username like concat('%',#{username},'%')
+            </when>
+            <when test="jobs !=null and jobs!=''">
+                and jobs like concat('%',#{jobs},'%')
+            </when>
+            <otherwise>
+                and phone is not null
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--使用<where>元素对“where 1=1”条件进行了替换，<where>元素会自动判断组合条件下拼装的SQL语句，只有<where>元素内的条件成立时，
+    才会在拼接SQL中加入where关键字，否则将不会添加；即使where之后的内容有多余的“AND”或“OR”, <where>元素也会自动将它们去除。-->
+    <select id="findCustomerByWhere" resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        select * from customer
+        <where>
+        <if test="username!=null and username!=''">
+            and username like concat('%',#{username},'%')
+        </if>
+        </where>
+    </select>
+    <!--tirm标签-->
+    <select id="findCustomerByTrim" resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        select * from customer
+        <trim prefix="where" prefixOverrides="and">
+            <if test="username!=null and username!=''">
+                and username like concat('%',#{username},'%')
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateCustomerById">
+        update customer
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="jobs!=null and jobs!=''">
+                jobs=#{jobs},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <insert id="insert">
+        insert customer
+        (username,jobs,address,phone)
+        values
+        (#{username},#{jobs},#{address},#{phone})
+    </insert>
+
+    <!--foreach使用-->
+    <!--· item：配置的是循环中当前的元素。-->
+    <!--· index：配置的是当前元素在集合的位置下标。-->
+    <!--· collection：配置的list是传递过来的参数类型（首字母小写），它可以是一个array、list（或collection）、Map集合的键、POJO包装类中数组或集合类型的属性名等。-->
+    <!--· open和close：配置的是以什么符号将这些集合元素包装起来。-->
+    <!--· separator：配置的是各个元素的间隔符-->
+    <select id="findCustomerByForeach" parameterType="List"
+            resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        select * from customer where phone in
+        <foreach item="phone" index="index" collection="list"
+                 open="(" separator="," close=")">
+                #{phone}
+        </foreach>
+    </select>
+
+    <select id="findCustomerByUsername" parameterType="com.thinkgem.jeesite.modules.test.entity.Customer"
+            resultType="com.thinkgem.jeesite.modules.test.entity.Customer">
+        <bind name="p_username" value="'%'+_parameter.getUsername()+'%'"></bind>
+        select * from customer
+        where username like #{p_username}
+    </select>
+</mapper>

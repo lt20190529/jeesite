@@ -31,7 +31,9 @@
 	<context:component-scan base-package="com.thinkgem.jeesite"><!-- base-package 如果多个，用“,”分隔 -->
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
-	
+
+
+
  	<!-- MyBatis begin -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -48,10 +50,17 @@
     </bean>
     
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
+	<!--MyBatis-Spring团队提供了一种自动扫描的形式来配置MyBatis中的映射器——采用MapperScannerConfigurer类。-->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!--指定在Spring中定义的SqlSessionFactory的Bean名称-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<!--basePackage：指定映射接口文件所在的包路径，当需要扫描多个包时可以使用分号或逗号作为分隔符-->
+		<!--指定包路径后，会扫描该包及其子包中的所有文件-->
         <property name="basePackage" value="com.thinkgem.jeesite"/>
+		<!--指定了要扫描的注解名称 MyBatisDao(自定义注解)，只有被注解标识的类才会被配置为映射器-->
         <property name="annotationClass" value="com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao"/>
+		<!--sqlSessionTemplateBeanName：指定在Spring中定义的SqlSessionTemplate的Bean名称。-->
+		<!--如果定义此属性，则sqlSessionFactoryBeanName将不起作用。-->
     </bean>
     
     <!-- 定义事务 -->

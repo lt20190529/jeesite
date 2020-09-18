@@ -40,7 +40,7 @@
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost:3306/jeesite" />
+                <property name="url" value="jdbc:mysql://localhost:3306/jeesite?useUnicode=true&amp;characterEncoding=UTF-8" />
                 <property name="username" value="root" />
                 <property name="password" value="123456" />
             </dataSource>
@@ -49,6 +49,7 @@
 
     <mappers>
         <mapper resource="mappings/modules/ingr/IngrDao.xml"></mapper>
+        <mapper resource="mappings/modules/test/CustomerDao.xml"></mapper>
     </mappers>
     
 </configuration>

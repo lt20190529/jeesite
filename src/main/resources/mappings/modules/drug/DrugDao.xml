@@ -230,4 +230,13 @@
 
 	</update>
 
+	<select id="findDrugByNo"
+	   >
+		select * from erp_drug where 1=1
+		<if test="itemNo!=null or itemNo!=''">
+			and itemNo like concat('%',#{itemNo},'%')
+		</if>
+	</select>
+
+
 </mapper>

@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.ingr;
 
+import com.thinkgem.jeesite.modules.Drug.dao.DrugDao;
+import com.thinkgem.jeesite.modules.Drug.entity.Drug;
 import com.thinkgem.jeesite.modules.ingr.dao.IngrDao;
 import com.thinkgem.jeesite.modules.ingr.entity.Ingr;
 import com.thinkgem.jeesite.modules.ingr.entity.IngrDetail;
@@ -11,7 +13,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,6 +90,20 @@ public class ingrTest {
                     System.out.println(detail.getItem().getItemDesc()+" "+detail.getQty());
                 }
             }
+        }
+    }
+
+    /*
+    动态SQL
+     */
+    @Test
+    public void test4(){
+        DrugDao drugDao=SqlSession.getMapper(DrugDao.class);
+        Drug drug=new Drug();
+        drug.setDrug_Code("1");
+        List<Drug> drugList=SqlSession.selectList("com.thinkgem.jeesite.modules.Drug.dao.DrugDao.findDrugByNo",drug);
+        for (Drug d:drugList){
+            d.toString();
         }
     }
 
