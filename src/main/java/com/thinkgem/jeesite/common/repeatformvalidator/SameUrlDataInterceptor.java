@@ -22,7 +22,7 @@ public class SameUrlDataInterceptor extends HandlerInterceptorAdapter {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
-            SameUrlData annotation = method.getAnnotation(SameUrlData.class);
+            SameUrlData annotation = method.getAnnotation(SameUrlData.class);  //获取防重复提交注解@SameUrlData
             if (annotation != null) {
                 boolean needSaveSession = annotation.save();
                 if (needSaveSession) {

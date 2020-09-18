@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thinkgem.jeesite.modules.ingr.dao.IngrDao">
+
+    <resultMap id="IngrInfo" type="com.thinkgem.jeesite.modules.ingr.entity.Ingr">
+
+        <id property="id" column="id"></id>
+        <result property="no" column="no"/>
+        <result property="amtrp" column="amtrp"/>
+        <result property="amtsp" column="amtsp"/>
+        <association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="id"></id>
+            <result property="no" column="no"></result>
+            <result property="name" column="name"></result>
+        </association>
+        <association property="vendor" javaType="com.thinkgem.jeesite.modules.erpvendor.entity.ErpVendor">
+            <id property="id" column="id"></id>
+            <result property="vendorCode" column="vendor_code"></result>
+            <result property="vendorDesc" column="vendor_desc"></result>
+        </association>
+
+    </resultMap>
+
+
+    <select id="findIngrInfo" resultMap="IngrInfo">
+        select ingr.*,ven.vendor_code,ven.vendor_desc,user.name,user.no
+        from erp_rec ingr,erp_vendor ven,sys_user user
+        where ingr.vendor=ven.id
+          and ingr.audit_by=user.id
+    </select>
+
+
+    <!--方式一：一对多查询-->
+
+    <resultMap id="ingrDetail" type="com.thinkgem.jeesite.modules.ingr.entity.Ingr">
+        <id property="id" column="id"></id>
+        <result property="no" column="no"/>
+        <result property="amtrp" column="amtrp"/>
+        <result property="amtsp" column="amtsp"/>
+        <association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="id"></id>
+            <result property="no" column="no"></result>
+            <result property="name" column="name"></result>
+        </association>
+        <association property="vendor" javaType="com.thinkgem.jeesite.modules.erpvendor.entity.ErpVendor">
+            <id property="id" column="id"></id>
+            <result property="vendorCode" column="vendor_code"></result>
+            <result property="vendorDesc" column="vendor_desc"></result>
+        </association>
+
+        <collection property="ingrDetailList" ofType="com.thinkgem.jeesite.modules.ingr.entity.IngrDetail">
+            <id property="sid" column="sid"></id>
+            <result property="recid" column="recid"></result>
+            <result property="subid" column="subid"></result>
+
+            <result property="qty" column="qty"></result>
+            <result property="sp" column="sp"></result>
+            <result property="spamt" column="spamt"></result>
+            <result property="batno" column="batno"></result>
+            <result property="expdate" column="expdate"></result>
+            <association property="item" javaType="com.thinkgem.jeesite.modules.item.entity.ErpItem">
+                <id property="id" column="id"></id>
+                <result property="itemNo" column="item_no"></result>
+                <result property="itemDesc" column="item_desc"></result>
+                <result property="itemSpec" column="item_spec"></result>
+            </association>
+            <association property="manf" javaType="com.thinkgem.jeesite.modules.erpmanf.entity.ErpManf">
+                <id property="id" column="id"></id>
+                <result property="manfCode" column="manf_code"></result>
+                <result property="manfDesc" column="manf_desc"></result>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="findIngrAndDetailInfo" resultMap="ingrDetail">
+         SELECT
+            ingr.*, t.no no,
+            t.name name,
+            detail.id sid,
+            detail.recid recid,
+            detail.subid subid,
+            detail.item_dr itemid,
+            item.item_no item_no,
+            item.item_desc item_desc,
+            item.item_spec item_spec,
+            detail.qty qty,
+            detail.sp sp,
+            detail.sp_amt spamt,
+            detail.batno batno,
+            detail.expdate expdate,
+            manf.manf_code manfcode,
+            manf.manf_desc manfdesc
+        FROM erp_rec ingr
+        INNER JOIN sys_user t ON ingr.audit_by=t.id
+        INNER JOIN erp_vendor vendor on  vendor.id=ingr.vendor
+        LEFT  JOIN erp_recdetail detail ON detail.recid = ingr.id
+        INNER join erp_item item on item.id=detail.item_dr
+        INNER join erp_manf manf on manf.id=detail.manf_dr
+
+    </select>
+
+    <!--方式二：一对多查询 采用 extends-->
+    <resultMap id="baseResultDetail" type="com.thinkgem.jeesite.modules.ingr.entity.Ingr">
+        <id property="id" column="id"></id>
+        <result property="no" column="no"/>
+        <result property="amtrp" column="amtrp"/>
+        <result property="amtsp" column="amtsp"/>
+    </resultMap>
+
+    <resultMap id="ingrinfo" type="com.thinkgem.jeesite.modules.ingr.entity.Ingr"
+               extends="baseResultDetail">
+        <association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+            <id property="id" column="id"></id>
+            <result property="no" column="no"></result>
+            <result property="name" column="name"></result>
+        </association>
+        <association property="vendor" javaType="com.thinkgem.jeesite.modules.erpvendor.entity.ErpVendor">
+            <id property="id" column="id"></id>
+            <result property="vendorCode" column="vendor_code"></result>
+            <result property="vendorDesc" column="vendor_desc"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="ingrAndDetailInfo" type="com.thinkgem.jeesite.modules.ingr.entity.Ingr"
+               extends="ingrinfo">
+        <!-- 订单明细信息 一个订单包含多条明细，要使用collection进行映射 一对多使用 配置在一的一方添加属性 collection：
+          对关联查询的多条记录映射到集合对象中去
+         property: 将关联查询出来的多条记录映射到类中的那个属性中 list ofType : 指定映射到集合属性中的pojo类，list的泛型 -->
+
+        <collection property="ingrDetailList" ofType="com.thinkgem.jeesite.modules.ingr.entity.IngrDetail">
+            <id property="sid" column="sid"></id>
+            <result property="recid" column="recid"></result>
+            <result property="subid" column="subid"></result>
+
+            <result property="qty" column="qty"></result>
+            <result property="sp" column="sp"></result>
+            <result property="spamt" column="spamt"></result>
+            <result property="batno" column="batno"></result>
+            <result property="expdate" column="expdate"></result>
+            <association property="item" javaType="com.thinkgem.jeesite.modules.item.entity.ErpItem">
+                <id property="id" column="id"></id>
+                <result property="itemNo" column="item_no"></result>
+                <result property="itemDesc" column="item_desc"></result>
+                <result property="itemSpec" column="item_spec"></result>
+            </association>
+            <association property="manf" javaType="com.thinkgem.jeesite.modules.erpmanf.entity.ErpManf">
+                <id property="id" column="id"></id>
+                <result property="manfCode" column="manf_code"></result>
+                <result property="manfDesc" column="manf_desc"></result>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="findIngrAndDetailInfoByExtends" resultMap="ingrAndDetailInfo">
+        SELECT
+        ingr.*, t.no no,
+        t.name name,
+        detail.id sid,
+        detail.recid recid,
+        detail.subid subid,
+        detail.item_dr itemid,
+        item.item_no item_no,
+        item.item_desc item_desc,
+        item.item_spec item_spec,
+        detail.qty qty,
+        detail.sp sp,
+        detail.sp_amt spamt,
+        detail.batno batno,
+        detail.expdate expdate,
+        manf.manf_code manfcode,
+        manf.manf_desc manfdesc
+        FROM erp_rec ingr
+        INNER JOIN sys_user t ON ingr.audit_by=t.id
+        INNER JOIN erp_vendor vendor on  vendor.id=ingr.vendor
+        LEFT  JOIN erp_recdetail detail ON detail.recid = ingr.id
+        INNER join erp_item item on item.id=detail.item_dr
+        INNER join erp_manf manf on manf.id=detail.manf_dr
+
+    </select>
+
+    <!--多对多查询-->
+    <!--依据供货商查询入库数据：一个供货商可能有多笔入库，每笔入库对应多个商品明细信息-->
+    <resultMap id="VendorIngrAndDetail" type="com.thinkgem.jeesite.modules.ingr.entity.VendorIngrInfo">
+        <id column="id" property="id"></id>
+        <result column="vendor_code" property="vendorCode"></result>
+        <result column="vendor_desc" property="vendorDesc"></result>
+        <collection property="ingrList" ofType="com.thinkgem.jeesite.modules.ingr.entity.Ingr">
+            <id column="recid" property="id"></id>
+            <result column="no" property="no"></result>
+            <result property="amtrp" column="amtrp"/>
+            <result property="amtsp" column="amtsp"/>
+            <association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
+                <id property="id" column="id"></id>
+                <result property="no" column="no"></result>
+                <result property="name" column="name"></result>
+            </association>
+            <collection property="ingrDetailList" ofType="com.thinkgem.jeesite.modules.ingr.entity.IngrDetail">
+                <id property="sid" column="sid"></id>
+                <result property="recid" column="recid"></result>
+                <result property="subid" column="subid"></result>
+
+                <result property="qty" column="qty"></result>
+                <result property="sp" column="sp"></result>
+                <result property="spamt" column="spamt"></result>
+                <result property="batno" column="batno"></result>
+                <result property="expdate" column="expdate"></result>
+                <association property="item" javaType="com.thinkgem.jeesite.modules.item.entity.ErpItem">
+                    <id property="id" column="id"></id>
+                    <result property="itemNo" column="item_no"></result>
+                    <result property="itemDesc" column="item_desc"></result>
+                    <result property="itemSpec" column="item_spec"></result>
+                </association>
+                <association property="manf" javaType="com.thinkgem.jeesite.modules.erpmanf.entity.ErpManf">
+                    <id property="id" column="id"></id>
+                    <result property="manfCode" column="manf_code"></result>
+                    <result property="manfDesc" column="manf_desc"></result>
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="VendorIngrAndDetailInfo" resultMap="VendorIngrAndDetail">
+        SELECT
+            vendor.*, rec. NO NO,
+            rec.id recid,
+            rec.amtrp amtrp,
+            rec.amtsp amtsp,
+            USER . NO NO,
+            USER . NAME NAME,
+            detail.id sid,
+            detail.recid recid,
+            detail.subid subid,
+            detail.qty qty,
+            detail.sp sp , detail.sp_amt spamt,
+            detail.batno batno,
+            detail.expdate expdate,
+            item.item_no item_no,
+            item.item_no item_desc,
+            item.item_spec item_spec,
+            manf.manf_code manf_code,
+            manf.manf_desc manf_desc
+        FROM
+            erp_vendor vendor
+        LEFT JOIN erp_rec rec ON rec.vendor = vendor.id
+        INNER JOIN sys_user USER ON rec.audit_by = USER .id
+        LEFT  JOIN erp_recdetail detail ON detail.recid = rec.id
+        INNER JOIN erp_item item ON detail.item_dr = item.id
+        INNER JOIN erp_manf manf ON manf.id = detail.manf_dr
+    </select>
+
+</mapper>

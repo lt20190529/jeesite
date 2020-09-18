@@ -264,7 +264,7 @@
 	  	<url-pattern>/userfiles/*</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Validate code -->
+	<!-- Validate code 登录验证码-->
 	<servlet>
 		<servlet-name>ValidateCodeServlet</servlet-name>
 		<servlet-class>com.thinkgem.jeesite.common.servlet.ValidateCodeServlet</servlet-class>

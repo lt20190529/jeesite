@@ -303,17 +303,7 @@
 						<div id="myTabContent" class="">
 							<div class="tab-pane fade in active" id="BaseInfo">
 								<div class="row form-inline">
-									<div class="control-group">
-										<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品图片：</div>
 
-										<img id="preview_photo" src="" style="height:150px;width:250px;padding: 3px;" border="4">
-										<form:input id="Drug_Phone" path="Drug_Phone" type="hidden"/>
-
-										<a type="button" class="btn btn-primary upload" id="up_btn">
-											<input class="change" type="file" id="photoFile"  multiple="multiple" onchange="upload()"/>
-											<i class="fa fa-upload"></i>选择图片
-										</a>
-									</div>
 
 									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品编码：</div>
 									<div class="col-md-3">
@@ -410,6 +400,18 @@
 										<form:input class="input-medium" type="text" path="Drug_BarCode"
 													name='Drug_BarCode' placeholder="请输入条码" autocomplete="off" required="true"/>
 									</div>
+								</div>
+								<br>
+								<div class="row form-inline">
+									<div class="col-md-2"><span style="color:red">*</span>&nbsp;&nbsp;药品图片：</div>
+
+									<img id="preview_photo" src="" style="height:150px;width:250px;padding: 3px;" border="4">
+									<form:input id="Drug_Phone" path="Drug_Phone" type="hidden"/>
+
+									<a type="button" class="btn btn-primary upload" id="up_btn">
+										<input class="change" type="file" id="photoFile"  multiple="multiple" onchange="upload()"/>
+										<i class="fa fa-upload"></i>选择图片
+									</a>
 								</div>
 								<hr>
 							</div>
