@@ -409,7 +409,7 @@
 		
 	</ul>
 	<br />
-	<form:form id="searchForm" modelAttribute="erpRecNew"
+	<form:form id="searchForm" modelAttribute="erpRec"
 		action="${ctx}/rec/erpRec/query" method="post"
 		class="breadcrumb form-search">
 		<ul class="ul-form">
