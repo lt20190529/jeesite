@@ -21,71 +21,6 @@
     <link href="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table-fixed-columns-master/bootstrap-table-fixed-columns.css" type="text/css" rel="stylesheet" />
     <script src="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table-fixed-columns-master/bootstrap-table-fixed-columns.js" type="text/javascript"></script>
     <style>
-
-        .checkbox-custom {
-            position: relative;
-            padding: 0 15px 0 25px;
-            margin-bottom: 7px;
-            margin-top: 0;
-            display: inline-block;
-        }
-        /*
-        将初始的checkbox的样式改变
-        */
-        .checkbox-custom input[type="checkbox"] {
-            opacity: 0;/*将初始的checkbox隐藏起来*/
-            position: absolute;
-            cursor: pointer;
-            z-index: 2;
-            margin: -6px 0 0 0;
-            top: 90%;
-            left: 3px;
-        }
-        /*
-        设计新的checkbox，位置
-        */
-        .checkbox-custom label:before {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 8px;
-            margin-top: -9px;
-            width: 14px;
-            height: 14px;
-            display: inline-block;
-            border-radius: 2px;
-            border: 1px solid #bbb;
-            background: #fff;
-        }
-        /*
-        点击初始的checkbox，将新的checkbox关联起来
-        */
-        .checkbox-custom input[type="checkbox"]:checked +label:after {
-            position: absolute;
-            display: inline-block;
-            font-family: 'Glyphicons Halflings';
-            content: "\e013";
-            top: 90%;
-            left: 8px;
-            margin-top: -5px;
-            font-size: 11px;
-            line-height: 1;
-            width: 16px;
-            height: 16px;
-            color: #333;
-        }
-        .checkbox-custom label {
-            cursor: pointer;
-            line-height: 1.2;
-            font-weight: normal;/*改变了rememberme的字体*/
-            margin-bottom: 1;
-            text-align: left;
-        }
-
-        .btn{
-        margin:6px;
-        }
-
         .mm{
             margin:30px 380px;
         }
@@ -95,11 +30,6 @@
         }
         .box{
             margin:1px 1px 1px 1px;   /*margin 上右下左*/
-        }
-
-
-        .fixed-table-pagination .page-list {
-            display:none;
         }
 
     </style>
@@ -151,7 +81,7 @@
                 showRefresh: false,                  //是否显示刷新按钮
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
-                height: 420,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                height: 400,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
 
                 //得到查询的参数
@@ -256,9 +186,9 @@
                 sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录11
-                pageSize:8,                     //每页的记录行数（*）
+                pageSize:7,                     //每页的记录行数（*）
                 paginationDetailHAlign:"left",
-                pageList: [8, 16, 24],        //可供选择的每页的行数（*）
+               // pageList: [7,14,21,25,32],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
@@ -311,18 +241,10 @@
                 onLoadError: function () {
                 },
                 onDblClickRow: function (field,value,row, $element) {
+
                 },
                 onPostBody : function () {
-                    $("#table1").find("input:checkbox").each(function (i) {
-                        var $check = $(this);
-                        if ($check.attr("id") && $check.next("label")) {
-                            return;
-                        }
-                        var name = $check.attr("name");
-                        var id = name + "-" + i;
-                        var $label = $('<label for="'+ id +'"></label>');
-                        $check.attr("id", id).parent().addClass("checkbox-custom").append($label);
-                    });
+
                 },
 
             });
@@ -348,14 +270,14 @@
     <sys:message content="${message}" />
 
     <div class="container">
-        <div class="row ">
-            <div class="col-xs-6">
-                编&nbsp;&nbsp;&nbsp;&nbsp;号：<form:input path="no" id="no" class="input-xlarge required" readonly="true" />
+        <div class="row " >
+            <div class="col-xs-6" >
+                编&nbsp;&nbsp;&nbsp;&nbsp;号：<form:input path="no" id="no" style="height:25px" class="input-xlarge required" readonly="true" />
             </div>
 
 
             <div class="col-xs-6">
-                备&nbsp;&nbsp;&nbsp;&nbsp;注： <form:input path="remarks"  id="remarks" class="input-xlarge"/>
+                备&nbsp;&nbsp;&nbsp;&nbsp;注： <form:input path="remarks"  id="remarks" style="height:25px" class="input-xlarge"/>
             </div>
         </div>
         <br>
@@ -365,7 +287,7 @@
                 <form:select path="vendorid" class="input-xlarge">
                     <form:option value="">请选择供货商...</form:option>
                     <form:options items="${erpVendorlist}"
-                                  itemLabel="vendorDesc" itemValue="id" htmlEscape="false" />
+                                  itemLabel="vendorDesc" itemValue="id" htmlEscape="false" style="height:30px"/>
                 </form:select>
             </div>
             <div class="col-xs-6">
@@ -373,17 +295,21 @@
                 <form:select path="depid" class="input-xlarge" >
                     <form:option value="">请选择入库部门...</form:option>
                     <form:options items="${erpDepartmentslist}"
-                                  itemLabel="departmentDesc" itemValue="id" htmlEscape="false" />
+                                  itemLabel="departmentDesc" itemValue="id" htmlEscape="false"/>
                 </form:select>
             </div>
         </div>
     </div>
 
     <div class="row" style="padding-left: 20px;padding-right: 20px">
-        <button type="button" class="btn btn-primary" onclick="append()">添加</button>
-        <table id="table"></table>
+        <br>
+        <table id="table">
+        <tfoot style="hight:20px">
+        <tr><td></td><td></td><td></td><td><td></td><td></td><td></td><td style="margin:1px;padding-left: 30px"><a class="btn btn-default" onclick="append()" class="btn">新增</a></td></tr>
+        </tfoot>
+        </table>
     </div>
-
+    <br>
     <div class="">
         <shiro:hasPermission name="rec:erpRec:edit">
             <input id="btnsave" class="btn btn-primary" onclick="SaveData()"
@@ -397,7 +323,7 @@
 <!-- 模态框（Modal） -->
 <div class="modal fade mm" id="myModal" style="width:760px;height:482px" tabindex="-1" >
         <div class="row" >
-                <div class="modal-header">
+                <div class="modal-header" >
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x&nbsp;&nbsp;</button>
                     <h3 class="" id="myModalLabel">&nbsp;&nbsp;&nbsp;&nbsp;选择物品</h3>
                 </div>
@@ -409,7 +335,7 @@
                 </div>
         </div>
         <div class="row" >
-                <div class="modal-footer">
+                <div class="modal-footer" >
                    <input id="append" type="button" class="btn btn-primary butn" value="选择" onclick="appenddata()"></input>
                 </div>
         </div>
@@ -491,7 +417,7 @@
         var input=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
         if (isEmpty(input)) {return;}
 
-        $.jBox.open("iframe:${ctx}/rec/erpRec/ItemInfo/" + input, "", 600, 350, {
+        $.jBox.open("iframe:${ctx}/rec/erpRec/getItemList?input=" + input, "", 600, 350, {
                  buttons: {"选择": "ok", "关闭": true},submit: function (v, h, f) {
                 if(v=="ok") {
                     var table=h.find("iframe")[0].contentWindow.document.getElementById("table1");
@@ -574,6 +500,7 @@
     function appenddata() {
         var row=$("#table1").bootstrapTable("getSelections");
         var count = $('#table').bootstrapTable('getData').length;
+
         if(row==""){return;}
         $('#table').bootstrapTable('updateRow', {
             index: count-1,

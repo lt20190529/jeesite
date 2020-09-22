@@ -93,6 +93,7 @@
         };
 
         $(document).ready(function(){
+            alert(2332233)
             InitTableSub();
             var input=$("input:hidden[name='params']").val();
             var queryUrl =  "${ctx}/rec/erpRec/getItemList?input=" +input;

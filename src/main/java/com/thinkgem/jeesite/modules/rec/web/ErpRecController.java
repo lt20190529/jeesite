@@ -3,42 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.rec.web;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.google.common.collect.Maps;
-
-import com.thinkgem.jeesite.common.repeatformvalidator.SameUrlData;  //防重复提交
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.repeatformvalidator.SameUrlData;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
 import com.thinkgem.jeesite.modules.erpdepartments.service.ErpDepartmentsSerivce;
 import com.thinkgem.jeesite.modules.erpmanf.entity.ErpManf;
@@ -56,8 +27,18 @@ import com.thinkgem.jeesite.modules.rec.service.ErpRecNewService;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecService;
 import com.thinkgem.jeesite.modules.sys.service.DictService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * 入库Controller
@@ -382,7 +363,7 @@ public class ErpRecController extends BaseController {
         List<ErpItem> items = new ArrayList<ErpItem>();
         Map<String,Object> params = new LinkedHashMap<String,Object>();
         params.put("input", "%"+input+"%");    //当sql的条件有模糊匹配时，参数需前后带上%
-        params.put("start", (pageNumber-1)*8);
+        params.put("start", (pageNumber-1)*pageSize);
         params.put("pagesize", pageSize);
         items=erpItemService.findErpItemListBy(params);
         Integer total=erpItemService.getErpItemBybrevitycodeCount(params);

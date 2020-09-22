@@ -5,6 +5,7 @@
 	<title>主子表管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
@@ -123,13 +124,15 @@
 								<th class="hide"></th>
 								<th>名称</th>
 								<th>备注信息</th>
+								<th>名称</th>
+								<th>XXXX</th>
 								<shiro:hasPermission name="test:testDataMain:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="testDataChildList">
 						</tbody>
 						<shiro:hasPermission name="test:testDataMain:edit"><tfoot>
-							<tr><td colspan="4"><a href="javascript:" onclick="addRow('#testDataChildList', testDataChildRowIdx, testDataChildTpl);testDataChildRowIdx = testDataChildRowIdx + 1;" class="btn">新增</a></td></tr>
+							<tr><td colspan="9"><a href="javascript:" onclick="addRow('#testDataChildList', testDataChildRowIdx, testDataChildTpl);testDataChildRowIdx = testDataChildRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="testDataChildTpl">//<!--
@@ -143,6 +146,15 @@
 							</td>
 							<td>
 								<input id="testDataChildList{{idx}}_remarks" name="testDataChildList[{{idx}}].remarks" type="text" value="{{row.remarks}}" maxlength="255" class="input-small "/>
+							</td>
+							<td>
+								<input id="testDataChildList{{idx}}_remarks" name="testDataChildList[{{idx}}].xxx" type="text" value="{{row.remarks}}" maxlength="255" class="input-small "/>
+							</td>
+							<td>
+								<input id="testDataChildList{{idx}}_remarks" name="testDataChildList[{{idx}}].yyy" readonly="true" type="text" value="{{row.remarks}}" maxlength="255" class="input-small "/>
+							</td>
+							<td>
+								<input id="testDataChildList{{idx}}_remarks" name="testDataChildList[{{idx}}].xxx" type="text" value="{{row.remarks}}" maxlength="255" class="input-small "/>
 							</td>
 							<shiro:hasPermission name="test:testDataMain:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#testDataChildList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
