@@ -1,6 +1,4 @@
-package com.thinkgem.jeesite.modules.Drug.service;
-
-import java.util.List;
+package com.thinkgem.jeesite.modules.drug.service;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -10,10 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.IdGen;
-import com.thinkgem.jeesite.modules.Drug.dao.DrugDao;
-import com.thinkgem.jeesite.modules.Drug.entity.Drug;
-import com.thinkgem.jeesite.modules.Drug.entity.DrugVo;
-import com.thinkgem.jeesite.modules.item.entity.ErpItem;
+import com.thinkgem.jeesite.modules.drug.dao.DrugDao;
+import com.thinkgem.jeesite.modules.drug.entity.Drug;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,7 +28,7 @@ public class DrugService extends CrudService<DrugDao, Drug> {
 	
 	//获取所有字典(字典列表使用)
 	
-	/*public List<Drug> findDrugList(DrugVo drugVo)throws Exception {
+	/*public List<drug> findDrugList(DrugVo drugVo)throws Exception {
 		return drugDao.findDrugList(drugVo);
 	}*/
 

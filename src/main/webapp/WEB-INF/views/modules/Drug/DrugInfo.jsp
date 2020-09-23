@@ -48,7 +48,7 @@
             var url =  $("#searchForm").attr("action");
             top.$.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
                 if(v=="ok"){
-                    $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/Excel");
+                    $("#DrugForm").attr("action","${ctx}/drug/DrugInfo/Excel");
                     $("#DrugForm").submit();
                 }
                 $("#searchForm").attr("action",url);
@@ -77,7 +77,7 @@
     function page(n,s){
         if(n) $("#pageNo").val(n);
         if(s) $("#pageSize").val(s);
-        $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/QueryDrugInfo");
+        $("#DrugForm").attr("action","${ctx}/drug/DrugInfo/QueryDrugInfo");
         $("#DrugForm").submit();
         return false;
     }
@@ -448,8 +448,8 @@
 
             $("#DrugInfoForm").validate({
 				rules:{
-					Drug_Code:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByCode"}},
-					Drug_Desc:{remote:{url:"${ctx}/Drug/DrugInfo/checkDrugByDesc",type:"post"}}
+					Drug_Code:{remote:{url:"${ctx}/drug/DrugInfo/checkDrugByCode"}},
+					Drug_Desc:{remote:{url:"${ctx}/drug/DrugInfo/checkDrugByDesc",type:"post"}}
 				},
 				messages:{
 					Drug_Code:{required: "代码不能为空",remote:"代码已经存在"},
@@ -471,7 +471,7 @@
 
             $.ajax({
                 type : "post",
-                url : "${ctx}/Drug/DrugInfo/photoUpload",
+                url : "${ctx}/drug/DrugInfo/photoUpload",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -500,7 +500,7 @@
 		function editDrug(drugID) {
             $.ajax({
                 type : "post",
-                url : "${ctx}/Drug/DrugInfo/getDrugInfo/"+drugID,
+                url : "${ctx}/drug/DrugInfo/getDrugInfo/"+drugID,
                 dataType : 'json',
                 success : function(data) {
                     showInfo(data)
@@ -539,7 +539,7 @@
                 return;
 			};
 			$.ajax({
-				url : "${ctx}/Drug/DrugInfo/Save", 
+				url : "${ctx}/drug/DrugInfo/Save",
 				method : "post",
 				data : $("#DrugInfoForm").serialize(),
 				contentType : "application/x-www-form-urlencoded",

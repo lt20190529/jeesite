@@ -10,8 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +26,6 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
 import com.thinkgem.jeesite.modules.erpdepartments.service.ErpDepartmentsSerivce;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecNew;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
 import com.thinkgem.jeesite.modules.sales.entity.ErpSales;
 import com.thinkgem.jeesite.modules.sales.entity.ErpSalesDetail;
 import com.thinkgem.jeesite.modules.sales.service.ErpSalesService;

@@ -7,8 +7,7 @@ import java.util.List;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetail;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
 
 /**
  * 入库DAO接口
@@ -16,32 +15,33 @@ import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
  * @version 2018-07-26
  */
 @MyBatisDao
-public interface ErpRecdetailDao extends CrudDao<ErpRecdetail> {
+public interface ErpRecDetailDao extends CrudDao<ErpRecDetail> {
 	
 	
-	public List<ErpRecdetail> findListNew(String recid);
+	public List<ErpRecDetail> findListNew(String recid);
 	
-	
-	public List<ErpRecdetail> findErpRecdetailListByRecId(String recid);
 	
 	//扩展实体(不带子属性对象)
-	public List<ErpRecdetailNew> findErpRecdetailListByRecIdnew(String recid);
+	public List<ErpRecDetail> findErpRecdetailListByRecIdnew(String recid);
 	
 	
 	//insert子表
-	public int insert(ErpRecdetail erpRecdetail);
+	public int insert(ErpRecDetail erpRecdetail);
 	
 	
 	//update子表
-	public int update(ErpRecdetail erpRecdetail);
+	public int update(ErpRecDetail erpRecdetail);
 	
 	
 	//********************************EasyUI版本业务处理***************************************
 	
 	//insert子表
-    public int insertE(ErpRecdetailNew erpRecdetailNew);
+    public int insertE(ErpRecDetail erpRecDetail);
 		
 		
     //update子表
-	public int updateE(ErpRecdetailNew erpRecdetailNew);
+	public int updateE(ErpRecDetail erpRecDetail);
+		
+	//delete子表
+	public void deleteE(String detailid);
 }

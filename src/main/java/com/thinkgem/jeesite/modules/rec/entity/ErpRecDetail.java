@@ -14,7 +14,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @author lxt
  * @version 2018-07-26
  */
-public class ErpRecdetailNew extends DataEntity<ErpRecdetailNew> {
+public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 	
 	private static long serialVersionUID = 1L;
 	

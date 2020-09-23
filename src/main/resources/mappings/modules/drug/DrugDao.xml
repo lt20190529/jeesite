@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.Drug.dao.DrugDao">
+<mapper namespace="com.thinkgem.jeesite.modules.drug.dao.DrugDao">
 
 	<!-- sql片段 -->
 	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
@@ -30,7 +30,7 @@
 	</sql>
 
 
-	<resultMap id="drugResultMap" type="com.thinkgem.jeesite.modules.Drug.entity.Drug" extends="com.thinkgem.jeesite.modules.item.dao.ErpItemDao.DataEntityResultMap">
+	<resultMap id="drugResultMap" type="com.thinkgem.jeesite.modules.drug.entity.Drug" extends="com.thinkgem.jeesite.modules.item.dao.ErpItemDao.DataEntityResultMap">
 		<id property="Drug_id" column="drug_ID"/>
 		<result property="Drug_Code" column="drug_Code"/>
 		<result property="Drug_Desc" column="drug_Desc"/>
@@ -56,12 +56,12 @@
 	</resultMap>
 
 	<!-- 代码校验 -->
-	<select id="checkDrugByCode" parameterType="String" resultType="int">
+	<select id="checkDrugByCode" parameterType="String" resultType="java.lang.Integer">
 		select count(*) from erp_drug where drug_Code=#{drug_Code}
 	</select>
 
 	<!-- 名称校验 -->
-	<select id="checkDrugByDesc" parameterType="String" resultType="int">
+	<select id="checkDrugByDesc" parameterType="String" resultType="java.lang.Integer">
 		select count(*) from erp_drug where drug_Desc=#{drug_Desc}
 	</select>
 

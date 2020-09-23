@@ -22,9 +22,6 @@ import com.thinkgem.jeesite.modules.erpStock.entity.ErpStock;
 import com.thinkgem.jeesite.modules.erpStock.service.StockMangerService;
 import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
 import com.thinkgem.jeesite.modules.erpdepartments.service.ErpDepartmentsSerivce;
-import com.thinkgem.jeesite.modules.erpvendor.service.ErpVendorService;
-import com.thinkgem.jeesite.modules.item.entity.ErpItem;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecNew;
 
 /*
  * 库存管理--库存查询

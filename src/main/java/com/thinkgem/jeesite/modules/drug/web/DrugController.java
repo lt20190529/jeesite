@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.Drug.web;
+package com.thinkgem.jeesite.modules.drug.web;
 
 import java.io.File;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
@@ -16,16 +15,14 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
-import com.thinkgem.jeesite.modules.Drug.entity.Drug;
-import com.thinkgem.jeesite.modules.Drug.entity.DrugVo;
-import com.thinkgem.jeesite.modules.Drug.service.DrugService;
+import com.thinkgem.jeesite.modules.drug.entity.Drug;
+import com.thinkgem.jeesite.modules.drug.service.DrugService;
 import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 import com.thinkgem.jeesite.modules.erpuom.service.ErpUomService;
 import org.springframework.web.multipart.MultipartFile;
@@ -179,7 +176,7 @@ public class DrugController extends BaseController {
         }catch (Exception e){
            map.put("message","导出药品数据错误,信息:"+e.getMessage());
         }
-       return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo").addAllObjects(map);
+       return new ModelAndView("redirect:"  + "/modules/drug/DrugInfo").addAllObjects(map);
     }
 
 	/**
@@ -197,7 +194,7 @@ public class DrugController extends BaseController {
 		} catch (Exception e) {
 			System.out.println("导入模板下载失败！失败信息："+e.getMessage());
 		}
-		return new ModelAndView("redirect:"  + "/modules/Drug/DrugInfo");
+		return new ModelAndView("redirect:"  + "/modules/drug/DrugInfo");
 	}
 
 
@@ -230,7 +227,7 @@ public class DrugController extends BaseController {
 			failureMsg.insert(0, "，失败 "+failurecount+" 条药品，导入信息如下："+e.getMessage());
 		}
         addMessage(redirectAttributes, "已成功导入 "+successcount+" 条药品 "+"</br>"+failureMsg);
-        return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
+        return "redirect:" + Global.getAdminPath() + "/drug/DrugInfo/QueryDrugInfo";
 	}
 
 	@RequestMapping("delete")
@@ -238,6 +235,6 @@ public class DrugController extends BaseController {
 		System.out.println(drug.toString());
 		drugService.delete(drug);
 		addMessage(redirectAttributes, "已成功删除!");
-		return "redirect:" + Global.getAdminPath() + "/Drug/DrugInfo/QueryDrugInfo";
+		return "redirect:" + Global.getAdminPath() + "/drug/DrugInfo/QueryDrugInfo";
 	}
 }

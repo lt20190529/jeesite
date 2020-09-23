@@ -1,11 +1,10 @@
-package com.thinkgem.jeesite.modules.Drug.dao;
+package com.thinkgem.jeesite.modules.drug.dao;
 
 import java.util.List;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.Drug.entity.Drug;
-import com.thinkgem.jeesite.modules.Drug.entity.DrugVo;
+import com.thinkgem.jeesite.modules.drug.entity.Drug;
 
 @MyBatisDao
 public interface DrugDao extends CrudDao<Drug> {

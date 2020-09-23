@@ -3,7 +3,7 @@
 <mapper namespace="com.thinkgem.jeesite.modules.rec.dao.ErpRecQueryDao">
 
     
-	<select id="findErpRec" resultType="ErpRecNew">
+	<select id="findErpRec" resultType="ErpRec">
 		select * from erp_rec
 	</select>
 
@@ -11,7 +11,7 @@
 	<!-- 利用命名空间+resultMapID就可以直接引用其他Mapper文件的resultMap -->
 	<!-- 命名空间：com.thinkgem.jeesite.modules.rec.dao.ErpRecDao -->
 	<!-- resultMap id:ErpRecResultMap -->
-	<resultMap type="com.thinkgem.jeesite.modules.rec.entity.ErpRecNew" id="ErpRecNewResultMap" extends="BaseResult">
+	<resultMap type="com.thinkgem.jeesite.modules.rec.entity.ErpRec" id="ErpRecNewResultMap" extends="BaseResult">
 		<id property="id" column="id" />
 		<result property="id" column="id" />
 		<result property="no" column="no" />
@@ -72,7 +72,7 @@
 	            </if>
 	      </where>   
 	</select>       
-	<select id="findErpMainByfilter" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecNew" resultMap="ErpRecNewResultMap">
+	<select id="findErpMainByfilter" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRec" resultMap="ErpRecNewResultMap">
 		select  rec.id as id,
 		        rec.no as no,
 				bdep.id as depid,
@@ -140,7 +140,7 @@
 	
 	
 	<!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
-	<select id="QueryErpRecdetailListByRecId"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew">
+	<select id="QueryErpRecdetailListByRecId"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
 	        select  recdetail.id as detailid,
 		            recdetail.recid as recid,
 		            recdetail.subid as subid,

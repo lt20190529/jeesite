@@ -38,49 +38,51 @@
 		<result property="remarks" column="remarks" />
 		<result property="delFlag" column="delFlag" />
 		<result property="auditFlag" column="auditFlag" />
+	    <result property="depid" column="depid" />
+		<result property="depdesc" column="depdesc" />
+		<result property="vendorid" column="vendorid" />
+		<result property="vendordesc" column="vendordesc" />
 		<!-- 入库科室 -->
 		<!-- property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类 -->
 		<!-- property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
 		                                      可以有别名，如果无别名则对应表结构定义中的字段名称 -->
-		<association property="dep" javaType="com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments">
-			<id property="id" column="did" />
+		<!-- <association property="dep" javaType="com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments">
+			<id property="id" column="depid" />
 			<result property="departmentCode" column="departmentCode" />
 			<result property="departmentDesc" column="departmentDesc" />
 		</association>
 		
-		<!-- 入库供货商 -->
+		入库供货商
 		<association property="vendor" javaType="com.thinkgem.jeesite.modules.erpvendor.entity.ErpVendor">
-			<id property="id" column="vid" />
+			<id property="id" column="vendorid" />
 			<result property="vendorCode" column="vendorCode" />
 			<result property="vendorDesc" column="vendorDesc" />
-		</association>
+		</association> -->
 		<!-- 制单人 -->
 		<association property="createBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
 			<id property="id" column="createBy.id" />
-			<result property="name" column="createBy.id" />
+			<result property="name" column="createByName" />
 		</association>
 		<!-- 审核人 -->
 		<association property="auditBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
 			<id property="id" column="auditBy.id" />
-			<result property="name" column="auditBy.id" />
+			<result property="name" column="auditBy.name" />
 		</association>
 		<!-- 更新人 -->
 		<association property="updateBy" javaType="com.thinkgem.jeesite.modules.sys.entity.User">
 			<id property="id" column="updateBy.id" />
 			<result property="name" column="updateBy.id" />
-		</association>
+		</association> 
 	</resultMap>
 	
 	
 	<select id="findErpRecById" parameterType="String" resultMap="ErpRecResultMap">
 		select  rec.id as id,
 		        rec.no as no,
-				bdep.id as did,
-				bdep.department_code as departmentCode,
-				bdep.department_desc as departmentDesc,
-				bvendor.id as vid,
-				bvendor.vendor_code as vendorCode,
-				bvendor.vendor_desc as vendorDesc,
+				bdep.id as depid,
+				bdep.department_desc as depdesc,
+				bvendor.id as vendorid,
+				bvendor.vendor_desc as vendordesc,
 				createruser.login_name as "createBy.id",     <!-- //暂时使用id作为姓名，应该在基类DataEntity添加名称属性 -->
 				rec.create_date as "createDate",
 				updateuser.login_name as "updateBy.id",
@@ -108,11 +110,10 @@
        select   t.id,
                 t.no,
                 t.did,
-				t.departmentCode,
-				t.departmentDesc,
-				t.vid,
-				t.vendorCode,
-				t.vendorDesc,
+				t.departmentId as depid,
+				t.departmentDesc as depdesc,
+				t.vendorid as vendorid,
+				t.vendorDesc as vendordesc,
 				t.amtrp,
 				t.amtsp,
 				t.createBy as "createBy.id",    
@@ -127,9 +128,10 @@
   
           from (    
 			        select  rec.id as id,rec.no as no,bdep.id as did,
+			                bdep.id as departmentId,
 							bdep.department_code as departmentCode,
 							bdep.department_desc as departmentDesc,
-							bvendor.id as vid,
+							bvendor.id as vendorid,
 							bvendor.vendor_code as vendorCode,
 							bvendor.vendor_desc as vendorDesc,
 							rec.amtrp as amtrp,
@@ -156,9 +158,10 @@
 			
 			UNION ALL
 			        select  rec.id as id,rec.no as no,bdep.id as did,
+			                bdep.id as departmentId,
 							bdep.department_code as departmentCode,
 							bdep.department_desc as departmentDesc,
-							bvendor.id as vid,
+							bvendor.id as vendorid,
 							bvendor.vendor_code as vendorCode,
 							bvendor.vendor_desc as vendorDesc,
 							rec.amtrp as amtrp,
@@ -235,8 +238,8 @@
 		
 			#{id},
 			#{no},
-			#{dep.id},
-			#{vendor.id},
+			#{depid},
+			#{vendorid},
 			#{amtrp},
 			#{amtsp},
 			#{createBy.id},
@@ -254,8 +257,8 @@
 	<update id="update">
 		UPDATE erp_rec SET 	
 			no = #{no},
-			dep = #{dep.id},
-			vendor = #{vendor.id},
+			dep = #{depid},
+			vendor = #{vendorid},
 			amtrp=#{amtrp},
 			amtsp=#{amtsp},
 			update_by = #{updateBy.id},

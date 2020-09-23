@@ -17,7 +17,6 @@ import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.HanziUtils;
 import com.thinkgem.jeesite.modules.item.entity.ErpItem;
 import com.thinkgem.jeesite.modules.item.dao.ErpItemDao;
-import com.thinkgem.jeesite.modules.rec.dao.ErpRecdetailDao;
 
 /**
  * 字典维护Service

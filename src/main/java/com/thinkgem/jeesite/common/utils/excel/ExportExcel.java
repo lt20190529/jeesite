@@ -40,7 +40,6 @@ import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.Reflections;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 
 /**

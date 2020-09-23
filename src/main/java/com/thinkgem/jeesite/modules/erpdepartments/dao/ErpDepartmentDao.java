@@ -5,8 +5,6 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetail;
-
 
 
 /**

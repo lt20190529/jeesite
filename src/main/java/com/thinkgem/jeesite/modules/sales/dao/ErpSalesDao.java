@@ -7,10 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecNew;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
 import com.thinkgem.jeesite.modules.sales.entity.ErpSales;
-import com.thinkgem.jeesite.modules.sales.entity.ErpSalesDetail;
 
 /**
  * 销售DAO接口

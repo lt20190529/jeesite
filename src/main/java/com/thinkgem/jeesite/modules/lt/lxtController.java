@@ -4,26 +4,18 @@ import java.io.File;
 import java.util.*;
 
 import com.thinkgem.jeesite.modules.sys.entity.User;
-import org.apache.commons.collections.MultiMap;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 import com.thinkgem.jeesite.modules.erpuom.service.ErpUomService;
 import com.thinkgem.jeesite.modules.item.entity.ErpItem;
 import com.thinkgem.jeesite.modules.item.service.ErpItemService;
-import com.thinkgem.jeesite.modules.rec.service.ErpRecService;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -17,9 +17,7 @@ import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
  * @author lxt
  * @version 2018-07-26
  */
-
-//@MyBatisDao  利用注解方式顶一个DAO  Bean
-@MyBatisDao  
+@MyBatisDao
 public interface ErpRecDao extends CrudDao<ErpRec> {
 	/**
 	 * 根据入库ID查询入库主表信息;
@@ -34,7 +32,7 @@ public interface ErpRecDao extends CrudDao<ErpRec> {
 	 * @return
 	 */
 	public List<ErpRec> findList(ErpRec erpRec);
-	
+
 	
 	//获取入库单号
 	String GetMaxNo(Map<String,Object> map);
@@ -42,4 +40,9 @@ public interface ErpRecDao extends CrudDao<ErpRec> {
 	//入库审核(存储过程)
 	String AuditRecById(Map<String,Object> map);
 	
+	//主表insert
+	public int insert(ErpRec erpRec);
+	
+	//主表update
+	public int update(ErpRec erpRec);
 }

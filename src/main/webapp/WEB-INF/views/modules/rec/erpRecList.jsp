@@ -56,7 +56,7 @@
 		<li class="active"><a href="${ctx}/rec/erpRec/">入库<shiro:hasPermission name="rec:erpRec:Audit">审核</shiro:hasPermission></a></li>
 		
 	</ul><br/>
-	<form:form id="searchForm" modelAttribute="erpRecNew" action="${ctx}/rec/erpRec/list" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="erpRec" action="${ctx}/rec/erpRec/list" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -97,78 +97,78 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${page.list}" var="ErpRecNew">
+		<c:forEach items="${page.list}" var="ErpRec">
 			<tr>
 				<%-- <td>
 					${erpRec.id}
 				</td> --%>
 				<td>
 				  <c:choose>
-                        <c:when test="${ErpRecNew.auditFlag=='N'}">
-                            <a class="blue" href="${ctx}/rec/erpRec/formE?id=${ErpRecNew.id}">
-                                    ${ErpRecNew.no}
+                        <c:when test="${ErpRec.auditFlag=='N'}">
+                            <a class="blue" href="${ctx}/rec/erpRec/formE?id=${ErpRec.id}">
+                                    ${ErpRec.no}
                             </a>
                         </c:when>
                         <c:otherwise>
-                            ${ErpRecNew.no}
+                            ${ErpRec.no}
                         </c:otherwise>
                   </c:choose>
                 </td>
 				<td>
 				   <c:choose>
-                        <c:when test="${ErpRecNew.auditFlag=='N'}">
-                            <a  color:"#FF0000" href="${ctx}/rec/erpRec/formE?id=${ErpRecNew.id}">
-                                    ${ErpRecNew.depdesc}
+                        <c:when test="${ErpRec.auditFlag=='N'}">
+                            <a  color:"#FF0000" href="${ctx}/rec/erpRec/formE?id=${ErpRec.id}">
+                                    ${ErpRec.depdesc}
                             </a>
                         </c:when>
                         <c:otherwise>
-                            ${ErpRecNew.depdesc}
+                            ${ErpRec.depdesc}
                         </c:otherwise>
                   </c:choose>
                 </td>
 				<td>
-					${ErpRecNew.vendordesc}
+					${ErpRec.vendordesc}
 				</td>
 				<td>
-					${ErpRecNew.amtrp}
+					${ErpRec.amtrp}
 				</td>
 				<td>
-					${ErpRecNew.amtsp}
+					${ErpRec.amtsp}
 				</td>
 				<td>
-					${ErpRecNew.createBy.id}
+					${ErpRec.createBy.id}
 				</td>
 				<td>
-					<fmt:formatDate value="${ErpRecNew.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${ErpRec.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${ErpRecNew.auditBy.id}
+					${ErpRec.auditBy.id}
 				</td>
 				<td>
-					<fmt:formatDate value="${ErpRecNew.auditDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${ErpRec.auditDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${ErpRecNew.updateBy.id}
+					${ErpRec.updateBy.id}
 				</td>
 				<td>
-					<fmt:formatDate value="${ErpRecNew.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${ErpRec.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${ErpRecNew.remarks}
+					${ErpRec.remarks}
 				</td>
 				<td>
-					${fns:getDictLabel(ErpRecNew.delFlag, 'del_flag', '')}
+					${fns:getDictLabel(ErpRec.delFlag, 'del_flag', '')}
 				</td>
 				<td>
-					${ErpRecNew.auditFlag eq "Y"?"已审":"待审"}
+					${ErpRec.auditFlag eq "Y"?"已审":"待审"}
 				</td>
 				
 				<shiro:hasPermission name="rec:erpRec:edit"><td>
 				      <c:choose>
-                        <c:when test="${ErpRecNew.auditFlag=='N'}">
-                            <a  class="sel_btn" onclick="Audit('${ErpRecNew.id}')">审核</a>
-		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/formA?id=${ErpRecNew.id}">修改</a>
-		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/delete?id=${ErpRecNew.id}" onclick="return confirmx('确认要删除该入库吗？', this.href)">删除</a>
+                        <c:when test="${ErpRec.auditFlag=='N'}">
+                            <a  class="sel_btn" onclick="Audit('${ErpRec.id}')">审核</a>
+		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/formA?id=${ErpRec.id}">修改</a>
+		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/delete?id=${ErpRec.id}" onclick="return confirmx('确认要删除该入库吗？', this.href)">删除</a>
                         </c:when>
                         <c:otherwise>
                             <a>审核</a>

@@ -1,7 +1,7 @@
 package com.thinkgem.jeesite.ingr;
 
-import com.thinkgem.jeesite.modules.Drug.dao.DrugDao;
-import com.thinkgem.jeesite.modules.Drug.entity.Drug;
+import com.thinkgem.jeesite.modules.drug.dao.DrugDao;
+import com.thinkgem.jeesite.modules.drug.entity.Drug;
 import com.thinkgem.jeesite.modules.ingr.dao.IngrDao;
 import com.thinkgem.jeesite.modules.ingr.entity.Ingr;
 import com.thinkgem.jeesite.modules.ingr.entity.IngrDetail;
@@ -101,7 +101,7 @@ public class ingrTest {
         DrugDao drugDao=SqlSession.getMapper(DrugDao.class);
         Drug drug=new Drug();
         drug.setDrug_Code("1");
-        List<Drug> drugList=SqlSession.selectList("com.thinkgem.jeesite.modules.Drug.dao.DrugDao.findDrugByNo",drug);
+        List<Drug> drugList=SqlSession.selectList("com.thinkgem.jeesite.modules.drug.dao.DrugDao.findDrugByNo",drug);
         for (Drug d:drugList){
             d.toString();
         }

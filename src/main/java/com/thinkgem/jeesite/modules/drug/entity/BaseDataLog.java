@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.Drug.entity;
+package com.thinkgem.jeesite.modules.drug.entity;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 

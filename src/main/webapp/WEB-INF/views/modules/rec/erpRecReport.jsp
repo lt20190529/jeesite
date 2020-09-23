@@ -158,10 +158,7 @@
 		<ul class="ul-form">
 			<li><label>单号：</label> <form:input path="no" htmlEscape="false"
 					maxlength="50" class="input-medium" /></li>
-			<li><label>库房：</label> <form:input path="dep" htmlEscape="false"
-					maxlength="50" class="input-medium" /></li>
-			<li><label>供货商：</label> <form:input path="vendor"
-					htmlEscape="false" maxlength="20" class="input-medium" /></li>
+
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary"
 				onclick="modify()" value="查询" /></li>
 			<li class="clearfix"></li>

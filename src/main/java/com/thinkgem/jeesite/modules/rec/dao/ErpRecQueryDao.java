@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecNew;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
 
 
 /**
@@ -17,13 +17,13 @@ import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
 public interface ErpRecQueryDao {
 
 		//查询
-		List<ErpRecNew> findErpMainByfilter(Map<String,Object> map);
+		List<ErpRec> findErpMainByfilter(Map<String,Object> map);
 		
 		//入库总条数
 		Integer findErpMainByfilterCount(Map<String,Object> map);
 		
 		//查询入库子表
-		List<ErpRecdetailNew> QueryErpRecdetailListByRecId(String ids);
+		List<ErpRecDetail> QueryErpRecdetailListByRecId(String ids);
 		
 		//存储过程
 		String getRecCount(Map<String,Object> map);

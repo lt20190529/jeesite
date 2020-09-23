@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecQueryDao;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecNew;
-import com.thinkgem.jeesite.modules.rec.entity.ErpRecdetailNew;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
 
 
 @Service
@@ -19,7 +19,7 @@ public class ErpRecQueryService {
 	private ErpRecQueryDao erpRecQueryDao;
 
 	//分页
-	public List<ErpRecNew> findErpMainByfilter(Map<String,Object> map) {
+	public List<ErpRec> findErpMainByfilter(Map<String,Object> map) {
 		return erpRecQueryDao.findErpMainByfilter(map);
 	}
 	//项目入库记录总条数
@@ -29,7 +29,7 @@ public class ErpRecQueryService {
 
 	
 	//查询入库子信息(根据主表id)
-	public List<ErpRecdetailNew> finderpRecDetail(String id) {
+	public List<ErpRecDetail> finderpRecDetail(String id) {
 		return erpRecQueryDao.QueryErpRecdetailListByRecId(id);
 	}
 	

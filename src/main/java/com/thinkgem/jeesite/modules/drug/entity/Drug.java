@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.Drug.entity;
+package com.thinkgem.jeesite.modules.drug.entity;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
@@ -144,7 +144,7 @@ public class Drug extends DataEntity<Drug> {
 	}
 	@Override
 	public String toString() {
-		return "Drug [Drug_id=" + Drug_id + ", Drug_Code=" + Drug_Code
+		return "drug [Drug_id=" + Drug_id + ", Drug_Code=" + Drug_Code
 				+ ", Drug_Desc=" + Drug_Desc + ", Drug_Spec=" + Drug_Spec
 				+ ", Drug_Class_Dr=" + Drug_Class_Dr + ", Drug_Cat_Dr="
 				+ Drug_Cat_Dr + ", Drug_Uom=" + Drug_Uom + ", Drug_BarCode="

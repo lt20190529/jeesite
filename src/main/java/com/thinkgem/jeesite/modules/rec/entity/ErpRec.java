@@ -12,8 +12,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
-import com.thinkgem.jeesite.modules.erpdepartments.entity.ErpDepartments;
-import com.thinkgem.jeesite.modules.erpvendor.entity.ErpVendor;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
@@ -25,8 +23,10 @@ public class ErpRec extends DataEntity<ErpRec> {
 	
 	private static final long serialVersionUID = 1L;
 	private String no;		// 单据编号
-	private ErpDepartments dep;		// dep
-	private ErpVendor vendor;		// 供货商
+	private String depid;		// dep
+	private String depdesc;
+	private String vendorid;		// 供货商
+	private String vendordesc;
 	
 	private BigDecimal  amtrp;	//进价金额
 	private BigDecimal  amtsp;	//售价金额
@@ -34,7 +34,7 @@ public class ErpRec extends DataEntity<ErpRec> {
 	private Date auditDate;	// 更新日期
 	private String auditFlag; 	// 审核标志（已审:Y  未审：N）
 	
-	private List<ErpRecdetail> erpRecdetailList = Lists.newArrayList();		// 子表列表
+	private List<ErpRecDetail> erpRecDetailList = Lists.newArrayList();		// 子表列表
 	
 	public ErpRec() {
 		super();
@@ -54,26 +54,7 @@ public class ErpRec extends DataEntity<ErpRec> {
 	public void setNo(String no) {
 		this.no = no;
 	}
-	
-	@ExcelField(value="dep.departmentDesc",title="部门",type=2, align=0, sort=2)
-	public ErpDepartments getDep() {
-		return dep;
-	}
 
-	public void setDep(ErpDepartments dep) {
-		this.dep = dep;
-	}
-  
-	
-	@ExcelField(value="vendor.vendorDesc",title="供货商", align=0, sort=3)
-	public ErpVendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(ErpVendor vendor) {
-		this.vendor = vendor;
-	}
-	
 	
 	@ExcelField(title="进价金额", align=1, sort=4)
 	public BigDecimal getAmtrp() {
@@ -117,20 +98,47 @@ public class ErpRec extends DataEntity<ErpRec> {
 		this.auditFlag = auditFlag;
 	}
 
-	public List<ErpRecdetail> getErpRecdetailList() {
-		return erpRecdetailList;
+	public List<ErpRecDetail> getErpRecDetailList() {
+		return erpRecDetailList;
 	}
 
-	public void setErpRecdetailList(List<ErpRecdetail> erpRecdetailList) {
-		this.erpRecdetailList = erpRecdetailList;
+	public void setErpRecDetailList(List<ErpRecDetail> erpRecDetailList) {
+		this.erpRecDetailList = erpRecDetailList;
 	}
 
-	@Override
-	public String toString() {
-		return "ErpRec [no=" + no + ", dep=" + dep + ", vendor=" + vendor
-				+ ", amtrp=" + amtrp + ", amtsp=" + amtsp + ", auditBy="
-				+ auditBy + ", auditDate=" + auditDate + ", auditFlag="
-				+ auditFlag + ", erpRecdetailList=" + erpRecdetailList + "]";
+	public String getDepid() {
+		return depid;
+	}
+
+	public void setDepid(String depid) {
+		this.depid = depid;
+	}
+
+	//@ExcelField(value="dep.departmentDesc",title="部门", align=0, sort=2)
+	@ExcelField(title="部门", align=0, sort=2)
+	public String getDepdesc() {
+		return depdesc;
+	}
+
+	public void setDepdesc(String depdesc) {
+		this.depdesc = depdesc;
+	}
+
+	public String getVendorid() {
+		return vendorid;
+	}
+
+	public void setVendorid(String vendorid) {
+		this.vendorid = vendorid;
+	}
+ 
+	@ExcelField(title="供货商", align=0, sort=3)
+	public String getVendordesc() {
+		return vendordesc;
+	}
+
+	public void setVendordesc(String vendordesc) {
+		this.vendordesc = vendordesc;
 	}
 
 	

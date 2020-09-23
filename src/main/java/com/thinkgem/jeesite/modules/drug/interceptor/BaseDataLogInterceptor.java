@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.Drug.interceptor;
+package com.thinkgem.jeesite.modules.drug.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
