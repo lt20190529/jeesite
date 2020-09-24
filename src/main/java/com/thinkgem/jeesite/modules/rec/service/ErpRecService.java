@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.rec.service;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDao;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDetailDao;
 import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
@@ -61,10 +62,19 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 			if (erpRecDetail.getId() == null){
 				continue;
 			}
-            erpRecDetail.setRecid(erpRec.getId());
-			erpRecDetail.setSubid(Integer.parseInt(erpRecDetail.getId()));
-            erpRecDetail.preInsert();                                      //调用基类中记录创建人createruser 创建日期createrdata等字段
-			erpRecDetailDao.insertE(erpRecDetail);
+			if (StringUtils.isBlank(erpRecDetail.getId())){
+				erpRecDetail.setIsNewRecord(false);
+				erpRecDetail.setRecid(erpRec.getId());
+				erpRecDetail.preInsert();
+				erpRecDetailDao.insertE(erpRecDetail);
+			}else{
+				erpRecDetail.preUpdate();
+				erpRecDetailDao.updateE(erpRecDetail);
+			}
+            //erpRecDetail.setRecid(erpRec.getId());
+			//erpRecDetail.setSubid(Integer.parseInt(erpRecDetail.getId()));
+            //erpRecDetail.preInsert();                                      //调用基类中记录创建人createruser 创建日期createrdata等字段
+			//erpRecDetailDao.insertE(erpRecDetail);
 		}
 	}
 	

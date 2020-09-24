@@ -78,7 +78,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>主键</th>
+				<%--<th>主键</th>--%>
 				<th>单据编号</th>
 				<th>部门</th>
 				<th>供货商</th>
@@ -99,9 +99,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="ErpRec">
 			<tr>
-				<td>
+				<%--<td>
 					${ErpRec.id}
-				</td>
+				</td>--%>
 				<td>
 				  <c:choose>
                         <c:when test="${ErpRec.auditFlag=='N'}">

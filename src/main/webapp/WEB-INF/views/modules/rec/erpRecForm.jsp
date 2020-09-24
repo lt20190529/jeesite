@@ -31,8 +31,8 @@
         /** 设计新的checkbox，位置 */
         .bella-checkbox label:before {
             content: '';
-            width: 19px;
-            height: 19px;
+            width: 17px;
+            height: 17px;
             display: inline-block;
             border-radius: 2px;
             border: 1px solid #bbb;
@@ -87,7 +87,8 @@
             var lookDetailrows = [];
             var data = ${fns:toJson(erpRec.erpRecDetailList)};
             for (var i=0; i<data.length; i++){
-                $('#table').bootstrapTable('insertRow', {index: 1, row: data[i]});
+                alert(data[i].id)
+                $('#table').bootstrapTable('insertRow', {index: data[i].subid, row: data[i]});
             }
 
         });
@@ -126,7 +127,7 @@
                 minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
                 height: 400,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                uniqueId: "subid",                     //每一行的唯一标识，一般为主键列
 
                 //得到查询的参数
                 queryParams : function (params) {
@@ -134,8 +135,8 @@
                     var temp = {
                         rows: params.limit,                         //页面大小
                         page: (params.offset / params.limit) + 1,   //页码
-                        sort: params.sort,      //排序列名
-                        sortOrder: params.order //排位命令（desc，asc）
+                       // sort: params.sort,      //排序列名
+                       // sortOrder: params.order //排位命令（desc，asc）
                     };
                     return temp;
                 },
@@ -145,7 +146,12 @@
                 }, {
                     field: 'id',
                     title: 'id',
-                    visible: false,
+                    visible: true,
+                }, {
+                    field: 'subid',
+                    title: 'subid',
+                    visible: true,
+                    sortable:true
                 }, {
                     field: 'itemid',
                     title: 'itemid',
@@ -153,18 +159,15 @@
                 }, {
                     field: 'itemno',
                     title: '产品编码',
-                    sortable: true,
                     width:200
                 }, {
                     field: 'itemdesc',
                     title: '产品名称',
-                    sortable: true,
                     width:300,
                     formatter:editFormatter
                 }, {
                     field: 'itemspec',
                     title: '规格',
-                    sortable: true,
                     formatter: "",
                     width:200
                 }, {
@@ -185,7 +188,6 @@
                 }, {
                     field: 'sp',
                     title: '单价',
-                    sortable: true,
                     width:200,
                     formatter:editFormatter2
                 }, {
@@ -399,20 +401,20 @@
     //名称
     function editFormatter(value,row,index){
         return [
-            '<input type="text" id="1plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.id+',1)"/>'
+            '<input type="text" id="1plan'+row.subid+'" style="height:26px;margin: 0px 0px 0px 0px" class="Desc" data='+value+' value='+value+' onkeydown="myFunction(event,'+row.subid+',1)"/>'
         ].join("");
 
     }
     //数量
     function editFormatter1(value,row,index){
         return [
-            '<input type="text" id="2plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
+            '<input type="text" id="2plan'+row.subid+'" style="height:26px;margin: 0px 0px 0px 0px" class="Qty" data='+value+' value='+value+'>'
         ].join("");
     }
     //单价
     function editFormatter2(value,row,index){
         return [
-            '<input type="text" id="3plan'+row.id+'" style="height:26px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
+            '<input type="text" id="3plan'+row.subid+'" style="height:26px;margin: 0px 0px 0px 0px" class="Price" data='+value+' value='+value+'>'
         ].join("");
 
     }
@@ -420,7 +422,7 @@
     var operatorQty = {
         "change .qty":function (e,value,row,index) { //单价列，注意通过样式.price监听
             var price = row.sp || 0;//单价   ||0 Price有值返回值，无值返回0
-            var nums = $("#"+"2plan"+row.id).val() || 0;  //数量
+            var nums = $("#"+"2plan"+row.subid).val() || 0;  //数量
             var amt =  price * nums ;
 
            $('#table').bootstrapTable('updateCell', {
@@ -435,10 +437,10 @@
             });
         },
         "blur .qty":function (e,value,row,index) {//单价列，失去焦点
-            $("#"+"2plan"+row.id).attr("readonly",true)
+            $("#"+"2plan"+row.subid).attr("readonly",true)
         },
         "focus .qty":function (e,value,row,index) {//单价列，得到焦点
-            $("#"+"2plan"+row.id).attr("readonly",false)
+            $("#"+"2plan"+row.subid).attr("readonly",false)
         }
 
 
@@ -448,7 +450,10 @@
 
 
     //模态框实现列表选择
+    var sid=""
     function myFunction(event,id,type) {
+        sid=id;
+
         var e = event || window.event || arguments.callee.caller.arguments[0];
         var input=$("#"+type+"plan"+id).val(); //获取改变后的输入框的值
         var oldvalue = $("#"+type+"plan"+id).attr("data"); //获取输入框原本的值
@@ -536,7 +541,8 @@
         $('#table').bootstrapTable('insertRow', {
             index: count,
             row: {
-                id:count+1,
+                id:"",
+                subid:count+1,
                 itemid:"",
                 itemno: "",
                 itemdesc: "",
@@ -556,9 +562,9 @@
 
         if(row==""){return;}
         $('#table').bootstrapTable('updateRow', {
-            index: count-1,
+            index: sid-1,
             row: {
-                id:count,
+                id:"",
                 itemid:row[0].id,
                 itemno: row[0].itemNo,
                 itemdesc: row[0].itemDesc,

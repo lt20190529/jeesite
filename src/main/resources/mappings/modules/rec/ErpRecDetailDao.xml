@@ -238,7 +238,7 @@
 			LEFT JOIN	erp_manf manf on recdetail.manf_dr=manf.id
 			where recdetail.recid=#{id}
 	        and recdetail.del_flag='0'
-	        Order by subid
+	        Order by recdetail.subid
 	</select>
 	<insert id="insertE" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
 		INSERT INTO erp_recdetail(
