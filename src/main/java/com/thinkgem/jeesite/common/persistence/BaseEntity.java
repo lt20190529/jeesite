@@ -135,7 +135,7 @@ public abstract class BaseEntity<T> implements Serializable {
      * @return
      */
 	public boolean getIsNewRecord() {
-		//System.out.println("id****************"+getId());
+		System.out.println("id****************"+getId());
         return isNewRecord || StringUtils.isBlank(getId());   //前台传入的实体类ID是否为空返回是否是新记录  如果为空则标识为新记录
     }
 

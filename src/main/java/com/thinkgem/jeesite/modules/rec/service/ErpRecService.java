@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.rec.service;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDao;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDetailDao;
@@ -57,7 +58,7 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 	@Transactional(readOnly = false)
 	public void save(ErpRec erpRec) {
 		erpRec.setAuditFlag("N"); //审核标志
-		super.save(erpRec);                                                     //保存主表信息，根据是entity.getIsNewRecord()否是新纪录执行insert 或者  update
+        super.save(erpRec);                                                     //保存主表信息，根据是entity.getIsNewRecord()否是新纪录执行insert 或者  update
 		for (ErpRecDetail erpRecDetail : erpRec.getErpRecDetailList()){         //循环处理子表信息
 			if (erpRecDetail.getId() == null){
 				continue;
@@ -65,9 +66,11 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 			if (StringUtils.isBlank(erpRecDetail.getId())){
 				erpRecDetail.setIsNewRecord(false);
 				erpRecDetail.setRecid(erpRec.getId());
-				erpRecDetail.preInsert();
+				//erpRecDetail.setId(IdGen.uuid());
+                erpRecDetail.preInsert();
 				erpRecDetailDao.insertE(erpRecDetail);
 			}else{
+                erpRecDetail.setRecid(erpRec.getId());
 				erpRecDetail.preUpdate();
 				erpRecDetailDao.updateE(erpRecDetail);
 			}
