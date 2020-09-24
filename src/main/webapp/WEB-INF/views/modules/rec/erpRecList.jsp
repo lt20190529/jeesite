@@ -78,7 +78,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<!-- <th>主键</th> -->
+				<th>主键</th>
 				<th>单据编号</th>
 				<th>部门</th>
 				<th>供货商</th>
@@ -99,9 +99,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="ErpRec">
 			<tr>
-				<%-- <td>
-					${erpRec.id}
-				</td> --%>
+				<td>
+					${ErpRec.id}
+				</td>
 				<td>
 				  <c:choose>
                         <c:when test="${ErpRec.auditFlag=='N'}">
@@ -167,7 +167,7 @@
 				      <c:choose>
                         <c:when test="${ErpRec.auditFlag=='N'}">
                             <a  class="sel_btn" onclick="Audit('${ErpRec.id}')">审核</a>
-		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/formA?id=${ErpRec.id}">修改</a>
+		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/form?id=${ErpRec.id}">修改</a>
 		    				<a  class="sel_btn" href="${ctx}/rec/erpRec/delete?id=${ErpRec.id}" onclick="return confirmx('确认要删除该入库吗？', this.href)">删除</a>
                         </c:when>
                         <c:otherwise>

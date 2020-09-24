@@ -3,11 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.rec.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 入库Entity
@@ -54,6 +54,8 @@ public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 	private Date invdate;       //发票日期
 	
 	private String margin;     //加成
+
+
 
 	public String getId() {
 		return id;
@@ -273,21 +275,37 @@ public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 		this.margin = margin;
 	}
 
+
 	@Override
 	public String toString() {
-		return "ErpRecdetailNew [id=" + id + ", recid=" + recid + ", subid="
-				+ subid + ", itemid=" + itemid + ", itemno=" + itemno
-				+ ", itemdesc=" + itemdesc + ", itemspec=" + itemspec
-				+ ", uomid=" + uomid + ", uomcode=" + uomcode + ", uomdesc="
-				+ uomdesc + ", qty=" + qty + ", sp=" + sp + ", spamt=" + spamt
-				+ ", rp=" + rp + ", rpamt=" + rpamt + ", depid=" + depid
-				+ ", depDesc=" + depDesc + ", manfid=" + manfid + ", manfdesc="
-				+ manfdesc + ", batno=" + batno + ", expdate=" + expdate
-				+ ", itemlbdr=" + itemlbdr + ", itemibdr=" + itemibdr
-				+ ", invno=" + invno + ", invamt=" + invamt + ", invdate="
-				+ invdate + ", margin=" + margin + "]";
+		return "ErpRecDetail{" +
+				"id='" + id + '\'' +
+				", recid='" + recid + '\'' +
+				", subid=" + subid +
+				", itemid='" + itemid + '\'' +
+				", itemno='" + itemno + '\'' +
+				", itemdesc='" + itemdesc + '\'' +
+				", itemspec='" + itemspec + '\'' +
+				", uomid='" + uomid + '\'' +
+				", uomcode='" + uomcode + '\'' +
+				", uomdesc='" + uomdesc + '\'' +
+				", qty='" + qty + '\'' +
+				", sp='" + sp + '\'' +
+				", spamt=" + spamt +
+				", rp='" + rp + '\'' +
+				", rpamt=" + rpamt +
+				", depid='" + depid + '\'' +
+				", depDesc='" + depDesc + '\'' +
+				", manfid='" + manfid + '\'' +
+				", manfdesc='" + manfdesc + '\'' +
+				", batno='" + batno + '\'' +
+				", expdate=" + expdate +
+				", itemlbdr='" + itemlbdr + '\'' +
+				", itemibdr='" + itemibdr + '\'' +
+				", invno='" + invno + '\'' +
+				", invamt=" + invamt +
+				", invdate=" + invdate +
+				", margin='" + margin + '\'' +
+				'}';
 	}
-	
-    
-	
 }

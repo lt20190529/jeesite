@@ -3,11 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.rec.dao;
 
-import java.util.List;
-
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
+
+import java.util.List;
 
 /**
  * 入库DAO接口
@@ -22,7 +22,7 @@ public interface ErpRecDetailDao extends CrudDao<ErpRecDetail> {
 	
 	
 	//扩展实体(不带子属性对象)
-	public List<ErpRecDetail> findErpRecdetailListByRecIdnew(String recid);
+	public List<ErpRecDetail> findErpRecdetailListByRecId(String recid);
 	
 	
 	//insert子表

@@ -83,6 +83,13 @@
             if (id == "") {
                 GetMaxNo();
             }
+
+            var lookDetailrows = [];
+            var data = ${fns:toJson(erpRec.erpRecDetailList)};
+            for (var i=0; i<data.length; i++){
+                $('#table').bootstrapTable('insertRow', {index: 1, row: data[i]});
+            }
+
         });
 
         //获取最大单据编号
@@ -498,7 +505,6 @@
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());
         var token=$('#token').val();   //$("input[name='token']").val();
-        alert($('#table').bootstrapTable('getData'))
         params.erpRecDetailList =$('#table').bootstrapTable('getData');
         $.ajax({
             type : "post",

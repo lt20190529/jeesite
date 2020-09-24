@@ -204,43 +204,41 @@
 	
 	
 	<!-- EasyUI版本 -->
-	<select id="findErpRecdetailListByRecIdnew"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
-select recdetail.id,
-	            recdetail.recid as recid,
-	            recdetail.subid as subid,
-	            item_dr as itemid,
-	            item.item_no as itemno,
-	            item.item_desc as itemdesc,
-	            item.item_spec as itemspec,
-	            uom.id as uomid,
-	            uom.erp_uomCode as uomcode,
-	            uom.erp_uomDesc as uomdesc,
-	            recdetail.qty as qty,
-	            recdetail.sp as sp,
-	            recdetail.sp_amt as spamt,
-	            recdetail.rp as rp,
-	            recdetail.rp_amt as rpamt,
-	            recdetail.recdep_dr as depid,
-	            manf.id as manfid,
-	            manf.manf_desc as manfdesc,
-	            recdetail.batno as batno,
-	            recdetail.expdate as expdate,
-	            recdetail.itemlb_dr as itemlbdr,
-	            recdetail.itemib_dr as itemibdr,
-	            recdetail.invno as invno,
-	            recdetail.invno_amt as invamt,
-	            recdetail.inv_date as invdate,
-	            recdetail.margin as margin
-	      from  erp_recdetail recdetail, 
-	            erp_item item,
-	            erp_uom uom,
-	            erp_manf manf
-	      where recdetail.item_dr=item.id
-	        and item.item_uom=uom.erp_uomCode
-	        and recdetail.recid=#{id}
-	        /*and recdetail.manf_dr=manf.id*/
+	<select id="findErpRecdetailListByRecId"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
+			SELECT
+				recdetail.id,
+				recdetail.recid AS recid,
+				recdetail.subid AS subid,
+				item_dr AS itemid,
+				item.item_no AS itemno,
+				item.item_desc AS itemdesc,
+				item.item_spec AS itemspec,
+				uom.id AS uomid,
+				uom.erp_uomCode AS uomcode,
+				uom.erp_uomDesc AS uomdesc,
+				recdetail.qty AS qty,
+				recdetail.sp AS sp,
+				recdetail.sp_amt AS spamt,
+				recdetail.rp AS rp,
+				recdetail.rp_amt AS rpamt,
+				recdetail.recdep_dr AS depid,
+				manf.id AS manfid,
+				manf.manf_desc AS manfdesc,
+				recdetail.batno AS batno,
+				recdetail.expdate AS expdate,
+				recdetail.itemlb_dr AS itemlbdr,
+				recdetail.itemib_dr AS itemibdr,
+				recdetail.invno AS invno,
+				recdetail.invno_amt AS invamt,
+				recdetail.inv_date AS invdate,
+				recdetail.margin AS margin
+			FROM erp_recdetail recdetail
+			LEFT JOIN	erp_item item on recdetail.item_dr = item.id
+			LEFT JOIN	erp_uom uom on item.item_uom = uom.erp_uomCode
+			LEFT JOIN	erp_manf manf on recdetail.manf_dr=manf.id
+			where recdetail.recid=#{id}
 	        and recdetail.del_flag='0'
-	      Order by subid
+	        Order by subid
 	</select>
 	<insert id="insertE" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
 		INSERT INTO erp_recdetail(

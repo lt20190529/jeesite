@@ -61,26 +61,25 @@ public class ErpRecController extends BaseController {
 	//defaultValue：默认参数名，设置该参数时，自动将required设为false。极少情况需要使用该参数，也不推荐使用该参数
 	@ModelAttribute
 	public ErpRec get(@RequestParam(required = false) String id) {
-		ErpRec entity = null;
-		if (StringUtils.isNotBlank(id)) {
-			entity = erpRecService.get(id);
+		ErpRec erpRec = null;
+		if (StringUtils.isNotBlank(id)){
+			erpRec = erpRecService.get(id);
 		}
-		if (entity == null) {
-			entity = new ErpRec();
+		if (erpRec == null){
+			erpRec = new ErpRec();
 		}
-		return entity;
+		return erpRec;
 	}
 	// 单据编号
 
 	@RequestMapping(value = "GetMaxNo")
 	@ResponseBody
 	public Map<String, Object> GetMaxNo(String id) {
-
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("prefix", "REC");
 		m.put("num", 8);
-		m.put("OrderNo", "-1");
+		m.put("OrderNo", "");
 		erpRecService.GetMaxNo(m);
 		resultMap.put("result", m.get("OrderNo"));
 		return resultMap;
@@ -90,14 +89,12 @@ public class ErpRecController extends BaseController {
     @RequiresPermissions("rec:erpRec:view")
     @RequestMapping(value = "form")
     @SameUrlData(save=true)
-    public String formA(ErpRec erpRec, Model model) {
-        System.out.print(erpRec);
-        model.addAttribute("erpRecNew", erpRec);
-
-        ErpVendor erpVendor = new ErpVendor();
+    public String form(ErpRec erpRec, Model model) {
+        model.addAttribute("erpRec", erpRec);
+		model.addAttribute("erpRecDetaillist", erpRec.getErpRecDetailList());
+				ErpVendor erpVendor = new ErpVendor();
         List<ErpVendor> erpVendorlist = erpVendorService.findList(erpVendor);
         model.addAttribute("erpVendorlist", erpVendorlist);
-
         ErpDepartments erpDepartments = new ErpDepartments();
         List<ErpDepartments> erpDepartmentslist = erpDepartmentsSerivce
                 .findList(erpDepartments);
@@ -109,8 +106,7 @@ public class ErpRecController extends BaseController {
     @RequestMapping("Save")
     @ResponseBody
     @SameUrlData(remove=true)
-    public String SaveListjqGridItemE(@RequestBody ErpRec erpRec) {
-        System.out.println(erpRec.toString());
+    public String Save(@RequestBody ErpRec erpRec) {
         erpRecService.save(erpRec);
         return "success";
     }
@@ -119,10 +115,9 @@ public class ErpRecController extends BaseController {
     @RequestMapping("/getItemList")
     @ResponseBody
     public Map<String, Object> getItemList(String input,int pageNumber,int pageSize) {
-        System.out.print(input);
         List<ErpItem> items = new ArrayList<ErpItem>();
         Map<String,Object> params = new LinkedHashMap<String,Object>();
-        params.put("input", "%"+input+"%");    //当sql的条件有模糊匹配时，参数需前后带上%
+        params.put("input", "%"+input+"%");                          //当sql的条件有模糊匹配时，参数需前后带上%
         params.put("start", (pageNumber-1)*pageSize);
         params.put("pagesize", pageSize);
         items=erpItemService.findErpItemListBy(params);
@@ -138,11 +133,9 @@ public class ErpRecController extends BaseController {
 	@RequestMapping(value = "erpRecQuery")
 	public String erpRecQuery(ErpRec erpRec, Model model,
 							  HttpServletRequest request, HttpServletResponse response) throws BadHanyuPinyinOutputFormatCombination {
-
 		ErpVendor erpVendor = new ErpVendor();
 		List<ErpVendor> erpVendorlist = erpVendorService.findList(erpVendor);
 		model.addAttribute("erpVendorlist", erpVendorlist);
-
 		ErpDepartments erpDepartments = new ErpDepartments();
 		List<ErpDepartments> erpDepartmentslist = erpDepartmentsSerivce
 				.findList(erpDepartments);
@@ -176,7 +169,6 @@ public class ErpRecController extends BaseController {
 	@RequestMapping(value = "erpRecAudit")
 	@ResponseBody
 	public Map<String, Object> erpRecAudit(String id, RedirectAttributes redirectAttributes) {
-
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("rid", id);
@@ -193,7 +185,6 @@ public class ErpRecController extends BaseController {
 	@ResponseBody
 	public Map<String, Object> getrecMainList(String no,String depid,String vendorid,HttpServletRequest request,
 											  int page,int rows,HttpServletResponse response) throws UnsupportedEncodingException {
-		List<ErpRec> list = new ArrayList<ErpRec>(); // 数据库 获取数据
 		int start =(page-1) * rows ;
 		Map<String,Object> params = new LinkedHashMap<String,Object>();
 		params.put("no", no);       //当sql的条件有模糊匹配时，参数需前后带上%
@@ -201,7 +192,7 @@ public class ErpRecController extends BaseController {
 		params.put("vendorid", vendorid);
 		params.put("start", start);
 		params.put("pagesize", rows);
-		list = erpRecQueryService.findErpMainByfilter(params);
+		List<ErpRec> list  = erpRecQueryService.findErpMainByfilter(params);
 		Integer total=erpRecQueryService.findErpMainByfilterCount(params);
 		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		jsonMap.put("rows",list);
@@ -238,6 +229,17 @@ public class ErpRecController extends BaseController {
 		jsonMap.put("total", list.size());
 		return jsonMap;
 	}
+
+
+
+
+
+
+
+
+
+
+
 	// **********************************入库报表页签**********************************
 	@RequiresPermissions("rec:erpRec:Report")
 	@RequestMapping(value = "erpRecReport")
