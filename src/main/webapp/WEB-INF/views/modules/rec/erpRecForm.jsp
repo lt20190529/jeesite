@@ -87,7 +87,7 @@
             var lookDetailrows = [];
             var data = ${fns:toJson(erpRec.erpRecDetailList)};
             for (var i=0; i<data.length; i++){
-                alert(data[i].id)
+                //alert(data[i].id)
                 $('#table').bootstrapTable('insertRow', {index: data[i].subid, row: data[i]});
             }
 
@@ -135,21 +135,18 @@
                     var temp = {
                         rows: params.limit,                         //页面大小
                         page: (params.offset / params.limit) + 1,   //页码
-                       // sort: params.sort,      //排序列名
-                       // sortOrder: params.order //排位命令（desc，asc）
+                        sort: params.sort,      //排序列名
+                        sortOrder: params.order //排位命令（desc，asc）
                     };
                     return temp;
                 },
                 columns: [{
-                    checkbox: true,
-                    visible: false,                  //是否显示复选框
-                }, {
                     field: 'id',
                     title: 'id',
-                    visible: true,
+                    visible: false,
                 }, {
                     field: 'subid',
-                    title: 'subid',
+                    title: '序号',
                     visible: true,
                     sortable:true
                 }, {
@@ -195,13 +192,13 @@
                     title: '金额',
                     width:200
                 }, {
-                    field:'ID',
+                    field:'btn',
                     title: '操作',
                     width: 120,
                     align: 'center',
                     valign: 'middle',
                     formatter: function (value, row, index) {
-                        return   '<a class="" onclick="edit(\''+row.itemno+'\')" > 删除</a>'
+                        return   '<a class="" onclick="edit(\''+row.id+'\',\''+row.subid+'\',\''+row.itemno+'\');" > 删除</a>'
                     }
                 }, ]
             });
@@ -209,12 +206,42 @@
 
 
 
-        function edit(itemno){
-            //debugger;
-
+        function edit(id,subid,itmno){
             $('#table').bootstrapTable('remove', {
-                field: "itemno",   //此处的 “id”对应的是字段名
-                values: [itemno]
+                field: "subid",
+                values: [subid]
+            });
+            if($.trim($("#id").val())!=""){
+                delItem(id);
+            }
+            //循环遍历修改序号列
+            var rows = $('#table').bootstrapTable('getData');   //行的数据
+            for(var i=0;i<rows.length;i++){
+                $('#table').bootstrapTable('updateCell', {
+                    index: i,
+                    field:"subid",
+                    value: i+1
+                });
+            }
+            //删除明细之后保存更新序号subid
+            SaveData();
+        }
+        function delItem(id){
+            console.log(id);
+            $.ajax({
+                type : "post",
+                url : "${ctx}/rec/erpRec/Delete/"+id,
+                dataType : 'text',
+                success : function(data) {
+                    layer.msg("删除成功！", {
+                        offset : '100px'
+                    })
+                },
+                error : function() {
+                    layer.msg("删除失败！", {
+                        offset : '100px'
+                    })
+                }
             });
         }
         //模态框Table
@@ -320,7 +347,7 @@
 
 <form:form id="inputForm" modelAttribute="erpRec"
            action="" method="post" >
-    <form:hidden path="id" />
+    <form:hidden path="id" id="id" />
     <input type="hidden" id="token" name="token" value="${token}" />
     <sys:message content="${message}" />
 
@@ -360,7 +387,7 @@
         <br>
         <table id="table">
         <tfoot style="hight:20px">
-        <tr><td></td><td></td><td></td><td><td></td><td></td><td></td><td style="margin:1px;padding-left: 30px"><a class="btn btn-default" onclick="append()" class="btn">新增</a></td></tr>
+        <tr><td></td><td></td><td></td><td><td></td><td></td><td></td><td></td><td style="margin:1px;padding-left: 30px"><a class="btn btn-default" onclick="append()" class="btn">新增</a></td></tr>
         </tfoot>
         </table>
     </div>
@@ -505,7 +532,7 @@
 
         if(!checkDetailInfo()){return;}  //明细校验
         var params = {};// 参数对象
-        params.id = "";
+        params.id = $.trim($("#id").val());
         params.no = $.trim($("#no").val());
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());

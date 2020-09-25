@@ -1,27 +1,20 @@
 package com.thinkgem.jeesite.modules.rec.web;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
  * 仓库管理--入库管理--入库查询
  * Controller
- * @author lt 111
+ * @author lt
  * @version 2018-08-26
  */
 @Controller

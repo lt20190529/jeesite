@@ -200,13 +200,13 @@
 	</select>
 	
 	<select id="findAllList" resultType="ErpRec">
-		SELECT 
+		SELECT
 			<include refid="erpRecColumns"/>
 		FROM erp_rec a
 		<include refid="erpRecJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -235,7 +235,7 @@
 			del_flag,
 			audit_flag
 		) VALUES (
-		
+
 			#{id},
 			#{no},
 			#{depid},
@@ -268,8 +268,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE erp_rec SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		delete from erp_rec
 		WHERE id = #{id}
 	</update>
 	

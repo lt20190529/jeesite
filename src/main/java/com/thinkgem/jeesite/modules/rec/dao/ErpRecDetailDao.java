@@ -16,32 +16,12 @@ import java.util.List;
  */
 @MyBatisDao
 public interface ErpRecDetailDao extends CrudDao<ErpRecDetail> {
-	
-	
-	public List<ErpRecDetail> findListNew(String recid);
-	
-	
-	//扩展实体(不带子属性对象)
-	public List<ErpRecDetail> findErpRecdetailListByRecId(String recid);
-	
-	
-	//insert子表
-	public int insert(ErpRecDetail erpRecdetail);
-	
-	
-	//update子表
-	public int update(ErpRecDetail erpRecdetail);
-	
-	
-	//********************************EasyUI版本业务处理***************************************
-	
-	//insert子表
-    public int insertE(ErpRecDetail erpRecDetail);
-		
-		
-    //update子表
-	public int updateE(ErpRecDetail erpRecDetail);
-		
-	//delete子表
-	public void deleteE(String detailid);
+
+	List<ErpRecDetail> findErpRecdetailListByRecId(String recid);
+
+    int insertD(ErpRecDetail erpRecDetail);
+
+	int updateD(ErpRecDetail erpRecDetail);
+
+	void deleteD(String id);
 }

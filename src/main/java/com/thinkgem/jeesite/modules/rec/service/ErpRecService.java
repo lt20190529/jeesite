@@ -1,11 +1,8 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package com.thinkgem.jeesite.modules.rec.service;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDao;
 import com.thinkgem.jeesite.modules.rec.dao.ErpRecDetailDao;
@@ -15,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +34,6 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 	public ErpRec get(String id) {
 		ErpRec erpRec = erpRecDao.findErpRecById(id);
 		erpRec.setErpRecDetailList(erpRecDetailDao.findErpRecdetailListByRecId(id));
-
 		return erpRec;
 	}
 	
@@ -66,41 +61,35 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 			if (StringUtils.isBlank(erpRecDetail.getId())){
 				erpRecDetail.setIsNewRecord(false);
 				erpRecDetail.setRecid(erpRec.getId());
-				//erpRecDetail.setId(IdGen.uuid());
+				erpRecDetail.setDepid(erpRec.getDepid());
                 erpRecDetail.preInsert();
-				erpRecDetailDao.insertE(erpRecDetail);
+				erpRecDetailDao.insertD(erpRecDetail);
 			}else{
                 erpRecDetail.setRecid(erpRec.getId());
+				erpRecDetail.setDepid(erpRec.getDepid());
 				erpRecDetail.preUpdate();
-				erpRecDetailDao.updateE(erpRecDetail);
+				erpRecDetailDao.updateD(erpRecDetail);
 			}
-            //erpRecDetail.setRecid(erpRec.getId());
-			//erpRecDetail.setSubid(Integer.parseInt(erpRecDetail.getId()));
-            //erpRecDetail.preInsert();                                      //调用基类中记录创建人createruser 创建日期createrdata等字段
-			//erpRecDetailDao.insertE(erpRecDetail);
 		}
 	}
+
 	
-	public List<ErpRecDetail> findErpRecdetailListByRecId(String id) {
-		return erpRecDetailDao.findErpRecdetailListByRecId(id);
-	}
-	
-	@Transactional(readOnly = false)
-	public void deleteE(String detailid) {
-		erpRecDetailDao.deleteE(detailid);
-	}
-	
+
 	@Transactional(readOnly = false)
 	public void delete(ErpRec erpRec) {
 		super.delete(erpRec);
-		erpRecDetailDao.delete(new ErpRecDetail());
+		//erpRecDetailDao.delete(new ErpRecDetail());
 	}
 	//入库审核过程
 	@Transactional(readOnly = false)
 	public String AuditRecById(Map<String,Object> map) {
 			return erpRecDao.AuditRecById(map);
 	}
-	
-	
-	
+
+
+	//删除入库记录明细信息
+	@Transactional(readOnly = false)
+	public void deleteDetail(String id) {
+		erpRecDetailDao.deleteD(id);
+	}
 }

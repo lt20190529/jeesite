@@ -2,208 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.rec.dao.ErpRecDetailDao">
 
-	<!-- <sql id="erpRecdetailColumns">
-		a.id AS "id",
-		a.recid AS "recid",
-		c.item_desc AS "item",
-		c.id AS "itemdr",
-		a.uom AS "uom",
-		a.qty AS "qty",
-		a.sp AS "sp",
-		a.create_by AS "createBy.id",
-		a.create_date AS "createDate",
-		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
-	</sql>
-	
-	<sql id="erpRecdetailJoins">
-		LEFT JOIN erp_rec b ON b.id = a.recid
-		LEFT JOIN erp_item c ON  c.id= a.item_dr
-	</sql> -->
 
-
-	<!-- <select id="get" resultType="ErpRecdetail">
-		SELECT 
-			<include refid="erpRecdetailColumns"/>
-		FROM erp_recdetail a
-		<include refid="erpRecdetailJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findListNew" resultType="ErpRecdetail">
-		SELECT 
-			<include refid="erpRecdetailColumns"/>
-		FROM erp_recdetail a
-		<include refid="erpRecdetailJoins"/>
-		<where>
-			a.recid = #{recid} and a.del_flag='0'
-			and a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.create_date ASC
-			</otherwise>
-		</choose>
-	</select>
-	
-	
-                 根据班级id查询班级信息(带老师的信息)
-         ##1. 联表查询(非懒加载的实现)
-         SELECT * FROM class c,teacher t WHERE c.teacher_id=t.t_id AND c.c_id=1;
-         
-         ##2. 执行两次查询(懒加载的实现)
-         SELECT * FROM class WHERE c_id=1;  //teacher_id=1
-         SELECT * FROM teacher WHERE t_id=1;//使用上面得到的teacher_id
- 
-                 方式一：(非懒加载的实现)
-                                     嵌套结果：使用嵌套结果映射来处理重复的联合结果的子集
-                                     封装联表查询的数据(去除重复的数据)
-             select * from class c, teacher t where c.teacher_id=t.t_id and c.c_id=1
-    
-	使用resultMap映射实体类和字段之间的一一对应关系
-	<select id="findErpRecdetailListByRecId"  resultMap="ErpRecdetailResultMap">
-	     select recdetail.*,
-	            item.id as pid,
-	            item.item_no as itemNo,
-	            item.item_desc as itemDesc,
-	            item.item_sp as itemSp,
-	            item.item_spec as itemSpec,
-	            uom.id as uid,
-	            uom.erp_uomCode as erpUomcode,
-	            uom.erp_uomDesc as erpUomdesc
-	      from  erp_recdetail recdetail, 
-	            erp_item item,
-	            erp_uom uom
-	      where recdetail.item_dr=item.id
-	        and item.item_uom=uom.erp_uomCode
-	        and recdetail.recid=#{id}
-	        and recdetail.del_flag='0'
-	</select>
-	
-	
-	
-	<resultMap type="com.thinkgem.jeesite.modules.item.entity.ErpItem" id="ErpItemResultMap">
-		<id property="id" column="pid" />
-		<result property="itemNo" column="itemNo" />
-		<result property="itemDesc" column="itemDesc" />
-		<result property="itemSpec" column="itemSpec" />
-		<result property="itemSp" column="itemSp" />
-
-		property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类
-		<association property="erpUom" javaType="com.thinkgem.jeesite.modules.erpuom.entity.ErpUom">
-		    property对应实体类中的属性名称  column对应sql语句中的字段名称(即xml中select中的字段名称，如果有as别名 则为as之后的别名)，
-		       可以有别名，如果无别名则对应表结构定义中的字段名称
-			<id property="id" column="uid" />
-			<result property="erpUomcode" column="erpUomcode" />
-			<result property="erpUomdesc" column="erpUomdesc" />
-		</association>
-	</resultMap>
-
-	<resultMap type="com.thinkgem.jeesite.modules.rec.entity.ErpRecdetail" id="ErpRecdetailResultMap">
-		<id property="id" column="id" />
-		<result property="uom" column="uom" />
-		<result property="qty" column="qty" />
-		<result property="sp" column="sp" />
-		把入库明细实体映射从association元素中提取出来，用一个resultMap元素表示。然后association元素再引用这个resultMap元素
-        <association property="item" resultMap="ErpItemResultMap"/>
-
-		property对应一对多查询中实体类对应的属性，javaType此属性对应的实体类
-		<association property="item" javaType="com.thinkgem.jeesite.modules.item.entity.ErpItem">
-		    property对应实体类中的属性名称  column对应sql语句中的字段名称，可以有别名，如果无别名则对应表结构定义中的字段名称
-			<id property="id" column="pid" />
-			<result property="itemNo" column="item_no" />
-			<result property="itemDesc" column="item_desc" />
-			<result property="erpUom" column="item_uom" />
-			<result property="itemSpec" column="item_spec" />
-			<result property="itemSp" column="item_sp" />
-
-		</association>
-	</resultMap>
-
-	
-	
-	<select id="findAllList" resultType="ErpRecdetail">
-		SELECT 
-			<include refid="erpRecdetailColumns"/>
-		FROM erp_recdetail a
-		<include refid="erpRecdetailJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.create_date ASC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecdetail">
-		INSERT INTO erp_recdetail(
-			id,
-			recid,
-			item_dr,
-			uom,
-			qty,
-			sp,
-			create_by,
-			create_date,
-			update_by,
-			update_date,
-			remarks,
-			del_flag
-		) VALUES (
-			#{id},
-			#{recid},
-			#{item.id},
-			#{uom},
-			#{qty},
-			#{sp},
-			#{createBy.id},
-			#{createDate},
-			#{updateBy.id},
-			#{updateDate},
-			#{remarks},
-			#{delFlag}
-		)
-	</insert>
-	
-	
-	<update id="update">
-		UPDATE erp_recdetail SET 	
-			recid = #{recid},
-			item_dr = #{item.id},
-			uom = #{uom},
-			qty = #{qty},
-			sp = #{sp},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			remarks = #{remarks}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="delete">
-		UPDATE erp_recdetail SET
-			del_flag = #{DEL_FLAG_DELETE}
-		<choose>
-			<when test="id !=null and id != ''">
-				WHERE id = #{id}
-			</when>
-			<otherwise>
-				WHERE recid = #{recid}
-			</otherwise>
-		</choose>
-	</update> -->
-	
-	
-	<!-- EasyUI版本 -->
 	<select id="findErpRecdetailListByRecId"  resultType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
 			SELECT
 				recdetail.id,
@@ -221,26 +20,15 @@
 				recdetail.sp_amt AS spamt,
 				recdetail.rp AS rp,
 				recdetail.rp_amt AS rpamt,
-				recdetail.recdep_dr AS depid,
-				manf.id AS manfid,
-				manf.manf_desc AS manfdesc,
-				recdetail.batno AS batno,
-				recdetail.expdate AS expdate,
-				recdetail.itemlb_dr AS itemlbdr,
-				recdetail.itemib_dr AS itemibdr,
-				recdetail.invno AS invno,
-				recdetail.invno_amt AS invamt,
-				recdetail.inv_date AS invdate,
-				recdetail.margin AS margin
+				recdetail.recdep_dr AS depid
 			FROM erp_recdetail recdetail
 			LEFT JOIN	erp_item item on recdetail.item_dr = item.id
 			LEFT JOIN	erp_uom uom on item.item_uom = uom.erp_uomCode
-			LEFT JOIN	erp_manf manf on recdetail.manf_dr=manf.id
 			where recdetail.recid=#{id}
 	        and recdetail.del_flag='0'
 	        Order by recdetail.subid
 	</select>
-	<insert id="insertE" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
+	<insert id="insertD" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail">
 		INSERT INTO erp_recdetail(
 			id,
 			recid,
@@ -253,22 +41,11 @@
 			rp,
 			rp_amt,
 			recdep_dr,
-			manf_dr,
-			batno,
-			expdate,
-			itemlb_dr,
-			invno,
-			inv_date,
-			invno_amt,
-			margin,
-			itemib_dr,
 			create_by,
 			create_date,
 			update_by,
 			update_date,
-			remarks,
-			del_flag
-			
+			remarks
 		) VALUES (
 			#{id},
 			#{recid},
@@ -280,32 +57,21 @@
 			#{spamt},
 			#{rp},
 			#{rpamt},
-			1,
-			#{manfid},
-			#{batno},
-			#{expdate},
-			#{itemlbdr},
-			#{invno},
-			#{invdate},
-			#{invamt},
-			#{margin},
-			#{itemibdr},
+			#{depid},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{remarks},
-			#{delFlag}
+			#{remarks}
 		)
 	</insert>
-	<update id="updateE">
+	<update id="updateD">
 		UPDATE erp_recdetail SET 	
 			recid = #{recid},
 			subid=#{subid},
 			item_dr = #{itemid},
 			uom_dr = #{uomid},
-			recdep_dr="",
-			manf_dr=#{manfid},
+			recdep_dr=#{depid},
 			qty = #{qty},
 			sp = #{sp},
 			update_by = #{updateBy.id},
@@ -314,20 +80,8 @@
 		WHERE id = #{id}
 	</update>
 	<!-- 制单界面删除明细 -->
-	<delete id="deleteE">
+	<delete id="deleteD">
 		delete from erp_recdetail WHERE id = #{detailid}
 	</delete>
-	<!-- 列表界面删除入库记录 -->
-	<update id="delete">
-		UPDATE erp_recdetail SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		<choose>
-			<when test="id !=null and id != ''">
-				WHERE id = #{id}
-			</when>
-			<otherwise>
-				WHERE recid = #{recid}
-			</otherwise>
-		</choose>
-	</update>
+
 </mapper>

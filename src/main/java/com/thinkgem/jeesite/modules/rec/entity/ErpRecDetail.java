@@ -3,11 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.rec.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 入库Entity
@@ -39,21 +37,6 @@ public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 	
 	private String depid;       //入库部门
 	private String depDesc;     //部门描述
-	
-	private String manfid;      //厂家ID
-	private String manfdesc;    //厂家描述
-	
-	private String batno;
-	private Date expdate;  
-	
-	private String itemlbdr;    //批次指向
-	private String itemibdr;    //预留
-	
-	private String invno;       //发票
-	private BigDecimal invamt;  //发票金额  
-	private Date invdate;       //发票日期
-	
-	private String margin;     //加成
 
 
 
@@ -193,87 +176,7 @@ public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 		this.depDesc = depDesc;
 	}
 
-	public String getManfid() {
-		return manfid;
-	}
 
-	public void setManfid(String manfid) {
-		this.manfid = manfid;
-	}
-
-	public String getManfdesc() {
-		return manfdesc;
-	}
-
-	public void setManfdesc(String manfdesc) {
-		this.manfdesc = manfdesc;
-	}
-
-	public String getBatno() {
-		return batno;
-	}
-
-	public void setBatno(String batno) {
-		this.batno = batno;
-	}
-
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	public Date getExpdate() {
-		return expdate;
-	}
-
-	public void setExpdate(Date expdate) {
-		this.expdate = expdate;
-	}
-
-	public String getItemlbdr() {
-		return itemlbdr;
-	}
-
-	public void setItemlbdr(String itemlbdr) {
-		this.itemlbdr = itemlbdr;
-	}
-
-	public String getItemibdr() {
-		return itemibdr;
-	}
-
-	public void setItemibdr(String itemibdr) {
-		this.itemibdr = itemibdr;
-	}
-
-	public String getInvno() {
-		return invno;
-	}
-
-	public void setInvno(String invno) {
-		this.invno = invno;
-	}
-
-	public BigDecimal getInvamt() {
-		return invamt;
-	}
-
-	public void setInvamt(BigDecimal invamt) {
-		this.invamt = invamt;
-	}
-
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	public Date getInvdate() {
-		return invdate;
-	}
-
-	public void setInvdate(Date invdate) {
-		this.invdate = invdate;
-	}
-
-	public String getMargin() {
-		return margin;
-	}
-
-	public void setMargin(String margin) {
-		this.margin = margin;
-	}
 
 
 	@Override
@@ -296,16 +199,6 @@ public class ErpRecDetail extends DataEntity<ErpRecDetail> {
 				", rpamt=" + rpamt +
 				", depid='" + depid + '\'' +
 				", depDesc='" + depDesc + '\'' +
-				", manfid='" + manfid + '\'' +
-				", manfdesc='" + manfdesc + '\'' +
-				", batno='" + batno + '\'' +
-				", expdate=" + expdate +
-				", itemlbdr='" + itemlbdr + '\'' +
-				", itemibdr='" + itemibdr + '\'' +
-				", invno='" + invno + '\'' +
-				", invamt=" + invamt +
-				", invdate=" + invdate +
-				", margin='" + margin + '\'' +
 				'}';
 	}
 }
