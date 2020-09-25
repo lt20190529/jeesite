@@ -207,11 +207,12 @@
 
 
         function edit(id,subid,itmno){
+
             $('#table').bootstrapTable('remove', {
                 field: "subid",
-                values: [subid]
+                values: [parseInt(subid)]
             });
-            if($.trim($("#id").val())!=""){
+            if(($.trim($("#id").val())!="")&&(id!=="")){  //主数据已经保存，并且明细已经保存
                 delItem(id);
             }
             //循环遍历修改序号列
@@ -223,11 +224,11 @@
                     value: i+1
                 });
             }
+            //alert("save")
             //删除明细之后保存更新序号subid
             SaveData();
         }
         function delItem(id){
-            console.log(id);
             $.ajax({
                 type : "post",
                 url : "${ctx}/rec/erpRec/Delete/"+id,
@@ -591,7 +592,6 @@
         $('#table').bootstrapTable('updateRow', {
             index: sid-1,
             row: {
-                id:"",
                 itemid:row[0].id,
                 itemno: row[0].itemNo,
                 itemdesc: row[0].itemDesc,
