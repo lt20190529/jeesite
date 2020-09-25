@@ -34,10 +34,10 @@
 
 	<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 
-	<script src="${pageContext.request.contextPath}/static/lodop/LodopFuncs.js"></script>
+	<%--<script src="${pageContext.request.contextPath}/static/lodop/LodopFuncs.js"></script>
 	<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
 		<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
-	</object>
+	</object>--%>
 <script>
     $(document).ready(function() {
 
@@ -48,7 +48,7 @@
             var url =  $("#searchForm").attr("action");
             top.$.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
                 if(v=="ok"){
-                    $("#DrugForm").attr("action","${ctx}/drug/DrugInfo/Excel");
+                    $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/Excel");
                     $("#DrugForm").submit();
                 }
                 $("#searchForm").attr("action",url);
@@ -77,7 +77,7 @@
     function page(n,s){
         if(n) $("#pageNo").val(n);
         if(s) $("#pageSize").val(s);
-        $("#DrugForm").attr("action","${ctx}/drug/DrugInfo/QueryDrugInfo");
+        $("#DrugForm").attr("action","${ctx}/Drug/DrugInfo/QueryDrugInfo");
         $("#DrugForm").submit();
         return false;
     }
@@ -471,7 +471,7 @@
 
             $.ajax({
                 type : "post",
-                url : "${ctx}/drug/DrugInfo/photoUpload",
+                url : "${ctx}/Drug/DrugInfo/photoUpload",
                 data: formData,
                 contentType: false,
                 processData: false,
@@ -500,7 +500,7 @@
 		function editDrug(drugID) {
             $.ajax({
                 type : "post",
-                url : "${ctx}/drug/DrugInfo/getDrugInfo/"+drugID,
+                url : "${ctx}/Drug/DrugInfo/getDrugInfo/"+drugID,
                 dataType : 'json',
                 success : function(data) {
                     showInfo(data)
@@ -539,7 +539,7 @@
                 return;
 			};
 			$.ajax({
-				url : "${ctx}/drug/DrugInfo/Save",
+				url : "${ctx}/Drug/DrugInfo/Save",
 				method : "post",
 				data : $("#DrugInfoForm").serialize(),
 				contentType : "application/x-www-form-urlencoded",
