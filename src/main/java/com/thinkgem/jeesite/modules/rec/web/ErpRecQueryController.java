@@ -1,13 +1,18 @@
 package com.thinkgem.jeesite.modules.rec.web;
 
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,7 +37,20 @@ public class ErpRecQueryController  extends BaseController  {
 	            put("Y", "已审核");
 	            put("N", "未审核");
 	        }};
-	    }	
+	    }
+
+	// 查询入库主信息 加载主信息
+	@RequestMapping("getRecMainList")
+	@ResponseBody
+	public Map<String, Object> getrecMainList(@RequestParam Map<String, Object> params){
+		System.out.println(params);
+		List<ErpRec> list = erpRecQueryService.findErpMainByfilter(params);
+		//Integer total = erpRecQueryService.findErpMainByfilterCount(params);
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("rows", list);
+		jsonMap.put("total", 1);
+		return jsonMap;
+	}
 	  
 
 }

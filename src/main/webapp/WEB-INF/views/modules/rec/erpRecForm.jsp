@@ -84,10 +84,8 @@
                 GetMaxNo();
             }
 
-            var lookDetailrows = [];
             var data = ${fns:toJson(erpRec.erpRecDetailList)};
             for (var i=0; i<data.length; i++){
-                //alert(data[i].id)
                 $('#table').bootstrapTable('insertRow', {index: data[i].subid, row: data[i]});
             }
 

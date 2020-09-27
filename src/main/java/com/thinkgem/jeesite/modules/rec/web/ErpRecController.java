@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -193,25 +192,7 @@ public class ErpRecController extends BaseController {
         return resultMap;
     }
 
-    // 查询入库主信息 加载主信息
-    @RequestMapping("getrecMainList")
-    @ResponseBody
-    public Map<String, Object> getrecMainList(String no, String depid, String vendorid, HttpServletRequest request,
-                                              int page, int rows, HttpServletResponse response) throws UnsupportedEncodingException {
-        int start = (page - 1) * rows;
-        Map<String, Object> params = new LinkedHashMap<String, Object>();
-        params.put("no", no);       //当sql的条件有模糊匹配时，参数需前后带上%
-        params.put("depid", depid);
-        params.put("vendorid", vendorid);
-        params.put("start", start);
-        params.put("pagesize", rows);
-        List<ErpRec> list = erpRecQueryService.findErpMainByfilter(params);
-        Integer total = erpRecQueryService.findErpMainByfilterCount(params);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("rows", list);
-        jsonMap.put("total", total);
-        return jsonMap;
-    }
+
 
     /**
      * 导出入库主记录信息

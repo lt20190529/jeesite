@@ -82,7 +82,7 @@
 				rec.amtrp as amtrp,
 				rec.amtsp as amtsp,
 				rec.create_by as "createBy",
-				createruser.id as "createBy.id",   <!-- //暂时使用id作为姓名，应该在基类DataEntity添加名称属性 -->
+				createruser.id as "createBy.id",
 				createruser.login_name as "createBy.name",
 				rec.create_date as "createDate",
 				rec.update_by as "updateBy",
@@ -102,7 +102,7 @@
 	            left join sys_user updateuser on rec.update_by=updateuser.id
 	            left join sys_user audituser on rec.audit_by=audituser.id
 	     <where>
-	            <if test="no != null">
+	            <if test="no != null and no!=''">
 	                 rec.no like concat('%',#{no,jdbcType=VARCHAR},'%')
 	            </if>
 	            <if test="depid != null and depid!=''">
@@ -112,7 +112,7 @@
 	                 and rec.vendor=#{vendorid,jdbcType=VARCHAR}
 	            </if>
 	      </where>
-	      limit #{start},#{pagesize}
+	      limit 0,6
 
 	</select>
 
@@ -152,14 +152,6 @@
 		            recdetail.rp_amt as rpamt,
 		            recdetail.recdep_dr as depid,
 		            dep.department_desc as depdesc,
-		            recdetail.manf_dr as manfid,
-		            manf.manf_desc as manfdesc,
-		            recdetail.batno as batno,
-		            recdetail.expdate as expdate,
-		            recdetail.inv_date as invdate,
-		            recdetail.invno_amt as invnoamt,
-		            recdetail.invno as invno,
-		            recdetail.margin as margin,
 		            item.id as itemid,
 		            item.item_no as itemno,
 		            item.item_desc as itemdesc,
@@ -172,7 +164,6 @@
 		            left join erp_item item on recdetail.item_dr=item.id
 			        left join erp_uom uom on recdetail.uom_dr=uom.id
 			        left join erp_department dep on recdetail.recdep_dr=dep.id
-			        left join erp_manf manf on recdetail.manf_dr=manf.id         
 		      where recdetail.recid=#{ids}
 		            and recdetail.del_flag='0'
 	</select>
