@@ -74,8 +74,7 @@
 	</select>
 
 	<select id="findErpMainByfilter" parameterType="map" resultMap="ErpRecNewResultMap">
-		<bind name="key_offset" value="(page-1)* rows"></bind>
-		select  rec.id as id,
+				select  rec.id as id,
 		        rec.no as no,
 				bdep.id as depid,
 				bdep.department_desc as depdesc,
@@ -114,7 +113,7 @@
 	                 and rec.vendor=#{vendorid,jdbcType=VARCHAR}
 	            </if>
 	      </where>
-		  limit  #{key_offset},#{rows}
+		  limit  ${page},${rows};
 
 	</select>
 
