@@ -34,14 +34,14 @@
             pageSize:5,
             hight:100,
             queryParams : function (params) {
-                var temp = {
+                var param = {
                     no:$.trim($("#no").val()),
                     depid:$.trim($("#depid").val()),
                     vendorid:$.trim($("#vendorid").val()),
                     page: 1,   //页码
                     rows: 5,                         //页面大小
                 };
-                return temp;
+                return param;
             },
             columns: [{
                 field: 'id',
