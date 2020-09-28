@@ -235,7 +235,6 @@
 			del_flag,
 			audit_flag
 		) VALUES (
-
 			#{id},
 			#{no},
 			#{depid},

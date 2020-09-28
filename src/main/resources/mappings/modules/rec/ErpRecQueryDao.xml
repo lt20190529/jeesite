@@ -72,7 +72,7 @@
 	            </if>
 	      </where>   
 	</select>       
-	<select id="findErpMainByfilter" parameterType="com.thinkgem.jeesite.modules.rec.entity.ErpRec" resultMap="ErpRecNewResultMap">
+	<select id="findErpMainByfilter" parameterType="map" resultMap="ErpRecNewResultMap">
 		select  rec.id as id,
 		        rec.no as no,
 				bdep.id as depid,
@@ -112,7 +112,7 @@
 	                 and rec.vendor=#{vendorid,jdbcType=VARCHAR}
 	            </if>
 	      </where>
-	      limit 0,6
+		   LIMIT #{page},#{rows}
 
 	</select>
 
@@ -166,12 +166,9 @@
 			        left join erp_department dep on recdetail.recdep_dr=dep.id
 		      where recdetail.recid=#{ids}
 		            and recdetail.del_flag='0'
+		      order by recdetail.subid
 	</select>
 	
-	
-	<!-- 存储过程执行 -->
 
-	<select id="getRecCount"  parameterType="java.util.Map" statementType="CALLABLE" resultType="java.lang.String">
-		{call get_Count_Recmain(#{s,mode=OUT,jdbcType=VARCHAR})}
-	</select>
+
 </mapper>

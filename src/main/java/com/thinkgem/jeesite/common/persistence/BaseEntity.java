@@ -3,13 +3,6 @@
  */
 package com.thinkgem.jeesite.common.persistence;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
@@ -18,6 +11,11 @@ import com.thinkgem.jeesite.common.supcan.annotation.treelist.cols.SupCol;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Entity支持类
@@ -135,7 +133,7 @@ public abstract class BaseEntity<T> implements Serializable {
      * @return
      */
 	public boolean getIsNewRecord() {
-		System.out.println("id****************"+getId());
+		//System.out.println("id****************"+getId());
         return isNewRecord || StringUtils.isBlank(getId());   //前台传入的实体类ID是否为空返回是否是新记录  如果为空则标识为新记录
     }
 

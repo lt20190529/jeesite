@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.rec.web;
 
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,12 +44,23 @@ public class ErpRecQueryController  extends BaseController  {
 	@RequestMapping("getRecMainList")
 	@ResponseBody
 	public Map<String, Object> getrecMainList(@RequestParam Map<String, Object> params){
-		System.out.println(params);
+
 		List<ErpRec> list = erpRecQueryService.findErpMainByfilter(params);
-		//Integer total = erpRecQueryService.findErpMainByfilterCount(params);
+		Integer total = erpRecQueryService.findErpMainByfilterCount(params);
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("rows", list);
-		jsonMap.put("total", 1);
+		jsonMap.put("total", total);
+		return jsonMap;
+	}
+
+	//根据入库主表加载明细信息
+	@RequestMapping("/getRecDetailList")
+	@ResponseBody
+	public Map<String, Object> getItemList(String id) {
+		List<ErpRecDetail> items  = erpRecQueryService.finderpRecDetail(id);
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("rows", items);
+		jsonMap.put("total", 2);
 		return jsonMap;
 	}
 	  

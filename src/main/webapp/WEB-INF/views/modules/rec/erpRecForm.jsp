@@ -126,8 +126,6 @@
                 clickToSelect: true,                //是否启用点击选中行
                 height: 400,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "subid",                     //每一行的唯一标识，一般为主键列
-
-                //得到查询的参数
                 queryParams : function (params) {
                     //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
                     var temp = {
@@ -146,30 +144,37 @@
                     field: 'subid',
                     title: '序号',
                     visible: true,
-                    sortable:true
+                    sortable:true,
+                    halign:"center"
+
                 }, {
                     field: 'itemid',
                     title: 'itemid',
-                    visible:false
+                    visible:false,
+                    halign:"center"
                 }, {
                     field: 'itemno',
                     title: '产品编码',
-                    width:200
+                    width:200,
+                    halign:"center"
                 }, {
                     field: 'itemdesc',
                     title: '产品名称',
                     width:300,
-                    formatter:editFormatter
+                    formatter:editFormatter,
+                    halign:"center"
                 }, {
                     field: 'itemspec',
                     title: '规格',
                     formatter: "",
-                    width:200
+                    width:200,
+                    halign:"center"
                 }, {
                     field: 'uomdesc',
                     title: '单位',
                     formatter: "",
-                    width:200
+                    width:200,
+                    halign:"center"
                 }, {
                     field: 'uomid',
                     title: 'uomid',
@@ -180,21 +185,25 @@
                     width:200,
                     formatter:editFormatter1,
                     events: operatorQty,
+                    halign:"center"
                 }, {
                     field: 'sp',
                     title: '单价',
                     width:200,
-                    formatter:editFormatter2
+                    formatter:editFormatter2,
+                    halign:"center"
                 }, {
                     field: 'spamt',
                     title: '金额',
-                    width:200
+                    width:200,
+                    halign:"center"
                 }, {
                     field:'btn',
                     title: '操作',
                     width: 120,
                     align: 'center',
                     valign: 'middle',
+                    halign:"center",
                     formatter: function (value, row, index) {
                         return   '<a class="" onclick="edit(\''+row.id+'\',\''+row.subid+'\',\''+row.itemno+'\');" > 删除</a>'
                     }
@@ -313,7 +322,6 @@
                 onLoadError: function () {
                 },
                 onDblClickRow: function (field,value,row, $element) {
-
                 },
                 onPostBody : function () {
                     $("#table1").find("input:checkbox").each(function (i) {
@@ -535,6 +543,8 @@
         params.no = $.trim($("#no").val());
         params.depid = $.trim($("#depid").val());
         params.vendorid = $.trim($("#vendorid").val());
+        params.amtsp=getAmount();
+        params.amtrp=getAmount();
         var token=$('#token').val();   //$("input[name='token']").val();
         params.erpRecDetailList =$('#table').bootstrapTable('getData');
         $.ajax({
@@ -556,7 +566,14 @@
             }
         });
     }
-
+    function getAmount(){
+        var totalAmt=0
+        var rows = $('#table').bootstrapTable('getData');
+        for(var i=0;i<rows.length;i++){
+            totalAmt=totalAmt+rows[i].spamt;
+        }
+        return totalAmt;
+    }
 
     function append() {
 

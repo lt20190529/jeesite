@@ -165,8 +165,8 @@
 		</ul>
 	</form:form>
 	<div class="control-group">
-	    <div id="echarts_post" style="width:600px;height:500px;float:left;"></div>
-	    <div id="echarts_post1" style="width:600px;height:500px;float:left;"></div>
+	    <div id="echarts_post" style="width:500px;height:400px;float:left;"></div>
+	    <div id="echarts_post1" style="width:500px;height:400px;float:left;"></div>
     </div>
     
    

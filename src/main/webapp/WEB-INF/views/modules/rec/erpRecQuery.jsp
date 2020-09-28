@@ -10,106 +10,139 @@
 <title>入库管理--入库查询</title>
 <meta name="decorator" content="default" />
 	<!--引入4.0.0BootStrap-->
-
 	<script src="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript"></script>
-
-	<%--引入BootStrap Table--%>
 	<link href="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table.css" type="text/css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 	<script src="${pageContext.request.contextPath}/static/bootstrap-table/bootstrap-table.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/static/bootstrap-table/locale/bootstrap-table-zh-CN.js" type="text/javascript"></script>
 
-	<style type="text/css">
-        .subtotal { font-weight: bold; color:red}/*合计单元格样式*/
- </style>
  
 <script type="text/javascript">
 
-        function InitTable () {
-            $table = $('#table').bootstrapTable({
-                url: "",                            //请求后台的URL（*）
-                method: 'GET',                      //请求方式（*）
-                striped: true,                      //是否显示行间隔色
-                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                sortable: true,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
+	$(document).ready(function() {
+        InitTable();
+        InitTableDetail();
+	});
+    function InitTable () {
+        $table = $('#table').bootstrapTable({
+            url: '',                            //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            contentType: "application/x-www-form-urlencoded",
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pagination: true,                   //是否显示分页（*）
+            pageNumber: 1,
+            pageSize:5,
+            hight:100,
+            queryParams : function (params) {
+                var temp = {
+                    no:$.trim($("#no").val()),
+                    depid:$.trim($("#depid").val()),
+                    vendorid:$.trim($("#vendorid").val()),
+                    page: 1,   //页码
+                    rows: 5,                         //页面大小
+                };
+                return temp;
+            },
+            columns: [{
+                field: 'id',
+                title: 'id',
+                visible: false,
+            }, {
+                field: 'no',
+                title: '单据编号',
+                halign:"center"
+            }, {
+                field: 'depdesc',
+                title: '入库部门',
+                halign:"center"
+            }, {
+                field: 'createBy.loginName',
+                title: '制单人',
+                halign:"center"
+            }, {
+                field: 'createDate',
+                title: '日期',
+                halign:"center"
+            }, {
+                field: 'auditFlag',
+                title: '是否审核',
+            }, {
+                field: 'amtrp',
+                title: '进价金额',
+                halign:"center",
+				hidden:false
+            }, {
+                field: 'amtsp',
+                title: '售价金额',
+                halign:"center"
+            }],
+            onClickRow:function(row, $element){
+               loadDetail(row.id);
+            }
+        });
+    };
+    function query(){
+        var queryUrl =  "${ctx}/rec/erpRecQuery/getRecMainList";
+        $('#table').bootstrapTable('refresh',{url:queryUrl});
+    }
+    function loadDetail(recid){
+        var Url =  "${ctx}/rec/erpRecQuery/getRecDetailList?id=" + recid;
+        $('#DetailTable').bootstrapTable('refresh',{url:Url});
+	}
+
+
+    function InitTableDetail () {
+            $table = $('#DetailTable').bootstrapTable({
+                url: '',                            //请求后台的URL（*）
+                method: 'post',                      //请求方式（*）
+                contentType: "application/x-www-form-urlencoded",
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-                pageSize: "",                       //每页的记录行数（*）
-                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-                search: false,                      //是否显示表格搜索
-                strictSearch: true,
-                showColumns: false,                  //是否显示所有的列（选择显示的列）
-                showRefresh: false,                  //是否显示刷新按钮
-                minimumCountColumns: 2,             //最少允许的列数
+                pagination: true,                   //是否显示分页（*）
                 clickToSelect: true,                //是否启用点击选中行
-                height: 400,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "subid",                     //每一行的唯一标识，一般为主键列
+                hight:350,
                 queryParams : function (params) {
-                    //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
                     var temp = {
-                        no:null,
-                        depid:'',
-                        vendorid:'',
                         page: 0,   //页码
                         rows: 6,                         //页面大小
                     };
                     return temp;
                 },
                 columns: [{
-                    field: 'id',
-                    title: 'id',
-                    visible: false,
+                    field: 'subid',
+                    title: '序号'
                 }, {
-                    field: 'no',
-                    title: '单据编号',
+                    field: 'itemno',
+                    title: '编码',
                     visible: true,
-                    sortable:true
+                    sortable:true,
+                    halign:"center"
                 }, {
-                    field: 'depdesc',
-                    title: '入库部门',
+                    field: 'itemdesc',
+                    title: '名称',
+                    halign:"center"
                 }, {
-                    field: 'createDate',
-                    title: '制单人',
+                    field: 'itemspec',
+                    title: '规格',
+                    halign:"center"
                 }, {
-                    field: 'createDate',
-                    title: '日期',
+                    field: 'uomdesc',
+                    title: '单位',
+                    halign:"center"
                 }, {
-                    field: 'auditFlag',
-                    title: '是否审核',
-                    width:200
+                    field: 'qty',
+                    title: '数量',
+                    halign:"center"
                 }, {
-                    field: 'amtrp',
-                    title: '进价金额',
-                    width:200
+                    field: 'sp',
+                    title: '单价',
+                    halign:"center"
                 }, {
-                    field: 'amtsp',
-                    title: '售价金额',
-                    width:200
+                    field: 'spamt',
+                    title: '金额',
+                    halign:"center"
                 }]
             });
-        };
-
-	
-	function query() {
-        $('#table').bootstrapTable('refresh',{url:'${ctx}/rec/erpRecQuery/getRecMainList'});
-	}
-
-	
-
-	//单击行加载明细
-	function onClickRow(index, row){
-		 var id = row["id"];
-		// $('#dgDetail').datagrid({url:"${ctx}/rec/erpRec/getListjqGridDetail?ids=" + id});
-	};
-	
-	
-	$(document).ready(function() {
-        InitTable();
-		//initDetailGrid();
-	});
-	
-	
+    };
 
 </script>
 </head>
@@ -150,22 +183,18 @@
 		</ul>
 	</form:form>
 
-	<div class="control-group">
-			<label class="control-label">入库信息：</label>
-			<div class="controls">
-				<table id="table" style="height:250px">
-				</table>
-			</div>
+	<div class="controls" style="height: 220px">
+		<table id="table" >
+		</table>
 	</div>
+
 	<br>
-	<%--<div class="control-group">
-			<label class="control-label">明细信息：</label>
-			<div class="controls">
-				<table id="dgDetail" class="easyui-datagrid"
-					style="width:550px;height:250px">
-				</table>
-			</div>
-	</div>--%>
+
+	<div class="controls" style="height:240px">
+		<table id="DetailTable" >
+		</table>
+	</div>
+
 
 </body>
 
