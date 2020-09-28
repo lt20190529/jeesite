@@ -38,8 +38,8 @@
                     no:$.trim($("#no").val()),
                     depid:$.trim($("#depid").val()),
                     vendorid:$.trim($("#vendorid").val()),
-                    page: 1,   //页码
-                    rows: 5,                         //页面大小
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
                 };
                 return param;
             },
@@ -78,7 +78,10 @@
             }],
             onClickRow:function(row, $element){
                loadDetail(row.id);
-            }
+            },
+            onPageChange:function(){
+                $('#DetailTable').bootstrapTable("removeAll");
+			}
         });
     };
     function query(){
@@ -98,12 +101,14 @@
                 contentType: "application/x-www-form-urlencoded",
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pagination: true,                   //是否显示分页（*）
+                pageNumber: 1,
+                pageSize:5,
                 clickToSelect: true,                //是否启用点击选中行
                 hight:350,
                 queryParams : function (params) {
                     var temp = {
-                        page: 0,   //页码
-                        rows: 6,                         //页面大小
+                        rows: params.limit,                         //页面大小
+                        page: (params.offset / params.limit) + 1,   //页码
                     };
                     return temp;
                 },

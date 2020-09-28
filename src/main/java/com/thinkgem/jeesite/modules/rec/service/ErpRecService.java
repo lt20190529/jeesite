@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +43,11 @@ public class ErpRecService extends CrudService<ErpRecDao, ErpRec> {
 		page.setList(erpRecDao.findList(erpRec));
 		return page;
 	}
-	
+
+	public List<ErpRecDetail> findErpDetailByMainId(String id){
+		return erpRecDetailDao.findErpRecdetailListByRecId(id);
+	}
+
 	//获取入库最大编码
 	@Transactional(readOnly = false)
 	public String GetMaxNo(Map<String,Object> map) {

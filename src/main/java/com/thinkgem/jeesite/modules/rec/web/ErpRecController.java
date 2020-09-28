@@ -217,7 +217,7 @@ public class ErpRecController extends BaseController {
     @ResponseBody
     public Map<String, Object> getListjqGridDetail(@RequestParam("ids") String ids) {
         List<ErpRecDetail> list = new ArrayList<ErpRecDetail>(); // 数据库 获取数据
-        list = erpRecQueryService.finderpRecDetail(ids);
+        list = erpRecService.findErpDetailByMainId(ids);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("rows", list);
         jsonMap.put("total", list.size());

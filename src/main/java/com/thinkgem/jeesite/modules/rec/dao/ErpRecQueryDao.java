@@ -22,10 +22,18 @@ public interface ErpRecQueryDao {
 		//入库总条数
 		Integer findErpMainByfilterCount(Map<String,Object> map);
 		
-		//查询入库子表
-		List<ErpRecDetail> QueryErpRecdetailListByRecId(String ids);
-		
+
+
+
+
+		//入库查询界面(带分页参数)
+	    List<ErpRecDetail> QueryErpRecdetailListByRecId(Map<String,Object> map);
+
+		//入库子表对应记录总数
+	    Integer findErpDetailCountByMainId(String id);
+
+
 		//存储过程
-		String getRecCount(Map<String,Object> map);
+		//String getRecCount(Map<String,Object> map);
 
 }

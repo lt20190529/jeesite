@@ -258,18 +258,11 @@
                 url: "",                            //请求后台的URL（*）
                 method: 'post',
                 contentType: "application/x-www-form-urlencoded",
-                search: true,                      //是否显示表格搜索
-                strictSearch: true,
-                striped: true,                      //是否显示行间隔色
-                pagination: true,                   //是否显示分页（*）
-                singleSelect: true,                 //设置True 将禁止多选
-                sortable: true,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pagination: true,                   //是否显示分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录11
                 pageSize:7,                     //每页的记录行数（*）
                 paginationDetailHAlign:" hidden",
-               // pageList: [7,14,21,25,32],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列

@@ -165,11 +165,15 @@
 		            left join erp_item item on recdetail.item_dr=item.id
 			        left join erp_uom uom on recdetail.uom_dr=uom.id
 			        left join erp_department dep on recdetail.recdep_dr=dep.id
-		      where recdetail.recid=#{ids}
-		            and recdetail.del_flag='0'
+		      where recdetail.recid=#{id}
 		      order by recdetail.subid
-	</select>
-	
+		       limit  ${page},${rows};
+    </select>
 
+
+
+	<select id="findErpDetailCountByMainId"  parameterType="map" resultType="Integer">
+	    select  count(*) from  erp_recdetail
+	</select>
 
 </mapper>

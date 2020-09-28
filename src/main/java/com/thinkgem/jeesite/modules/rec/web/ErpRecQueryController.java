@@ -46,7 +46,7 @@ public class ErpRecQueryController  extends BaseController  {
 	public Map<String, Object> getrecMainList(@RequestParam Map<String, Object> params,int page, int rows){
 
 		params.put("page", (page-1) * rows);
-		params.put("rows", params.get("rows"));
+		params.put("rows", rows);
 		List<ErpRec> list = erpRecQueryService.findErpMainByfilter(params);
 		Integer total = erpRecQueryService.findErpMainByfilterCount(params);
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -58,11 +58,16 @@ public class ErpRecQueryController  extends BaseController  {
 	//根据入库主表加载明细信息
 	@RequestMapping("/getRecDetailList")
 	@ResponseBody
-	public Map<String, Object> getItemList(String id) {
-		List<ErpRecDetail> items  = erpRecQueryService.finderpRecDetail(id);
+	public Map<String, Object> getItemList(String id,int page, int rows) {
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("id",id);
+		params.put("page", (page-1) * rows);
+		params.put("rows", rows);
+		List<ErpRecDetail> items  = erpRecQueryService.finderpRecDetail(params);
+		Integer total =erpRecQueryService.findErpMainByfilterCount(params);
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("rows", items);
-		jsonMap.put("total", 2);
+		jsonMap.put("total", total);
 		return jsonMap;
 	}
 	  

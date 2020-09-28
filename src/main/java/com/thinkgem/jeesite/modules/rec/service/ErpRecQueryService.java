@@ -28,14 +28,16 @@ public class ErpRecQueryService {
 	};
 
 	
+
+
+
 	//查询入库子信息(根据主表id)
-	public List<ErpRecDetail> finderpRecDetail(String id) {
-		return erpRecQueryDao.QueryErpRecdetailListByRecId(id);
+	public List<ErpRecDetail> finderpRecDetail(Map<String,Object> map) {
+		return erpRecQueryDao.QueryErpRecdetailListByRecId(map);
 	}
-	
 	//存储过程
-	public String getrecMainCount(Map<String,Object> map) {
+	/*public String getrecMainCount(Map<String,Object> map) {
 		return erpRecQueryDao.getRecCount(map);
-	}
+	}*/
 	
 }
