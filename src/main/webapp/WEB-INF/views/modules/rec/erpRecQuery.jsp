@@ -24,7 +24,7 @@
         InitTableDetail();
 	});
     function InitTable () {
-        $table = $('#table').bootstrapTable({
+        $table1 = $('#table').bootstrapTable({
             url: '',                            //请求后台的URL（*）
             method: 'post',                      //请求方式（*）
             contentType: "application/x-www-form-urlencoded",
@@ -32,6 +32,10 @@
             pagination: true,                   //是否显示分页（*）
             pageNumber: 1,
             pageSize:5,
+            paginationFirstText: "首页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "末页",
             hight:100,
             queryParams : function (params) {
                 var param = {
@@ -90,25 +94,30 @@
     }
     function loadDetail(recid){
         var Url =  "${ctx}/rec/erpRecQuery/getRecDetailList?id=" + recid;
-        $('#DetailTable').bootstrapTable('refresh',{url:Url});
+        $('#DetailTable').bootstrapTable('removeAll');
+        $table2.bootstrapTable('refresh',{url:Url});
 	}
 
 
     function InitTableDetail () {
-            $table = $('#DetailTable').bootstrapTable({
+            $table2 = $('#DetailTable').bootstrapTable({
                 url: '',                            //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 contentType: "application/x-www-form-urlencoded",
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                paginationDetailHAlign:" ",
                 pagination: true,                   //是否显示分页（*）
-                pageNumber: 1,
+                /*pageNumber: 1,
                 pageSize:5,
-                clickToSelect: true,                //是否启用点击选中行
+                paginationFirstText: "首页",
+                paginationPreText: "上一页",
+                paginationNextText: "下一页",
+                paginationLastText: "末页",*/
                 hight:350,
-                queryParams : function (params) {
+                queryParams : function (param) {
                     var temp = {
-                        rows: params.limit,                         //页面大小
-                        page: (params.offset / params.limit) + 1,   //页码
+                        rows: param.limit,                         //页面大小
+                        page: (param.offset / param.limit) + 1,   //页码
                     };
                     return temp;
                 },

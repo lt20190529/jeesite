@@ -14,6 +14,7 @@ import com.thinkgem.jeesite.modules.item.entity.ErpItem;
 import com.thinkgem.jeesite.modules.item.service.ErpItemService;
 import com.thinkgem.jeesite.modules.rec.entity.ErpRec;
 import com.thinkgem.jeesite.modules.rec.entity.ErpRecDetail;
+import com.thinkgem.jeesite.modules.rec.entity.ErpRecReport;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecQueryService;
 import com.thinkgem.jeesite.modules.rec.service.ErpRecService;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
@@ -216,7 +217,7 @@ public class ErpRecController extends BaseController {
     @RequestMapping("getListjqGridDetail")
     @ResponseBody
     public Map<String, Object> getListjqGridDetail(@RequestParam("ids") String ids) {
-        List<ErpRecDetail> list = new ArrayList<ErpRecDetail>(); // 数据库 获取数据
+        List<ErpRecDetail> list = new ArrayList<ErpRecDetail>();
         list = erpRecService.findErpDetailByMainId(ids);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("rows", list);
@@ -228,8 +229,26 @@ public class ErpRecController extends BaseController {
     // **********************************入库报表页签**********************************
     @RequiresPermissions("rec:erpRec:Report")
     @RequestMapping(value = "erpRecReport")
-    public String erpRecReport(ErpRec erpRec, Model model,
-                               HttpServletRequest request, HttpServletResponse response) {
+    public String erpRecReport() {
         return "modules/rec/erpRecReport";
+    }
+
+
+    @RequestMapping(value = "queryRecReport")
+    @ResponseBody
+    public Map<String, Object> queryRecReport() {
+        List<ErpRecReport> list = new ArrayList<ErpRecReport>();
+        ErpRecReport r1=new ErpRecReport("1","财务部",3400.00,3);
+        ErpRecReport r2=new ErpRecReport("2","后勤部",1000.00,1);
+        ErpRecReport r3=new ErpRecReport("3","销售部",5400.00,6);
+        ErpRecReport r4=new ErpRecReport("4","研发部",2400.00,12);
+        list.add(r1);
+        list.add(r2);
+        list.add(r3);
+        list.add(r4);
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("rows", list);
+        jsonMap.put("total", 4);
+        return jsonMap;
     }
 }

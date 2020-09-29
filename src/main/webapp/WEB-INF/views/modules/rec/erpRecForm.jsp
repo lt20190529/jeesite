@@ -69,6 +69,7 @@
             margin:1px 1px 1px 1px;   /*margin 上右下左*/
         }
 
+
     </style>
 
 
@@ -111,18 +112,14 @@
                 url: "",                            //请求后台的URL（*）
                 method: 'GET',                      //请求方式（*）
                 striped: true,                      //是否显示行间隔色
+                toolbar: '#toolbar',                //工具按钮用哪个容器
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 sortable: true,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-                pageSize: "",                       //每页的记录行数（*）
-                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                pageSize: 7,                       //每页的记录行数（*）
+                //pageList: [7],        //可供选择的每页的行数（*）
                 search: false,                      //是否显示表格搜索
-                strictSearch: true,
-                showColumns: false,                  //是否显示所有的列（选择显示的列）
-                showRefresh: false,                  //是否显示刷新按钮
-                minimumCountColumns: 2,             //最少允许的列数
                 clickToSelect: true,                //是否启用点击选中行
                 height: 400,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "subid",                     //每一行的唯一标识，一般为主键列
@@ -262,7 +259,10 @@
                 pagination: true,                   //是否显示分页（*）
                 pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录11
                 pageSize:7,                     //每页的记录行数（*）
-                paginationDetailHAlign:" hidden",
+                pageList:[7],
+                onlyInfoPagination:false,
+                paginationDetailHAlign:"left",
+                showPaginationSwitch:false,
                 search: false,                      //是否显示表格搜索
                 clickToSelect: true,                //是否启用点击选中行
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
@@ -385,10 +385,17 @@
 
     <div class="row" style="padding-left: 20px;padding-right: 20px">
         <br>
+
+            <div id="toolbar">
+                <button id="btn_add" type="button" class="btn btn-white"   onclick="append()">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+        </button>
+            </div>
+
         <table id="table">
-        <tfoot style="hight:20px">
+        <%--<tfoot style="hight:20px">
         <tr><td></td><td></td><td></td><td><td></td><td></td><td></td><td></td><td style="margin:1px;padding-left: 30px"><a class="btn btn-default" onclick="append()" class="btn">新增</a></td></tr>
-        </tfoot>
+        </tfoot>--%>
         </table>
     </div>
     <br>
