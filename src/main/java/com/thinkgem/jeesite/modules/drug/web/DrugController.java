@@ -1,11 +1,6 @@
 package com.thinkgem.jeesite.modules.drug.web;
 
-import java.io.File;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
@@ -15,19 +10,22 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.modules.drug.entity.Drug;
 import com.thinkgem.jeesite.modules.drug.service.DrugService;
 import com.thinkgem.jeesite.modules.erpuom.entity.ErpUom;
 import com.thinkgem.jeesite.modules.erpuom.service.ErpUomService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.*;
 
 
 @Controller
@@ -64,7 +62,7 @@ public class DrugController extends BaseController {
 
 		model.addAttribute("uomlist", list1);
 		model.addAttribute("Drug", new Drug());
-		return "modules/Drug/DrugInfo";
+		return "modules/drug/DrugInfo";
 	}
 	
 	

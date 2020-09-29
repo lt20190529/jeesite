@@ -26,7 +26,7 @@
 	<script type="text/javascript">
         window.onload = function() {
             $('#myModal').on('hide.bs.modal', function() {
-
+            var ll=prompt('wewwe','');
             })
         };
      function submit(){

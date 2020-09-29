@@ -105,7 +105,7 @@
                 method: 'post',                      //请求方式（*）
                 contentType: "application/x-www-form-urlencoded",
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                paginationDetailHAlign:" ",
+                paginationDetailHAlign:" hidden",
                 pagination: true,                   //是否显示分页（*）
                 /*pageNumber: 1,
                 pageSize:5,
